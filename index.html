@@ -149,7 +149,6 @@
       animation: floatUpClaim 1.3s ease-out forwards;
     }
 
-    /* Gift Chest Shake Animation */
     @keyframes chestShake {
       0%, 100% { transform: rotate(0deg) scale(1); }
       20% { transform: rotate(-10deg) scale(1.12); }
@@ -161,7 +160,6 @@
       animation: chestShake 0.7s ease-in-out;
     }
 
-    /* Floating Upgrade Banner Animation */
     @keyframes fadeInOutSpeed {
       0% { opacity: 0; transform: translateY(-8px) scale(0.96); }
       15% { opacity: 1; transform: translateY(0px) scale(1); }
@@ -230,7 +228,7 @@
       </div>
     </div>
 
-    <!-- Live Claim Feed Ticker (Clear, Sharp, Non-Repeating Unique Names) -->
+    <!-- Live Claim Feed Ticker -->
     <div class="px-4 py-1">
       <div class="bg-gradient-to-r from-[#0b2447] via-[#093554] to-[#042838] border-2 border-cyan-400/60 rounded-2xl px-3.5 py-2 flex items-center justify-between text-xs shadow-lg shadow-cyan-950/50">
         <div class="flex items-center gap-2 overflow-hidden">
@@ -278,7 +276,6 @@
       <!-- SCREEN 1: MINE -->
       <div id="screen-mine" class="space-y-4">
         <div class="pt-1 text-center space-y-2">
-          <!-- Rate Display Breakdown ($0.02 / Day configured) -->
           <div class="flex items-center justify-center gap-2 text-[11px] font-semibold text-slate-200 flex-wrap">
             <span class="flex items-center gap-1 text-cyan-400 font-bold">
               <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span> Yield Rate
@@ -289,12 +286,12 @@
             <span>🗓 <span id="rate-display-mo" class="font-bold text-white">$0.600</span> <span class="text-slate-400">/mo</span></span>
           </div>
 
-          <!-- Huge Counter -->
+          <!-- Counter -->
           <div class="text-4xl sm:text-5xl font-black tracking-tight font-mono py-1 text-transparent bg-clip-text bg-gradient-to-r from-white via-cyan-200 to-[#ccff00]">
             <span id="streaming-mining-counter">$0.000000000</span>
           </div>
 
-          <div class="text-[11px] text-cyan-200 bg-white/10 border border-white/15 py-1 px-3 rounded-full inline-block">
+          <div class="text-[11px] text-cyan-200 bg-white/10 border border-white/15 py-1 px-3 rounded-full inline-block" id="speed-status-badge">
             🛡️ Free starter speed: 0.02 USDT/day — Sustainable uncap on Boost
           </div>
 
@@ -372,7 +369,13 @@
           </button>
         </div>
 
-        <!-- Sustainable Yield Tiers Card -->
+        <!-- Withdrawal Limits Badge -->
+        <div class="bg-black/30 border border-white/10 rounded-2xl px-3 py-2 flex items-center justify-between text-[11px]">
+          <span class="text-slate-400">Rules: <strong class="text-white">Min $10.00</strong> • Max 2x / Week</span>
+          <span class="text-cyan-300 font-mono font-bold" id="weekly-withdraw-count-label">Used: 0/2 this week</span>
+        </div>
+
+        <!-- Yield Tiers -->
         <div class="frosted-glass p-4 rounded-3xl space-y-3">
           <div class="flex items-center justify-between">
             <span class="text-xs font-extrabold text-white flex items-center gap-1.5">
@@ -402,12 +405,9 @@
               <div class="text-[9px] text-slate-400">daily yield</div>
             </div>
           </div>
-          <div class="text-[10px] text-slate-300 text-center leading-tight">
-            Math guarantee: 70% float reserve protocol ensures perpetual payouts without token inflation.
-          </div>
         </div>
 
-        <!-- Promo Banner -->
+        <!-- +30% Promo Banner -->
         <div class="frosted-glass-active rounded-3xl p-5 relative overflow-hidden space-y-3">
           <div class="flex items-start gap-3">
             <div class="w-12 h-12 rounded-2xl bg-[#26a17b] text-white flex items-center justify-center font-black text-xl shrink-0 shadow-md">
@@ -426,11 +426,6 @@
           <button onclick="openTopUpModal()" class="w-full bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-500 text-white font-extrabold py-3 rounded-2xl tap-scale flex items-center justify-center gap-2 text-xs shadow-md">
             <span>💳</span> Top up USDT balance
           </button>
-
-          <div class="flex items-center justify-center gap-1.5 text-[11px] font-bold text-cyan-300">
-            <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping"></span>
-            7 bots left, bonuses are limited!
-          </div>
         </div>
 
         <!-- Invite Banner -->
@@ -483,27 +478,11 @@
             </div>
           </div>
         </div>
-
-        <div class="frosted-glass rounded-3xl p-4 space-y-3 border-cyan-400/30">
-          <div class="flex items-center gap-2 text-cyan-300 font-black text-xs">
-            <span>🔥</span> 5-Tier Referral Yield Commission
-          </div>
-
-          <div class="grid grid-cols-5 gap-1.5 text-center">
-            <div class="bg-white/5 rounded-xl p-2"><div class="font-black text-sm text-[#ccff00]">10%</div><div class="text-[9px] text-slate-300">L1</div></div>
-            <div class="bg-white/5 rounded-xl p-2"><div class="font-black text-sm text-cyan-300">3%</div><div class="text-[9px] text-slate-300">L2</div></div>
-            <div class="bg-white/5 rounded-xl p-2"><div class="font-black text-sm text-cyan-300">2%</div><div class="text-[9px] text-slate-300">L3</div></div>
-            <div class="bg-white/5 rounded-xl p-2"><div class="font-black text-sm text-slate-200">1%</div><div class="text-[9px] text-slate-300">L4</div></div>
-            <div class="bg-white/5 rounded-xl p-2"><div class="font-black text-sm text-slate-200">1%</div><div class="text-[9px] text-slate-300">L5</div></div>
-          </div>
-          <div class="text-[10px] text-slate-300 text-center font-medium">Earned automatically from all peer network top-ups</div>
-        </div>
       </div>
 
-      <!-- SCREEN 3: GIFTS (24H LOCK & CHEST ANIMATION) -->
+      <!-- SCREEN 3: GIFTS -->
       <div id="screen-gifts" class="space-y-4 hidden">
         <div class="frosted-glass rounded-3xl p-6 text-center space-y-3 relative overflow-hidden">
-          
           <div id="mystery-chest-icon" class="w-20 h-20 rounded-3xl bg-amber-400/20 text-amber-300 text-4xl flex items-center justify-center mx-auto border-2 border-amber-400/40 shadow-xl shadow-amber-500/10">
             🎁
           </div>
@@ -522,20 +501,10 @@
               ⏳ Next crate in: <span id="gift-countdown-val">24:00:00</span>
             </div>
           </div>
-
-          <div class="border-t border-white/10 pt-4 mt-2 text-left space-y-2">
-            <div class="text-xs font-bold text-white flex items-center gap-1.5">
-              <span>📜</span> Reward Rules
-            </div>
-            <ul class="text-[11px] text-slate-400 space-y-1 list-disc pl-4">
-              <li>1 Claim every 24 hours per Telegram Account.</li>
-              <li>Adds instant 5 Coins towards node dividend power.</li>
-            </ul>
-          </div>
         </div>
       </div>
 
-      <!-- SCREEN 4: ACCOUNT (UNIQUE DYNAMIC TELEGRAM INVITER) -->
+      <!-- SCREEN 4: ACCOUNT -->
       <div id="screen-account" class="space-y-3.5 hidden">
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-2">
@@ -546,7 +515,6 @@
         </div>
 
         <div class="grid grid-cols-2 gap-3 text-left">
-          <!-- 1. Unique Dynamic Inviter ID -->
           <div class="frosted-glass rounded-3xl p-4 space-y-1">
             <div class="flex justify-between items-center text-xs text-slate-400">
               <span>Invited by</span>
@@ -601,8 +569,8 @@
               <span>USDT withdrawn</span>
               <span class="text-slate-400">📥</span>
             </div>
-            <div class="text-base font-black text-white pt-1">0.00 USDT</div>
-            <div class="text-[10px] text-slate-400">0 pending requests</div>
+            <div class="text-base font-black text-white pt-1" id="acc-withdrawn-val">0.00 USDT</div>
+            <div class="text-[10px] text-slate-400" id="acc-withdrawn-sub">0 requests</div>
           </div>
         </div>
 
@@ -627,56 +595,6 @@
               Indigo
             </button>
           </div>
-        </div>
-
-        <div onclick="showToast('Current interface: English', '🌐')" class="frosted-glass rounded-2xl p-3.5 flex items-center justify-between cursor-pointer tap-scale">
-          <div class="flex items-center gap-2.5 text-xs">
-            <span class="text-base">🇬🇧</span>
-            <div>
-              <div class="font-bold text-white">Language</div>
-              <div class="text-[10px] text-slate-400">Interface language</div>
-            </div>
-          </div>
-          <span class="text-xs font-semibold text-slate-300">English ➔</span>
-        </div>
-
-        <div onclick="showToast('Recent claims & deposits logged', '🕒')" class="frosted-glass rounded-2xl p-3.5 flex items-center justify-between cursor-pointer tap-scale">
-          <div class="flex items-center gap-2.5 text-xs">
-            <span class="text-cyan-400 text-base">🕒</span>
-            <div>
-              <div class="font-bold text-white">Operations</div>
-              <div class="text-[10px] text-slate-400">Transaction & claim history</div>
-            </div>
-          </div>
-          <span class="text-xs text-slate-400">➔</span>
-        </div>
-
-        <div onclick="openHowToEarnModal()" class="frosted-glass rounded-2xl p-3.5 flex items-center justify-between cursor-pointer tap-scale">
-          <div class="flex items-center gap-2.5 text-xs">
-            <span class="text-emerald-400 text-base">❓</span>
-            <div>
-              <div class="font-bold text-white">FAQ</div>
-              <div class="text-[10px] text-slate-400">18 answered questions</div>
-            </div>
-          </div>
-          <span class="text-xs text-slate-400">➔</span>
-        </div>
-
-        <div onclick="showToast('Connecting to 24/7 support bot...', '🛡️')" class="frosted-glass rounded-2xl p-3.5 flex items-center justify-between cursor-pointer tap-scale">
-          <div class="flex items-center gap-2.5 text-xs">
-            <span class="text-amber-400 text-base">🛡️</span>
-            <div>
-              <div class="font-bold text-white">Help & Support</div>
-              <div class="text-[10px] text-emerald-400 flex items-center gap-1">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Operators online 24/7
-              </div>
-            </div>
-          </div>
-          <span class="text-xs text-slate-400">➔</span>
-        </div>
-
-        <div class="text-center text-[10px] text-slate-500 font-mono py-2">
-          Version 2026-09-29-v18 • Powered by Proof-of-Yield Global
         </div>
       </div>
 
@@ -867,7 +785,6 @@
       }
       let savedInviter = localStorage.getItem('alpha_inviter_id');
       if (!savedInviter) {
-        // Unique random 9-10 digit Telegram ID
         savedInviter = String(Math.floor(5000000000 + Math.random() * 4999999999));
         localStorage.setItem('alpha_inviter_id', savedInviter);
       }
@@ -875,45 +792,122 @@
     }
 
     // --- 4. STATE ENGINE ---
-    const STORAGE_KEY = 'alpha_mining_master_v10';
+    const STORAGE_KEY = 'alpha_mining_master_v11';
     const defaultState = {
       telegram_id: 7078896021,
       invitedBy: resolveInviterId(),
       username: 'Alpha Node',
       miningAmount: 0.000000000,
-      usdtBalance: 0.0000,       // Starts at 0.0000 for new user
-      coins: 100,                // Starter welcome coins
+      usdtBalance: 0.0000,
+      coins: 100,
       level: 1,
       isUpgraded: false,
       upgradeAmount: 0,
-      lastGiftClaimTime: 0,      // 24H Cooldown Timestamp
+      lastGiftClaimTime: 0,
       walletConnected: false,
       walletAddress: '',
       walletBrand: '',
       theme: 'aurora',
       lastTimestamp: Date.now(),
-      activeTab: 'mine'
+      activeTab: 'mine',
+      // Weekly withdrawal tracking
+      withdrawalsThisWeek: 0,
+      weekStartTimestamp: Date.now(),
+      processedDepositIds: []
     };
 
     let state = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null') || defaultState;
     if (typeof state.coins !== 'number' || state.coins < 100) state.coins = 100;
     if (state.usdtBalance === undefined) state.usdtBalance = 0.0000;
     if (!state.invitedBy) state.invitedBy = resolveInviterId();
+    if (!Array.isArray(state.processedDepositIds)) state.processedDepositIds = [];
 
-    // --- 5. EXACT $0.02 / DAY MINING RATE (STARTER) ---
-    // $0.02 / 86400 seconds = ~0.00000023148148 / sec
+    // Reset weekly withdrawals after 7 days
+    const ONE_WEEK_MS = 7 * 24 * 60 * 60 * 1000;
+    if (!state.weekStartTimestamp || (Date.now() - state.weekStartTimestamp > ONE_WEEK_MS)) {
+      state.withdrawalsThisWeek = 0;
+      state.weekStartTimestamp = Date.now();
+    }
+
+    // --- 5. MINING RATES & DYNAMIC SPEED SCALING ---
+    // Free starter: 0.02 USDT / day
     const BASE_RATE_PER_SEC = 0.02 / 86400; // 0.0000002315
 
     function getCurrentMiningRatePerSec() {
       if (!state.isUpgraded) {
         return BASE_RATE_PER_SEC; // Exact $0.02 / day
       } else {
+        // Dynamic Tier scaling based on approved deposit amount
         const dailyTargetRate = state.upgradeAmount >= 30 ? 0.018 : (state.upgradeAmount >= 10 ? 0.014 : 0.010);
         return (state.upgradeAmount * dailyTargetRate) / 86400;
       }
     }
 
-    // --- 6. NEVER-REPEATING DYNAMIC USERNAME GENERATOR FOR CLAIM PROOF ---
+    // --- 6. REALTIME SUPABASE APPROVAL LISTENER (FIX FOR AUTO-CREDIT & SPEED) ---
+    function setupSupabaseDepositListener() {
+      if (!supabaseClient) return;
+
+      // 1. Initial check for existing approved deposits that were not credited yet
+      supabaseClient
+        .from('deposits')
+        .select('*')
+        .eq('telegram_id', state.telegram_id)
+        .eq('status', 'approved')
+        .then(({ data, error }) => {
+          if (!error && data) {
+            data.forEach(dep => processApprovedDeposit(dep));
+          }
+        });
+
+      // 2. Realtime listener for instant approval when admin clicks button
+      supabaseClient
+        .channel('user_deposits_sync')
+        .on('postgres_changes', { 
+          event: 'UPDATE', 
+          schema: 'public', 
+          table: 'deposits', 
+          filter: `telegram_id=eq.${state.telegram_id}` 
+        }, payload => {
+          if (payload.new && payload.new.status === 'approved') {
+            processApprovedDeposit(payload.new);
+          }
+        })
+        .subscribe();
+    }
+
+    function processApprovedDeposit(dep) {
+      if (state.processedDepositIds.includes(dep.id)) return; // Already credited
+
+      const approvedUsdt = Number(dep.amount) || 0;
+      state.processedDepositIds.push(dep.id);
+
+      // 1. Add approved amount to USDT Balance
+      state.usdtBalance += approvedUsdt;
+
+      // 2. Upgrade Mining Speed & Tier according to deposit amount
+      state.isUpgraded = true;
+      state.upgradeAmount = Math.max(state.upgradeAmount || 0, approvedUsdt);
+      
+      if (state.upgradeAmount >= 30) {
+        state.level = 3;
+      } else if (state.upgradeAmount >= 10) {
+        state.level = 2;
+      } else {
+        state.level = 1;
+      }
+
+      saveState();
+      updateAllUI();
+
+      // Show celebrations & prompt
+      showToast(`🎉 Approved! +$${approvedUsdt.toFixed(2)} USDT Credited & Speed Boosted!`, '⚡');
+      
+      if (window.Telegram?.WebApp?.HapticFeedback) {
+        window.Telegram.WebApp.HapticFeedback.notificationOccurred('success');
+      }
+    }
+
+    // --- 7. NEVER-REPEATING DYNAMIC USERNAME GENERATOR ---
     const namePrefixes = ['ton', 'sol', 'crypto', 'alex', 'neo', 'vlad', 'sara', 'dex', 'alpha', 'matrix', 'maria', 'sam', 'whale', 'miner', 'node', 'zen'];
     const nameSuffixes = ['pro', 'web3', '99', 'sol', 'ton', '77', 'btc', 'dev', 'king', 'vip', 'trade', '88', 'x'];
 
@@ -939,7 +933,7 @@
       }, 1400);
     }
 
-    // --- 7. CONTINUOUS MINING STREAM LOOP ---
+    // --- 8. CONTINUOUS MINING STREAM LOOP ---
     function startLiveMiningEngine() {
       setInterval(() => {
         const ratePerSec = getCurrentMiningRatePerSec();
@@ -968,7 +962,7 @@
       document.getElementById('acc-coins').innerHTML = `${state.coins} <span class="text-xs font-normal text-slate-300">coins</span>`;
       document.getElementById('acc-coins-usd').innerText = `≈$${state.coins}.00 USDT`;
 
-      // Rates formatted: exactly $0.02 / day on starter
+      // Rates formatted
       const currentRateSec = getCurrentMiningRatePerSec();
       const rateHr = (currentRateSec * 3600).toFixed(6);
       const rateDay = (currentRateSec * 86400).toFixed(4);
@@ -977,19 +971,28 @@
       document.getElementById('rate-display-day').innerText = `$${rateDay}`;
       document.getElementById('rate-display-mo').innerText = `$${rateMo}`;
 
-      // Unique Inviter ID
+      // Inviter ID
       document.getElementById('acc-invited-by-id').innerText = `ID ${state.invitedBy}`;
 
+      // Weekly withdraw badge
+      document.getElementById('weekly-withdraw-count-label').innerText = `Used: ${state.withdrawalsThisWeek}/2 this week`;
+
       if (state.isUpgraded) {
-        document.getElementById('level-display').innerText = `Tier ${state.level} (Boost)`;
-        document.getElementById('daily-pct-display').innerText = state.upgradeAmount >= 30 ? '1.8%' : (state.upgradeAmount >= 10 ? '1.4%' : '1.0%');
+        document.getElementById('level-display').innerText = `Tier ${state.level} (${state.upgradeAmount} USDT Boost)`;
+        const pct = state.upgradeAmount >= 30 ? '1.8%' : (state.upgradeAmount >= 10 ? '1.4%' : '1.0%');
+        document.getElementById('daily-pct-display').innerText = pct;
+        document.getElementById('speed-status-badge').innerText = `⚡ Active Boost Rig (${state.upgradeAmount} USDT): ${pct} Daily Yield`;
+      } else {
+        document.getElementById('level-display').innerText = `Tier 1`;
+        document.getElementById('daily-pct-display').innerText = `0.4%`;
+        document.getElementById('speed-status-badge').innerText = `🛡️ Free starter speed: 0.02 USDT/day — Sustainable uncap on Boost`;
       }
 
       setAppTheme(state.theme || 'aurora');
       updateGiftCooldownUI();
     }
 
-    // --- 8. CLAIM PROFIT ---
+    // --- 9. CLAIM PROFIT ---
     function handleClaimProfit() {
       if (state.miningAmount <= 0.000000010) {
         showToast('Accumulating micro-cents... Claim in a moment!', '⏳');
@@ -1017,9 +1020,52 @@
       showToast(`+$${harvested.toFixed(4)} USDT credited to balance!`, '🎉');
     }
 
-    // --- 9. 24-HOUR MYSTERY GIFT CHEST SYSTEM ---
-    const COOLDOWN_MS = 24 * 60 * 60 * 1000; // 24 Hours in ms
+    // --- 10. WITHDRAWAL HANDLER WITH 10$ MIN & 2X / WEEK RULES ---
+    function handleWithdrawClick() {
+      if (!state.walletConnected) {
+        alert('Please connect your TON wallet first before withdrawing!');
+        openWalletModal();
+        return;
+      }
 
+      // Rule 1: Minimum Withdrawal Threshold = 10.00 USDT
+      if (state.usdtBalance < 10.0) {
+        alert(`❌ Minimum withdrawal amount is 10.00 USDT.\nYour current balance: $${state.usdtBalance.toFixed(4)} USDT.`);
+        return;
+      }
+
+      // Rule 2: Limit of 2 withdrawals per week. On 3rd attempt, prompt for upgrade!
+      if (state.withdrawalsThisWeek >= 2) {
+        alert('⚠️ Weekly Withdrawal Limit Reached!\n\nYou can only withdraw 2 times per week on current tier.\n\nPlease upgrade your mining rig or top up USDT to unlock higher weekly limits!');
+        openTopUpModal();
+        return;
+      }
+
+      // Process withdrawal
+      const withdrawAmount = state.usdtBalance;
+      state.usdtBalance = 0.0;
+      state.withdrawalsThisWeek += 1;
+      saveState();
+      updateAllUI();
+
+      // Submit withdrawal request to Supabase
+      if (supabaseClient) {
+        supabaseClient.from('withdrawals').insert([
+          {
+            telegram_id: state.telegram_id,
+            wallet: state.walletAddress,
+            amount: withdrawAmount,
+            status: 'pending'
+          }
+        ]).then(() => {});
+      }
+
+      showToast(`Withdrawal of $${withdrawAmount.toFixed(2)} USDT submitted! (${state.withdrawalsThisWeek}/2 used this week)`, '💸');
+      alert(`✅ Withdrawal submitted successfully!\nAmount: $${withdrawAmount.toFixed(4)} USDT\nDestination: ${state.walletAddress}\nWeekly usage: ${state.withdrawalsThisWeek}/2.`);
+    }
+
+    // --- 11. 24-HOUR MYSTERY GIFT CHEST ---
+    const COOLDOWN_MS = 24 * 60 * 60 * 1000;
     function claimMysteryGift() {
       const now = Date.now();
       const elapsed = now - (state.lastGiftClaimTime || 0);
@@ -1032,13 +1078,12 @@
         return;
       }
 
-      // Trigger Chest Shake Animation
       const chestIcon = document.getElementById('mystery-chest-icon');
       chestIcon.classList.add('animate-chest-shake');
 
       setTimeout(() => {
         chestIcon.classList.remove('animate-chest-shake');
-        state.coins += 5; // Exactly 5 coins added
+        state.coins += 5;
         state.lastGiftClaimTime = Date.now();
         saveState();
         updateAllUI();
@@ -1078,11 +1123,9 @@
         timerSub.classList.add('hidden');
       }
     }
-
-    // Cooldown ticker loop every second
     setInterval(updateGiftCooldownUI, 1000);
 
-    // --- 10. THEME SWITCHER ---
+    // --- 12. THEME SWITCHER ---
     function setAppTheme(t) {
       state.theme = t;
       saveState();
@@ -1113,7 +1156,7 @@
       }
     }
 
-    // --- 11. TOP UP & SUBMIT TO SUPABASE ---
+    // --- 13. TOP UP & SUBMIT DEPOSIT ---
     let selectedAmount = 3;
     let selectedNet = 'USDT BEP20';
 
@@ -1162,7 +1205,6 @@
       showToast(`${selectedNet} address copied!`, '📋');
     }
 
-    // Direct Supabase Insertion
     async function submitAuthorizeForAdmin() {
       const tx = document.getElementById('deposit-tx-hash-input').value.trim();
       if (!tx) { alert('Please enter transaction hash!'); return; }
@@ -1189,7 +1231,7 @@
         console.error('Supabase exception:', err);
       }
 
-      // Local fallback queue
+      // Local queue
       const queue = JSON.parse(localStorage.getItem('alpha_pending_deposits') || '[]');
       queue.push({
         id: Date.now(),
@@ -1209,13 +1251,14 @@
       showToast('Deposit Hash Sent to Admin Panel via Supabase! ⚡', '✅');
     }
 
-    // --- 12. TON WALLET LINK ---
+    // --- 14. WALLET MODAL ---
     function openWalletModal() {
       const modal = document.getElementById('wallet-modal');
       const unconn = document.getElementById('wallet-modal-unconnected');
       const conn = document.getElementById('wallet-modal-connected');
       if (state.walletConnected && state.walletAddress) {
         unconn.classList.add('hidden'); conn.classList.remove('hidden');
+        document.getElementById('connected-wallet-full-addr').innerText = state.walletAddress;
       } else {
         unconn.classList.remove('hidden'); conn.classList.add('hidden');
       }
@@ -1250,7 +1293,7 @@
       showToast('Wallet disconnected', '🔌');
     }
 
-    // --- 13. TABS NAVIGATION ---
+    // --- 15. TABS ---
     const tabs = ['mine', 'friends', 'gifts', 'account'];
     function switchTab(tId) {
       state.activeTab = tId;
@@ -1285,13 +1328,8 @@
       window.open(`https://t.me/share/url?url=${link}&text=Join%20Alpha%20Mining!`, '_blank');
     }
 
-    function handleWithdrawClick() {
-      if (!state.walletConnected) { alert('Please connect your TON wallet first!'); openWalletModal(); return; }
-      if (state.usdtBalance < 3.0) { alert(`Minimum withdrawal threshold is 3.00 USDT.\nYour balance: $${state.usdtBalance.toFixed(4)} USDT.`); }
-      else { state.usdtBalance = 0.0; saveState(); updateAllUI(); showToast('Withdrawal order submitted!', '💸'); }
-    }
     function openHowToEarnModal() {
-      alert('💡 Alpha Mining Guide:\n1. Free starter speed generates $0.02 USDT daily 24/7.\n2. Claim profit anytime to add micro-cents directly to your USDT balance.\n3. Top up 3 USDT to activate sustainable 0.8% - 1.8% daily yields backed by 70% float liquidity reserve.');
+      alert('💡 Alpha Mining Guide:\n1. Free starter speed generates $0.02 USDT daily 24/7.\n2. Claim profit anytime to add micro-cents directly to your USDT balance.\n3. Top up 3 USDT to activate sustainable 0.8% - 1.8% daily yields backed by 70% float liquidity reserve.\n4. Withdrawal: Minimum 10 USDT, limit 2x per week.');
     }
     function handleCloseApp() {
       saveState();
@@ -1299,10 +1337,11 @@
       else alert('App closed. Mining continues 24/7!');
     }
 
-    // Init App Boot
+    // App Initialization
     updateAllUI();
     startLiveMiningEngine();
     startEverySecondClaimTicker();
+    setupSupabaseDepositListener();
   </script>
 </body>
 </html>
