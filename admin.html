@@ -36,7 +36,33 @@
 </head>
 
 <body class="p-4 sm:p-8">
-  <div class="max-w-6xl mx-auto space-y-6">
+
+  <!-- ================= 207820 PASSKEY AUTHENTICATION MODAL ================= -->
+  <div id="auth-overlay" class="fixed inset-0 bg-black/90 backdrop-blur-xl z-50 flex items-center justify-center p-4">
+    <div class="frosted-glass p-6 sm:p-8 rounded-3xl max-w-sm w-full text-center space-y-4 border border-cyan-400/40 shadow-2xl">
+      <div class="w-16 h-16 rounded-full bg-cyan-400/20 text-cyan-300 flex items-center justify-center text-3xl mx-auto border border-cyan-400/30">
+        🔐
+      </div>
+      <div>
+        <h2 class="text-xl font-black text-white">Admin Authentication</h2>
+        <p class="text-xs text-slate-300 mt-1">Enter Master Passkey to access terminal</p>
+      </div>
+
+      <div class="space-y-2">
+        <input id="admin-passcode-input" type="password" maxlength="10" placeholder="Enter Passkey" class="w-full bg-black/60 border border-white/20 p-3 rounded-2xl text-center text-lg font-mono font-black text-cyan-300 tracking-widest outline-none focus:border-cyan-400" onkeydown="if(event.key==='Enter') verifyAdminPasskey()" />
+        <div id="auth-error-msg" class="text-xs text-rose-400 font-semibold hidden">
+          ❌ Invalid Passkey! Access Denied.
+        </div>
+      </div>
+
+      <button onclick="verifyAdminPasskey()" class="w-full bg-[#ccff00] hover:bg-[#b8e600] text-black font-black py-3 rounded-2xl text-xs tap-scale shadow-lg">
+        Unlock Terminal ➔
+      </button>
+    </div>
+  </div>
+
+  <!-- ================= MAIN ADMIN DASHBOARD CONTENT ================= -->
+  <div id="admin-main-view" class="max-w-6xl mx-auto space-y-6 hidden">
 
     <!-- Header -->
     <header class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-white/10 pb-6">
@@ -46,7 +72,7 @@
           <h1 class="text-2xl font-black text-white tracking-tight">Alpha Mining Admin Terminal</h1>
           <span class="bg-[#ccff00] text-black font-black text-[10px] px-2.5 py-0.5 rounded-full uppercase ml-2">Master Control</span>
         </div>
-        <p class="text-xs text-slate-400 mt-1">Real-time deposit authorization, instant user balance credit & boost activation.</p>
+        <p class="text-xs text-slate-400 mt-1">Real-time deposit authorization, instant user balance credit & 2X double yield booster.</p>
       </div>
 
       <div class="flex items-center gap-3">
@@ -56,6 +82,9 @@
         </div>
         <button onclick="fetchDeposits()" class="bg-cyan-500 hover:bg-cyan-400 text-black font-black px-4 py-2 rounded-xl text-xs flex items-center gap-1.5 transition tap-scale">
           <span>🔄</span> Refresh
+        </button>
+        <button onclick="lockAdminTerminal()" class="bg-white/10 hover:bg-rose-500/20 text-slate-300 hover:text-rose-300 font-bold px-3 py-2 rounded-xl text-xs tap-scale">
+          🔒 Lock
         </button>
       </div>
     </header>
@@ -75,8 +104,8 @@
         <div class="text-2xl font-black text-white" id="stat-total-processed">0</div>
       </div>
       <div class="frosted-glass p-4 rounded-3xl space-y-1 border-cyan-400/30">
-        <div class="text-[11px] text-slate-400 font-semibold">Active Float Protocol</div>
-        <div class="text-2xl font-black text-cyan-300">70% Reserve</div>
+        <div class="text-[11px] text-slate-400 font-semibold">Yield Multiplier</div>
+        <div class="text-2xl font-black text-cyan-300">2X Double Mode</div>
       </div>
     </div>
 
@@ -107,6 +136,7 @@
               <th class="p-3.5">Telegram ID</th>
               <th class="p-3.5">Network</th>
               <th class="p-3.5">Amount</th>
+              <th class="p-3.5">2X Monthly Return</th>
               <th class="p-3.5">Tx Hash (Explorer)</th>
               <th class="p-3.5">Status</th>
               <th class="p-3.5 text-right">Actions</th>
@@ -114,7 +144,7 @@
           </thead>
           <tbody id="deposits-table-body" class="divide-y divide-white/5 font-mono">
             <tr>
-              <td colspan="7" class="p-8 text-center text-slate-500 font-sans">
+              <td colspan="8" class="p-8 text-center text-slate-500 font-sans">
                 Connecting to Supabase and awaiting incoming submissions...
               </td>
             </tr>
@@ -132,6 +162,39 @@
   </div>
 
   <script>
+    // --- 1. PASSKEY AUTHENTICATION (CODE: 207820) ---
+    const REQUIRED_PASSKEY = '207820';
+
+    function verifyAdminPasskey() {
+      const input = document.getElementById('admin-passcode-input').value.trim();
+      const err = document.getElementById('auth-error-msg');
+      if (input === REQUIRED_PASSKEY) {
+        document.getElementById('auth-overlay').classList.add('hidden');
+        document.getElementById('admin-main-view').classList.remove('hidden');
+        sessionStorage.setItem('alpha_admin_auth', 'true');
+        initSupabase();
+      } else {
+        err.classList.remove('hidden');
+        document.getElementById('admin-passcode-input').value = '';
+      }
+    }
+
+    function lockAdminTerminal() {
+      sessionStorage.removeItem('alpha_admin_auth');
+      document.getElementById('auth-overlay').classList.remove('hidden');
+      document.getElementById('admin-main-view').classList.add('hidden');
+      document.getElementById('admin-passcode-input').value = '';
+      document.getElementById('auth-error-msg').classList.add('hidden');
+    }
+
+    // Auto-login if previously verified in session
+    if (sessionStorage.getItem('alpha_admin_auth') === 'true') {
+      document.getElementById('auth-overlay').classList.add('hidden');
+      document.getElementById('admin-main-view').classList.remove('hidden');
+      setTimeout(initSupabase, 200);
+    }
+
+    // --- 2. SUPABASE CONFIGURATION ---
     const SUPABASE_URL = 'https://ngeiyrrrgxlijyimmgsy.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5nZWl5cnJyZ3hsaWp5aW1tZ3N5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM4NjkxNTQsImV4cCI6MjEwOTQ0NTE1NH0.bYHaa2E-T-dKujuaUfnrKyWWnpi4Qw0wM1ZHjdH11Go';
 
@@ -210,7 +273,7 @@
       if (filtered.length === 0) {
         tbody.innerHTML = `
           <tr>
-            <td colspan="7" class="p-8 text-center text-slate-400 font-sans">
+            <td colspan="8" class="p-8 text-center text-slate-400 font-sans">
               No deposit submissions matching the current filter.
             </td>
           </tr>
@@ -230,6 +293,7 @@
         if (row.network && row.network.includes('BTC')) explorerUrl = `https://mempool.space/tx/${row.tx_hash}`;
 
         const shortTx = row.tx_hash ? `${row.tx_hash.substring(0, 8)}...${row.tx_hash.slice(-6)}` : 'N/A';
+        const doubleMonthlyReturn = (Number(row.amount || 0) * 2).toFixed(2);
 
         return `
           <tr class="hover:bg-white/5 transition">
@@ -237,6 +301,7 @@
             <td class="p-3.5 font-bold text-white">${row.telegram_id}</td>
             <td class="p-3.5"><span class="bg-white/10 px-2 py-0.5 rounded text-[10px] font-semibold text-cyan-300">${row.network}</span></td>
             <td class="p-3.5 font-black text-cyan-200 text-sm">${row.amount} USDT</td>
+            <td class="p-3.5 font-extrabold text-[#ccff00] text-xs">${doubleMonthlyReturn} USDT (2X)</td>
             <td class="p-3.5">
               <a href="${explorerUrl}" target="_blank" class="text-cyan-400 hover:underline flex items-center gap-1 font-mono">
                 <span>${shortTx}</span>
@@ -259,7 +324,6 @@
       }).join('');
     }
 
-    // Approve Action with Instant User Credit Trigger
     async function updateDepositStatus(id, newStatus) {
       if (supabaseClient) {
         const { error } = await supabaseClient
@@ -289,8 +353,6 @@
       toast.classList.remove('opacity-0', 'pointer-events-none');
       setTimeout(() => toast.classList.add('opacity-0', 'pointer-events-none'), 3000);
     }
-
-    initSupabase();
   </script>
 </body>
 </html>
