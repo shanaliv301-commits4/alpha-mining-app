@@ -38,7 +38,7 @@
 <body class="p-4 sm:p-8">
   <div class="max-w-6xl mx-auto space-y-6">
 
-    <!-- Top Admin Header -->
+    <!-- Header -->
     <header class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-white/10 pb-6">
       <div>
         <div class="flex items-center gap-2">
@@ -46,7 +46,7 @@
           <h1 class="text-2xl font-black text-white tracking-tight">Alpha Mining Admin Terminal</h1>
           <span class="bg-[#ccff00] text-black font-black text-[10px] px-2.5 py-0.5 rounded-full uppercase ml-2">Master Control</span>
         </div>
-        <p class="text-xs text-slate-400 mt-1">Real-time Supabase deposit authorization, user credit review & wallet surveillance.</p>
+        <p class="text-xs text-slate-400 mt-1">Real-time deposit authorization, instant user balance credit & boost activation.</p>
       </div>
 
       <div class="flex items-center gap-3">
@@ -60,21 +60,7 @@
       </div>
     </header>
 
-    <!-- Supabase Status Pill -->
-    <div class="frosted-glass p-4 rounded-3xl flex flex-col sm:flex-row items-start sm:items-center justify-between text-xs gap-3">
-      <div class="flex items-center gap-2.5">
-        <span class="text-lg">🗄️</span>
-        <div>
-          <span class="text-slate-300 font-bold">Supabase Database:</span>
-          <span class="text-cyan-400 font-mono ml-1">ngeiyrrrgxlijyimmgsy.supabase.co</span>
-        </div>
-      </div>
-      <div class="text-[11px] text-emerald-400 font-semibold bg-emerald-500/10 border border-emerald-500/30 px-3 py-1 rounded-full">
-        Realtime Sync: Enabled
-      </div>
-    </div>
-
-    <!-- Quick Metrics Bar -->
+    <!-- Metrics Bar -->
     <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
       <div class="frosted-glass p-4 rounded-3xl space-y-1">
         <div class="text-[11px] text-slate-400 font-semibold">Pending Approvals</div>
@@ -89,12 +75,12 @@
         <div class="text-2xl font-black text-white" id="stat-total-processed">0</div>
       </div>
       <div class="frosted-glass p-4 rounded-3xl space-y-1 border-cyan-400/30">
-        <div class="text-[11px] text-slate-400 font-semibold">Active Vault Float</div>
-        <div class="text-2xl font-black text-cyan-300">70% Protocol</div>
+        <div class="text-[11px] text-slate-400 font-semibold">Active Float Protocol</div>
+        <div class="text-2xl font-black text-cyan-300">70% Reserve</div>
       </div>
     </div>
 
-    <!-- Deposit Requests Management Table -->
+    <!-- Table -->
     <div class="frosted-glass rounded-3xl overflow-hidden shadow-2xl">
       <div class="p-4 border-b border-white/10 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
         <div class="flex items-center gap-2">
@@ -103,7 +89,7 @@
         </div>
 
         <div class="flex items-center gap-2 w-full sm:w-auto">
-          <input id="search-tx" oninput="filterTable()" placeholder="Search by Telegram ID or Tx..." class="bg-white/5 border border-white/10 text-xs px-3 py-1.5 rounded-xl text-white outline-none w-full sm:w-64 font-mono" />
+          <input id="search-tx" oninput="filterTable()" placeholder="Search Telegram ID or Tx..." class="bg-white/5 border border-white/10 text-xs px-3 py-1.5 rounded-xl text-white outline-none w-full sm:w-64 font-mono" />
           <select id="filter-status" onchange="filterTable()" class="bg-slate-900 border border-white/10 text-xs px-3 py-1.5 rounded-xl text-white outline-none">
             <option value="all">All</option>
             <option value="pending" selected>Pending</option>
@@ -113,7 +99,6 @@
         </div>
       </div>
 
-      <!-- Responsive Table -->
       <div class="overflow-x-auto">
         <table class="w-full text-left text-xs">
           <thead class="bg-white/5 text-slate-400 uppercase font-black tracking-wider text-[10px] border-b border-white/10">
@@ -147,7 +132,6 @@
   </div>
 
   <script>
-    // --- YOUR SUPABASE CONFIGURATION (HARDCODED) ---
     const SUPABASE_URL = 'https://ngeiyrrrgxlijyimmgsy.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5nZWl5cnJyZ3hsaWp5aW1tZ3N5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM4NjkxNTQsImV4cCI6MjEwOTQ0NTE1NH0.bYHaa2E-T-dKujuaUfnrKyWWnpi4Qw0wM1ZHjdH11Go';
 
@@ -168,7 +152,6 @@
       }
     }
 
-    // --- FETCH ALL DEPOSITS ---
     async function fetchDeposits() {
       if (!supabaseClient) { loadLocalStorageQueue(); return; }
       
@@ -186,11 +169,10 @@
       }
     }
 
-    // --- REALTIME LISTENER FOR INSTANT POPUP ---
     function listenToRealtimeDeposits() {
       if (!supabaseClient) return;
       supabaseClient
-        .channel('public:deposits')
+        .channel('admin_deposits_realtime')
         .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'deposits' }, payload => {
           showToast(`⚡ New ${payload.new.amount} USDT deposit from TG #${payload.new.telegram_id}!`, '🔔');
           allDeposits.unshift(payload.new);
@@ -205,7 +187,6 @@
       renderTable(allDeposits);
     }
 
-    // --- RENDER TABLE ---
     function renderTable(data) {
       const tbody = document.getElementById('deposits-table-body');
       const filterStatus = document.getElementById('filter-status').value;
@@ -278,7 +259,7 @@
       }).join('');
     }
 
-    // --- APPROVE / REJECT ACTION ---
+    // Approve Action with Instant User Credit Trigger
     async function updateDepositStatus(id, newStatus) {
       if (supabaseClient) {
         const { error } = await supabaseClient
@@ -286,14 +267,17 @@
           .update({ status: newStatus })
           .eq('id', id);
 
-        if (error) { alert('Error updating status: ' + error.message); return; }
+        if (error) { 
+          alert('Error updating status: ' + error.message); 
+          return; 
+        }
       }
 
       const item = allDeposits.find(d => d.id === id);
       if (item) item.status = newStatus;
       renderTable(allDeposits);
 
-      showToast(`Deposit marked as ${newStatus.toUpperCase()}!`, newStatus === 'approved' ? '✅' : '❌');
+      showToast(`Deposit #${id} marked as ${newStatus.toUpperCase()}!`, newStatus === 'approved' ? '✅' : '❌');
     }
 
     function filterTable() { renderTable(allDeposits); }
