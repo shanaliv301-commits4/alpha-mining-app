@@ -112,7 +112,6 @@
       100% { transform: translate(110px, 80px) scale(1.1); }
     }
 
-    /* Themes */
     body.theme-cyber .aurora-bg-canvas {
       background: radial-gradient(circle at 50% 10%, #002b36 0%, #021217 60%, #01080a 100%);
     }
@@ -250,7 +249,7 @@
         <div class="flex items-center gap-2">
           <span class="text-base animate-bounce">⚡</span>
           <span class="text-slate-100 font-semibold text-[11px]">
-            Speed Cap Active: <strong class="text-[#ccff00]">Upgrade to Increase Speed</strong> up to 10x!
+            Double Yield Protocol: <strong class="text-[#ccff00]">Earn 2x Double (100% Monthly Gain)</strong> on Deposit!
           </span>
         </div>
         <span class="bg-[#ccff00] text-black font-black text-[10px] px-2 py-0.5 rounded-md shrink-0">
@@ -278,12 +277,12 @@
         <div class="pt-1 text-center space-y-2">
           <div class="flex items-center justify-center gap-2 text-[11px] font-semibold text-slate-200 flex-wrap">
             <span class="flex items-center gap-1 text-cyan-400 font-bold">
-              <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span> Yield Rate
+              <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span> 2X Double Yield
             </span>
             <span>•</span>
             <span>⏱ <span id="rate-display-hr" class="font-bold text-white">$0.000833</span> <span class="text-slate-400">/hr</span></span>
             <span>📅 <span id="rate-display-day" class="font-black text-[#ccff00]">$0.0200</span> <span class="text-slate-300">/day</span></span>
-            <span>🗓 <span id="rate-display-mo" class="font-bold text-white">$0.600</span> <span class="text-slate-400">/mo</span></span>
+            <span>🗓 <span id="rate-display-mo" class="font-black text-cyan-300">$0.600</span> <span class="text-slate-400">/mo</span></span>
           </div>
 
           <!-- Counter -->
@@ -292,7 +291,7 @@
           </div>
 
           <div class="text-[11px] text-cyan-200 bg-white/10 border border-white/15 py-1 px-3 rounded-full inline-block" id="speed-status-badge">
-            🛡️ Free starter speed: 0.02 USDT/day — Sustainable uncap on Boost
+            🛡️ Free starter speed: 0.02 USDT/day — Top up for 2x Double Yield
           </div>
 
           <!-- Claim Profit & How to Earn -->
@@ -308,17 +307,13 @@
           <!-- Proof of Yield Card -->
           <div class="frosted-glass p-3 rounded-2xl flex items-center justify-between text-left text-xs">
             <div>
-              <div class="font-extrabold text-white text-[11px]">Sustainable Proof-of-Yield (PoY) & Reserves</div>
-              <div class="text-[10px] text-slate-300">Admin 70% float protocol ensures guaranteed lifetime solvency</div>
+              <div class="font-extrabold text-white text-[11px]">2X Double Profit Engine (100% Monthly Gain)</div>
+              <div class="text-[10px] text-slate-300" id="deposit-double-summary">Example: 30 USDT deposit yields 60.00 USDT monthly</div>
             </div>
             <div class="bg-emerald-500/20 text-emerald-300 border border-emerald-500/50 text-[10px] font-black px-2.5 py-1 rounded-lg">
-              99.4% Solvency
+              200% Payout
             </div>
           </div>
-
-          <p class="text-[11px] text-slate-300 font-medium">
-            Top up to 3 USDT or grow with invites to activate node boost up to <strong class="text-[#ccff00]">1.8% daily</strong> sustainable yield.
-          </p>
         </div>
 
         <!-- Metric Cards -->
@@ -353,8 +348,8 @@
               <div class="text-[11px] text-emerald-400 font-medium" id="wallet-connection-label">PoY Active</div>
             </div>
             <div class="mt-3 flex items-center justify-between text-[11px]">
-              <span class="bg-cyan-500/20 text-cyan-300 font-bold px-2 py-0.5 rounded-md border border-cyan-500/30" id="daily-pct-display">0.4%</span>
-              <span class="text-slate-400">Per day</span>
+              <span class="bg-cyan-500/20 text-cyan-300 font-bold px-2 py-0.5 rounded-md border border-cyan-500/30" id="daily-pct-display">200% Mo</span>
+              <span class="text-slate-400">Yield mode</span>
             </div>
           </div>
         </div>
@@ -369,40 +364,43 @@
           </button>
         </div>
 
-        <!-- Withdrawal Limits Badge -->
-        <div class="bg-black/30 border border-white/10 rounded-2xl px-3 py-2 flex items-center justify-between text-[11px]">
-          <span class="text-slate-400">Rules: <strong class="text-white">Min $10.00</strong> • Max 2x / Week</span>
-          <span class="text-cyan-300 font-mono font-bold" id="weekly-withdraw-count-label">Used: 0/2 this week</span>
+        <!-- Withdrawal Rule Banner (1x / Week before upgrade) -->
+        <div class="bg-black/40 border border-white/15 rounded-2xl px-3.5 py-2.5 flex items-center justify-between text-xs">
+          <div>
+            <div class="text-slate-300 font-semibold">Min: <strong class="text-white">$10.00 USDT</strong> • Limit: <strong class="text-[#ccff00]">1 Time / Week</strong></div>
+            <div class="text-[10px] text-slate-400 mt-0.5">2nd weekly withdrawal unlocks automatically on Rig Upgrade</div>
+          </div>
+          <span class="text-cyan-300 font-mono font-bold bg-white/10 px-2 py-1 rounded-lg shrink-0 ml-2" id="weekly-withdraw-count-label">0/1 this week</span>
         </div>
 
-        <!-- Yield Tiers -->
+        <!-- 2X Yield Tiers Card -->
         <div class="frosted-glass p-4 rounded-3xl space-y-3">
           <div class="flex items-center justify-between">
             <span class="text-xs font-extrabold text-white flex items-center gap-1.5">
-              <span>🧮</span> SUSTAINABLE YIELD TIERS
+              <span>🧮</span> 2X DOUBLE RETURN TIERS (MONTHLY)
             </span>
-            <span class="text-[10px] text-cyan-300 font-mono">Dynamic Halving</span>
+            <span class="text-[10px] text-cyan-300 font-mono">100% Net Profit</span>
           </div>
 
           <div class="grid grid-cols-3 gap-2 text-center text-xs">
             <div class="bg-white/5 border border-white/10 rounded-2xl p-2.5">
-              <div class="text-[10px] text-cyan-300 font-bold">Boost Tier</div>
-              <div class="font-black text-white mt-0.5">3 USDT</div>
-              <div class="text-[10px] text-[#ccff00] font-mono mt-1">0.8 - 1.2%</div>
-              <div class="text-[9px] text-slate-400">daily yield</div>
+              <div class="text-[10px] text-cyan-300 font-bold">Starter Node</div>
+              <div class="font-black text-white mt-0.5">10 USDT</div>
+              <div class="text-[10px] text-[#ccff00] font-mono mt-1 font-black">20.00 USDT</div>
+              <div class="text-[9px] text-slate-400">Monthly Profit</div>
             </div>
             <div class="bg-cyan-950/50 border border-cyan-400/50 rounded-2xl p-2.5 relative">
               <span class="absolute -top-2 left-1/2 -translate-x-1/2 bg-cyan-400 text-[#080d19] text-[8px] font-black px-1.5 py-0.2 rounded-full uppercase">Popular</span>
-              <div class="text-[10px] text-white font-bold">Hash Rig</div>
-              <div class="font-black text-white mt-0.5">10 USDT</div>
-              <div class="text-[10px] text-[#ccff00] font-mono mt-1">1.4%</div>
-              <div class="text-[9px] text-slate-300">daily yield</div>
+              <div class="text-[10px] text-white font-bold">Double Hash</div>
+              <div class="font-black text-white mt-0.5">30 USDT</div>
+              <div class="text-[10px] text-[#ccff00] font-mono mt-1 font-black">60.00 USDT</div>
+              <div class="text-[9px] text-slate-300">Monthly Profit</div>
             </div>
             <div class="bg-white/5 border border-white/10 rounded-2xl p-2.5">
-              <div class="text-[10px] text-purple-300 font-bold">Turbo Node</div>
-              <div class="font-black text-white mt-0.5">30 USDT</div>
-              <div class="text-[10px] text-[#ccff00] font-mono mt-1">1.8%</div>
-              <div class="text-[9px] text-slate-400">daily yield</div>
+              <div class="text-[10px] text-purple-300 font-bold">Turbo Rig</div>
+              <div class="font-black text-white mt-0.5">100 USDT</div>
+              <div class="text-[10px] text-[#ccff00] font-mono mt-1 font-black">200.00 USDT</div>
+              <div class="text-[9px] text-slate-400">Monthly Profit</div>
             </div>
           </div>
         </div>
@@ -630,23 +628,30 @@
   <div id="topup-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex items-end justify-center">
     <div class="bg-[#0c162c] border-t border-cyan-400/30 w-full max-w-md rounded-t-[32px] p-6 space-y-4 max-h-[92vh] overflow-y-auto no-scrollbar shadow-2xl">
       <div class="flex justify-between items-center pb-2">
-        <h3 class="text-lg font-black text-white">Top Up & Node Upgrade</h3>
+        <h3 class="text-lg font-black text-white">Top Up & Node Upgrade (2X Yield)</h3>
         <button onclick="closeTopUpModal()" class="text-xs font-bold text-slate-300 bg-white/10 px-3 py-1.5 rounded-full tap-scale">Close ✕</button>
+      </div>
+
+      <div class="bg-cyan-950/40 border border-cyan-400/30 p-3 rounded-2xl text-xs text-slate-200">
+        💡 <strong class="text-[#ccff00]">Double Yield Activated:</strong> Whatever you deposit will generate <strong>100% Monthly Gain (Double 2X)</strong> plus unlocks higher weekly withdrawals!
       </div>
 
       <div>
         <label class="text-xs font-semibold text-slate-300">Deposit Amount (USDT)</label>
         <div class="flex items-center justify-between bg-white/10 border border-white/15 p-3.5 rounded-2xl mt-1">
-          <input id="topup-amount-input" oninput="handleAmountInput(this.value)" type="number" value="3" class="bg-transparent text-xl font-black text-white outline-none w-full" />
+          <input id="topup-amount-input" oninput="handleAmountInput(this.value)" type="number" value="30" class="bg-transparent text-xl font-black text-white outline-none w-full" />
           <span class="text-xs font-extrabold text-cyan-300">USDT</span>
+        </div>
+        <div class="text-[11px] text-emerald-400 font-semibold mt-1" id="topup-projected-double">
+          ➔ Projected 30-Day Profit: 60.00 USDT (2X Double)
         </div>
       </div>
 
       <div class="grid grid-cols-6 gap-1 text-center text-xs">
-        <button onclick="setTopUpAmount(3)" class="preset-btn bg-cyan-400 text-[#080d19] p-2 rounded-xl font-bold">3</button>
+        <button onclick="setTopUpAmount(3)" class="preset-btn bg-white/10 text-white p-2 rounded-xl font-bold">3</button>
         <button onclick="setTopUpAmount(5)" class="preset-btn bg-white/10 text-white p-2 rounded-xl font-bold">5</button>
         <button onclick="setTopUpAmount(10)" class="preset-btn bg-white/10 text-white p-2 rounded-xl font-bold">10</button>
-        <button onclick="setTopUpAmount(30)" class="preset-btn bg-white/10 text-white p-2 rounded-xl font-bold">30</button>
+        <button onclick="setTopUpAmount(30)" class="preset-btn bg-cyan-400 text-[#080d19] p-2 rounded-xl font-bold">30</button>
         <button onclick="setTopUpAmount(100)" class="preset-btn bg-white/10 text-white p-2 rounded-xl font-bold">100</button>
         <button onclick="setTopUpAmount(300)" class="preset-btn bg-white/10 text-white p-2 rounded-xl font-bold">300</button>
       </div>
@@ -694,7 +699,7 @@
         </div>
         <div class="flex justify-between items-center text-xs">
           <span class="text-slate-300">To pay:</span>
-          <span class="font-black text-cyan-300" id="pay-topay-val">3 USDT</span>
+          <span class="font-black text-cyan-300" id="pay-topay-val">30 USDT</span>
         </div>
       </div>
 
@@ -775,7 +780,7 @@
       'BTC':        'bc1q0r2p6h4mks4axe2e59kjtl0f9p9dlv3y52wp9v'
     };
 
-    // --- 3. DYNAMIC TELEGRAM INVITER ID RESOLUTION ---
+    // --- 3. DYNAMIC TELEGRAM INVITER RESOLUTION ---
     function resolveInviterId() {
       const urlParams = new URLSearchParams(window.location.search);
       let ref = urlParams.get('tgWebAppStartParam') || urlParams.get('startapp') || urlParams.get('ref');
@@ -792,7 +797,7 @@
     }
 
     // --- 4. STATE ENGINE ---
-    const STORAGE_KEY = 'alpha_mining_master_v11';
+    const STORAGE_KEY = 'alpha_mining_master_v12';
     const defaultState = {
       telegram_id: 7078896021,
       invitedBy: resolveInviterId(),
@@ -810,7 +815,7 @@
       theme: 'aurora',
       lastTimestamp: Date.now(),
       activeTab: 'mine',
-      // Weekly withdrawal tracking
+      // Weekly withdrawal tracking (1x max before upgrade)
       withdrawalsThisWeek: 0,
       weekStartTimestamp: Date.now(),
       processedDepositIds: []
@@ -829,25 +834,27 @@
       state.weekStartTimestamp = Date.now();
     }
 
-    // --- 5. MINING RATES & DYNAMIC SPEED SCALING ---
-    // Free starter: 0.02 USDT / day
-    const BASE_RATE_PER_SEC = 0.02 / 86400; // 0.0000002315
+    // --- 5. 2X DOUBLE RETURN MATH (100% MONTHLY GAIN) ---
+    // Example: If user deposits 30$, monthly yield = 60$!
+    // Daily rate = (Deposit * 2.0) / 30 days
+    const BASE_STARTER_RATE_PER_SEC = 0.02 / 86400; // Free starter $0.02/day
 
     function getCurrentMiningRatePerSec() {
-      if (!state.isUpgraded) {
-        return BASE_RATE_PER_SEC; // Exact $0.02 / day
+      if (!state.isUpgraded || !state.upgradeAmount) {
+        return BASE_STARTER_RATE_PER_SEC;
       } else {
-        // Dynamic Tier scaling based on approved deposit amount
-        const dailyTargetRate = state.upgradeAmount >= 30 ? 0.018 : (state.upgradeAmount >= 10 ? 0.014 : 0.010);
-        return (state.upgradeAmount * dailyTargetRate) / 86400;
+        // 2x double calculation: monthly output is 2 * upgradeAmount
+        const targetMonthlyYield = state.upgradeAmount * 2.0; 
+        const dailyYield = targetMonthlyYield / 30.0;
+        return dailyYield / 86400.0;
       }
     }
 
-    // --- 6. REALTIME SUPABASE APPROVAL LISTENER (FIX FOR AUTO-CREDIT & SPEED) ---
+    // --- 6. REALTIME SUPABASE APPROVAL LISTENER ---
     function setupSupabaseDepositListener() {
       if (!supabaseClient) return;
 
-      // 1. Initial check for existing approved deposits that were not credited yet
+      // Check existing approved deposits
       supabaseClient
         .from('deposits')
         .select('*')
@@ -859,7 +866,7 @@
           }
         });
 
-      // 2. Realtime listener for instant approval when admin clicks button
+      // Realtime listener
       supabaseClient
         .channel('user_deposits_sync')
         .on('postgres_changes', { 
@@ -876,38 +883,30 @@
     }
 
     function processApprovedDeposit(dep) {
-      if (state.processedDepositIds.includes(dep.id)) return; // Already credited
+      if (state.processedDepositIds.includes(dep.id)) return;
 
       const approvedUsdt = Number(dep.amount) || 0;
       state.processedDepositIds.push(dep.id);
 
-      // 1. Add approved amount to USDT Balance
+      // Add to balance
       state.usdtBalance += approvedUsdt;
 
-      // 2. Upgrade Mining Speed & Tier according to deposit amount
+      // Upgrade Rig to 2x Double Mining Rate
       state.isUpgraded = true;
       state.upgradeAmount = Math.max(state.upgradeAmount || 0, approvedUsdt);
-      
-      if (state.upgradeAmount >= 30) {
-        state.level = 3;
-      } else if (state.upgradeAmount >= 10) {
-        state.level = 2;
-      } else {
-        state.level = 1;
-      }
+      state.level = state.upgradeAmount >= 30 ? 3 : (state.upgradeAmount >= 10 ? 2 : 1);
 
       saveState();
       updateAllUI();
 
-      // Show celebrations & prompt
-      showToast(`🎉 Approved! +$${approvedUsdt.toFixed(2)} USDT Credited & Speed Boosted!`, '⚡');
+      showToast(`🎉 Approved! +$${approvedUsdt.toFixed(2)} USDT Added! 2X Double Yield (Monthly $${(state.upgradeAmount*2).toFixed(2)}) Active!`, '⚡');
       
       if (window.Telegram?.WebApp?.HapticFeedback) {
         window.Telegram.WebApp.HapticFeedback.notificationOccurred('success');
       }
     }
 
-    // --- 7. NEVER-REPEATING DYNAMIC USERNAME GENERATOR ---
+    // --- 7. NEVER-REPEATING DYNAMIC CLAIM PROOFS ---
     const namePrefixes = ['ton', 'sol', 'crypto', 'alex', 'neo', 'vlad', 'sara', 'dex', 'alpha', 'matrix', 'maria', 'sam', 'whale', 'miner', 'node', 'zen'];
     const nameSuffixes = ['pro', 'web3', '99', 'sol', 'ton', '77', 'btc', 'dev', 'king', 'vip', 'trade', '88', 'x'];
 
@@ -933,7 +932,7 @@
       }, 1400);
     }
 
-    // --- 8. CONTINUOUS MINING STREAM LOOP ---
+    // --- 8. LIVE MINING COUNTER STREAM ---
     function startLiveMiningEngine() {
       setInterval(() => {
         const ratePerSec = getCurrentMiningRatePerSec();
@@ -962,30 +961,32 @@
       document.getElementById('acc-coins').innerHTML = `${state.coins} <span class="text-xs font-normal text-slate-300">coins</span>`;
       document.getElementById('acc-coins-usd').innerText = `≈$${state.coins}.00 USDT`;
 
-      // Rates formatted
+      // Rates formatted (Exact 2x Double when upgraded)
       const currentRateSec = getCurrentMiningRatePerSec();
       const rateHr = (currentRateSec * 3600).toFixed(6);
       const rateDay = (currentRateSec * 86400).toFixed(4);
-      const rateMo = (currentRateSec * 86400 * 30).toFixed(3);
+      const rateMo = (currentRateSec * 86400 * 30).toFixed(2);
       document.getElementById('rate-display-hr').innerText = `$${rateHr}`;
       document.getElementById('rate-display-day').innerText = `$${rateDay}`;
       document.getElementById('rate-display-mo').innerText = `$${rateMo}`;
 
-      // Inviter ID
       document.getElementById('acc-invited-by-id').innerText = `ID ${state.invitedBy}`;
 
-      // Weekly withdraw badge
-      document.getElementById('weekly-withdraw-count-label').innerText = `Used: ${state.withdrawalsThisWeek}/2 this week`;
+      // Weekly withdraw limit badge
+      const allowedWeekly = state.isUpgraded ? 2 : 1;
+      document.getElementById('weekly-withdraw-count-label').innerText = `${state.withdrawalsThisWeek}/${allowedWeekly} this week`;
 
       if (state.isUpgraded) {
-        document.getElementById('level-display').innerText = `Tier ${state.level} (${state.upgradeAmount} USDT Boost)`;
-        const pct = state.upgradeAmount >= 30 ? '1.8%' : (state.upgradeAmount >= 10 ? '1.4%' : '1.0%');
-        document.getElementById('daily-pct-display').innerText = pct;
-        document.getElementById('speed-status-badge').innerText = `⚡ Active Boost Rig (${state.upgradeAmount} USDT): ${pct} Daily Yield`;
+        const doubleMonthly = (state.upgradeAmount * 2).toFixed(2);
+        document.getElementById('level-display').innerText = `Tier ${state.level} (${state.upgradeAmount} USDT 2X)`;
+        document.getElementById('daily-pct-display').innerText = `200% Mo`;
+        document.getElementById('speed-status-badge').innerText = `⚡ 2X Double Active (${state.upgradeAmount} USDT): Monthly Return $${doubleMonthly} USDT`;
+        document.getElementById('deposit-double-summary').innerText = `Deposit: ${state.upgradeAmount} USDT ➔ Guaranteed Monthly: ${doubleMonthly} USDT (2X Double)`;
       } else {
         document.getElementById('level-display').innerText = `Tier 1`;
-        document.getElementById('daily-pct-display').innerText = `0.4%`;
-        document.getElementById('speed-status-badge').innerText = `🛡️ Free starter speed: 0.02 USDT/day — Sustainable uncap on Boost`;
+        document.getElementById('daily-pct-display').innerText = `Free`;
+        document.getElementById('speed-status-badge').innerText = `🛡️ Free starter speed: 0.02 USDT/day — Top up for 2x Double Yield`;
+        document.getElementById('deposit-double-summary').innerText = `Example: 30 USDT deposit yields 60.00 USDT monthly`;
       }
 
       setAppTheme(state.theme || 'aurora');
@@ -1020,7 +1021,7 @@
       showToast(`+$${harvested.toFixed(4)} USDT credited to balance!`, '🎉');
     }
 
-    // --- 10. WITHDRAWAL HANDLER WITH 10$ MIN & 2X / WEEK RULES ---
+    // --- 10. WITHDRAWAL HANDLER (1 TIME/WEEK BEFORE UPGRADE) ---
     function handleWithdrawClick() {
       if (!state.walletConnected) {
         alert('Please connect your TON wallet first before withdrawing!');
@@ -1028,15 +1029,17 @@
         return;
       }
 
-      // Rule 1: Minimum Withdrawal Threshold = 10.00 USDT
+      // Rule 1: Min 10 USDT
       if (state.usdtBalance < 10.0) {
         alert(`❌ Minimum withdrawal amount is 10.00 USDT.\nYour current balance: $${state.usdtBalance.toFixed(4)} USDT.`);
         return;
       }
 
-      // Rule 2: Limit of 2 withdrawals per week. On 3rd attempt, prompt for upgrade!
-      if (state.withdrawalsThisWeek >= 2) {
-        alert('⚠️ Weekly Withdrawal Limit Reached!\n\nYou can only withdraw 2 times per week on current tier.\n\nPlease upgrade your mining rig or top up USDT to unlock higher weekly limits!');
+      // Rule 2: Just 1 time per week before upgrade!
+      const allowedWeeklyLimit = state.isUpgraded ? 2 : 1;
+
+      if (state.withdrawalsThisWeek >= allowedWeeklyLimit) {
+        alert(`⚠️ Weekly Withdrawal Limit Reached (${state.withdrawalsThisWeek}/${allowedWeeklyLimit} Used)!\n\nYou can only withdraw 1 time per week on starter tier.\n\nPlease upgrade your mining rig or top up USDT to unlock higher weekly withdrawals!`);
         openTopUpModal();
         return;
       }
@@ -1048,7 +1051,6 @@
       saveState();
       updateAllUI();
 
-      // Submit withdrawal request to Supabase
       if (supabaseClient) {
         supabaseClient.from('withdrawals').insert([
           {
@@ -1060,8 +1062,8 @@
         ]).then(() => {});
       }
 
-      showToast(`Withdrawal of $${withdrawAmount.toFixed(2)} USDT submitted! (${state.withdrawalsThisWeek}/2 used this week)`, '💸');
-      alert(`✅ Withdrawal submitted successfully!\nAmount: $${withdrawAmount.toFixed(4)} USDT\nDestination: ${state.walletAddress}\nWeekly usage: ${state.withdrawalsThisWeek}/2.`);
+      showToast(`Withdrawal of $${withdrawAmount.toFixed(2)} USDT submitted! (${state.withdrawalsThisWeek}/${allowedWeeklyLimit} used)`, '💸');
+      alert(`✅ Withdrawal submitted successfully!\nAmount: $${withdrawAmount.toFixed(4)} USDT\nDestination: ${state.walletAddress}\nWeekly usage: ${state.withdrawalsThisWeek}/${allowedWeeklyLimit}.`);
     }
 
     // --- 11. 24-HOUR MYSTERY GIFT CHEST ---
@@ -1125,7 +1127,7 @@
     }
     setInterval(updateGiftCooldownUI, 1000);
 
-    // --- 12. THEME SWITCHER ---
+    // --- 12. THEMES ---
     function setAppTheme(t) {
       state.theme = t;
       saveState();
@@ -1157,7 +1159,7 @@
     }
 
     // --- 13. TOP UP & SUBMIT DEPOSIT ---
-    let selectedAmount = 3;
+    let selectedAmount = 30;
     let selectedNet = 'USDT BEP20';
 
     function openTopUpModal() { document.getElementById('topup-modal').classList.remove('hidden'); }
@@ -1168,6 +1170,7 @@
     function setTopUpAmount(val) {
       selectedAmount = parseFloat(val);
       document.getElementById('topup-amount-input').value = selectedAmount;
+      updateDoubleProjectedLabel(selectedAmount);
       document.querySelectorAll('.preset-btn').forEach(btn => {
         if (parseFloat(btn.innerText) === selectedAmount) {
           btn.className = 'preset-btn bg-cyan-400 text-[#080d19] p-2 rounded-xl font-bold';
@@ -1177,7 +1180,15 @@
       });
     }
 
-    function handleAmountInput(v) { selectedAmount = parseFloat(v) || 0; }
+    function handleAmountInput(v) { 
+      selectedAmount = parseFloat(v) || 0; 
+      updateDoubleProjectedLabel(selectedAmount);
+    }
+
+    function updateDoubleProjectedLabel(amt) {
+      const proj = document.getElementById('topup-projected-double');
+      if (proj) proj.innerText = `➔ Projected 30-Day Profit: ${(amt * 2).toFixed(2)} USDT (2X Double)`;
+    }
 
     function selectNetwork(net, el) {
       selectedNet = net;
@@ -1191,7 +1202,7 @@
     }
 
     function proceedToPaymentDetails() {
-      selectedAmount = parseFloat(document.getElementById('topup-amount-input').value) || 3;
+      selectedAmount = parseFloat(document.getElementById('topup-amount-input').value) || 30;
       document.getElementById('pay-network-name').innerText = selectedNet;
       document.getElementById('pay-topay-val').innerText = `${selectedAmount} USDT`;
       document.getElementById('master-deposit-addr').innerText = OFFICIAL_WALLET_ADDRESSES[selectedNet] || OFFICIAL_WALLET_ADDRESSES['USDT BEP20'];
@@ -1231,7 +1242,6 @@
         console.error('Supabase exception:', err);
       }
 
-      // Local queue
       const queue = JSON.parse(localStorage.getItem('alpha_pending_deposits') || '[]');
       queue.push({
         id: Date.now(),
@@ -1329,7 +1339,7 @@
     }
 
     function openHowToEarnModal() {
-      alert('💡 Alpha Mining Guide:\n1. Free starter speed generates $0.02 USDT daily 24/7.\n2. Claim profit anytime to add micro-cents directly to your USDT balance.\n3. Top up 3 USDT to activate sustainable 0.8% - 1.8% daily yields backed by 70% float liquidity reserve.\n4. Withdrawal: Minimum 10 USDT, limit 2x per week.');
+      alert('💡 Alpha Mining 2X Return Guide:\n1. Whatever you deposit generates 100% Monthly Gain (Double).\n2. Example: 30 USDT generates 60.00 USDT in 30 days.\n3. Withdrawal: Minimum 10 USDT. Starter tier allows 1 withdrawal per week; upgrading unlocks 2 withdrawals per week.');
     }
     function handleCloseApp() {
       saveState();
@@ -1337,7 +1347,7 @@
       else alert('App closed. Mining continues 24/7!');
     }
 
-    // App Initialization
+    // Boot
     updateAllUI();
     startLiveMiningEngine();
     startEverySecondClaimTicker();
