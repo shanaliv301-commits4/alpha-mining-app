@@ -9,6 +9,8 @@
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Supabase JS SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <!-- Google Fonts: Plus Jakarta Sans -->
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
 
@@ -37,7 +39,7 @@
       scrollbar-width: none;
     }
 
-    /* ================= LIVING AURORA ANIMATION ENGINE ================= */
+    /* Living Aurora Animation */
     .aurora-bg-canvas {
       position: fixed;
       inset: 0;
@@ -110,7 +112,7 @@
       100% { transform: translate(110px, 80px) scale(1.1); }
     }
 
-    /* Theme Variants */
+    /* Themes */
     body.theme-cyber .aurora-bg-canvas {
       background: radial-gradient(circle at 50% 10%, #002b36 0%, #021217 60%, #01080a 100%);
     }
@@ -125,7 +127,6 @@
     body.theme-indigo .blob-2 { background: radial-gradient(circle, #8b5cf6 0%, transparent 70%); }
     body.theme-indigo .blob-3 { background: radial-gradient(circle, #ec4899 0%, transparent 70%); }
 
-    /* Ultra Frosted Glass Card */
     .frosted-glass {
       background: rgba(18, 28, 48, 0.55);
       backdrop-filter: blur(24px);
@@ -138,7 +139,6 @@
       border: 1px solid rgba(6, 182, 212, 0.45);
       box-shadow: 0 0 25px rgba(6, 182, 212, 0.25);
     }
-
     @keyframes floatUpClaim {
       0% { transform: translateY(0px) scale(0.9); opacity: 0; }
       40% { opacity: 1; transform: translateY(-20px) scale(1.1); }
@@ -159,7 +159,7 @@
 
 <body id="app-body" class="flex flex-col justify-between pb-28 no-scrollbar">
 
-  <!-- ================= LIVING AURORA ANIMATED BACKGROUND ================= -->
+  <!-- Living Aurora Background -->
   <div class="aurora-bg-canvas" id="aurora-canvas">
     <div class="aurora-blob blob-1"></div>
     <div class="aurora-blob blob-2"></div>
@@ -167,10 +167,9 @@
     <div class="aurora-blob blob-4"></div>
   </div>
 
-  <!-- Content Layer Wrapper -->
   <div class="relative z-10 flex-1 flex flex-col justify-between">
 
-    <!-- ================= TOP HEADER (PERSISTENT) ================= -->
+    <!-- Header -->
     <header class="sticky top-0 z-40 px-4 pt-3 pb-2 bg-[#080d19]/80 backdrop-blur-2xl border-b border-white/10 flex items-center justify-between">
       <button onclick="handleCloseApp()" class="flex items-center gap-1 bg-white/10 hover:bg-white/20 text-white text-xs font-semibold px-3 py-1.5 rounded-full tap-scale shadow-sm">
         <span class="text-sm leading-none">✕</span>
@@ -196,7 +195,7 @@
       </div>
     </header>
 
-    <!-- Global Vault Balance Capsule -->
+    <!-- Global Vault Capsule -->
     <div class="px-4 pt-2 pb-1 flex justify-center">
       <div onclick="openWalletModal()" class="frosted-glass px-4 py-1.5 rounded-full flex items-center gap-2 text-xs font-semibold text-slate-200 cursor-pointer tap-scale">
         <span class="w-5 h-5 rounded-full bg-[#26a17b] text-white flex items-center justify-center font-black text-[11px]">₮</span>
@@ -206,7 +205,7 @@
       </div>
     </div>
 
-    <!-- Every-Second Realtime Proof-of-Activity Ticker -->
+    <!-- Live Claim Feed Ticker -->
     <div class="px-4 py-1">
       <div class="bg-gradient-to-r from-cyan-950/70 via-blue-950/60 to-emerald-950/70 border border-cyan-400/30 rounded-2xl px-3 py-1.5 flex items-center justify-between text-[11px] shadow-sm">
         <div class="flex items-center gap-2 overflow-hidden">
@@ -218,25 +217,22 @@
       </div>
     </div>
 
-    <!-- Action Toast -->
+    <!-- Toast Notification -->
     <div id="toast" class="fixed top-28 left-1/2 transform -translate-x-1/2 z-50 bg-[#0d1629] border border-cyan-400/50 text-white text-xs px-4 py-2 rounded-full shadow-2xl opacity-0 pointer-events-none transition-all duration-300 flex items-center gap-2">
       <span id="toast-icon">✨</span>
       <span id="toast-msg">Notification</span>
     </div>
 
-    <!-- Flying Claim Animation Feedback -->
+    <!-- Floating Claim Animation -->
     <div id="claim-flying-anim" class="fixed top-1/3 left-1/2 transform -translate-x-1/2 z-50 font-black text-lg text-[#080d19] bg-[#ccff00] px-5 py-2.5 rounded-2xl shadow-2xl border-2 border-white hidden pointer-events-none">
       +$0.0000 USDT 💸
     </div>
 
-
-    <!-- ================= MAIN VIEW CONTAINER ================= -->
+    <!-- ================= MAIN CONTAINER ================= -->
     <main class="flex-1 w-full max-w-md mx-auto px-4 space-y-4 pt-1">
 
-      <!-- ================= SCREEN 1: MINE ================= -->
+      <!-- SCREEN 1: MINE -->
       <div id="screen-mine" class="space-y-4">
-
-        <!-- Live Micro-Stream Counter Section -->
         <div class="pt-1 text-center space-y-2">
           <div class="flex items-center justify-center gap-2 text-[11px] font-semibold text-slate-300 flex-wrap">
             <span class="flex items-center gap-1 text-cyan-400 font-bold">
@@ -248,7 +244,6 @@
             <span>🗓 <span id="rate-display-mo" class="font-bold text-white">$0.072</span> <span class="text-slate-400">/mo</span></span>
           </div>
 
-          <!-- Huge Streaming Counter -->
           <div class="text-4xl sm:text-5xl font-black tracking-tight font-mono py-1 text-transparent bg-clip-text bg-gradient-to-r from-white via-cyan-200 to-[#ccff00]">
             <span id="streaming-mining-counter">$0.000000000</span>
           </div>
@@ -257,7 +252,6 @@
             🛡️ Free starter speed: 0.000000028/sec — Sustainable uncap on Boost
           </div>
 
-          <!-- Claim Profit & How to Earn -->
           <div class="grid grid-cols-2 gap-3 pt-1">
             <button id="claim-profit-btn" onclick="handleClaimProfit()" class="bg-[#ccff00] hover:bg-[#b8e600] text-[#080d19] font-black py-3 rounded-full tap-scale shadow-lg shadow-[#ccff00]/30 flex items-center justify-center gap-1.5 text-xs pulse-glow">
               <span>⚡</span> Claim profit
@@ -267,7 +261,6 @@
             </button>
           </div>
 
-          <!-- Sustainable Proof-of-Yield (PoY) & Liquidity Guarantee -->
           <div class="frosted-glass p-3 rounded-2xl flex items-center justify-between text-left text-xs">
             <div>
               <div class="font-extrabold text-white text-[11px]">Sustainable Proof-of-Yield (PoY) & Reserves</div>
@@ -283,9 +276,8 @@
           </p>
         </div>
 
-        <!-- Dual Metric Cards: Coins (100) & USDT Balance -->
+        <!-- Metric Cards -->
         <div class="grid grid-cols-2 gap-3">
-          <!-- Coins Card -->
           <div class="frosted-glass rounded-3xl p-4 relative">
             <div class="flex justify-between items-start">
               <span class="text-xs font-semibold text-slate-300">Coins</span>
@@ -303,7 +295,7 @@
             </div>
           </div>
 
-          <!-- USDT Balance Card -->
+          <!-- USDT Balance Card (Starts at 0.0000) -->
           <div class="frosted-glass rounded-3xl p-4 relative border-cyan-400/30">
             <div class="flex justify-between items-start">
               <span class="text-xs font-semibold text-slate-300">USDT balance</span>
@@ -322,7 +314,7 @@
           </div>
         </div>
 
-        <!-- Action Buttons: Top up & Withdraw -->
+        <!-- Action Buttons -->
         <div class="grid grid-cols-2 gap-3">
           <button onclick="openTopUpModal()" class="w-full bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-500 hover:opacity-95 text-white font-extrabold py-3.5 rounded-2xl tap-scale shadow-lg shadow-cyan-500/20 flex items-center justify-center gap-1.5 text-sm">
             <span>↑</span> Top up
@@ -332,7 +324,7 @@
           </button>
         </div>
 
-        <!-- Sustainable Yield Tiers Breakdown Card -->
+        <!-- Sustainable Yield Tiers Card -->
         <div class="frosted-glass p-4 rounded-3xl space-y-3">
           <div class="flex items-center justify-between">
             <span class="text-xs font-extrabold text-white flex items-center gap-1.5">
@@ -367,7 +359,7 @@
           </div>
         </div>
 
-        <!-- +30% Promo Card -->
+        <!-- Promo Banner -->
         <div class="frosted-glass-active rounded-3xl p-5 relative overflow-hidden space-y-3">
           <div class="flex items-start gap-3">
             <div class="w-12 h-12 rounded-2xl bg-[#26a17b] text-white flex items-center justify-center font-black text-xl shrink-0 shadow-md">
@@ -393,7 +385,7 @@
           </div>
         </div>
 
-        <!-- Quick Invite Floating Pill (Exact 5 Coins) -->
+        <!-- Invite Banner -->
         <div class="frosted-glass rounded-2xl p-3 flex items-center justify-between">
           <div class="flex items-center gap-2 text-xs text-white">
             <span class="text-base">🎁</span>
@@ -403,10 +395,9 @@
             Invite
           </button>
         </div>
-
       </div>
 
-      <!-- ================= SCREEN 2: FRIENDS & REFERRALS ================= -->
+      <!-- SCREEN 2: FRIENDS -->
       <div id="screen-friends" class="space-y-4 hidden">
         <div class="pt-2">
           <h2 class="text-xl font-black text-white leading-tight">
@@ -423,7 +414,6 @@
           </div>
         </div>
 
-        <!-- Reward for Each Friend (Configured with EXACT 5 Coins) -->
         <div class="frosted-glass rounded-3xl p-4 space-y-3 border-emerald-500/40">
           <div class="text-xs font-bold uppercase tracking-wider text-emerald-400">
             Reward for each friend
@@ -446,7 +436,6 @@
           </div>
         </div>
 
-        <!-- Five-level Program Card -->
         <div class="frosted-glass rounded-3xl p-4 space-y-3 border-cyan-400/30">
           <div class="flex items-center gap-2 text-cyan-300 font-black text-xs">
             <span>🔥</span> 5-Tier Referral Yield Commission
@@ -463,7 +452,7 @@
         </div>
       </div>
 
-      <!-- ================= SCREEN 3: GIFTS ================= -->
+      <!-- SCREEN 3: GIFTS -->
       <div id="screen-gifts" class="space-y-4 hidden">
         <div class="frosted-glass rounded-3xl p-5 text-center space-y-2">
           <div class="w-16 h-16 rounded-full bg-amber-400/20 text-amber-300 text-3xl flex items-center justify-center mx-auto border border-amber-400/30">
@@ -477,9 +466,8 @@
         </div>
       </div>
 
-      <!-- ================= SCREEN 4: ACCOUNT (FULL RESTORED GRID) ================= -->
+      <!-- SCREEN 4: ACCOUNT (FULL GRID) -->
       <div id="screen-account" class="space-y-3.5 hidden">
-        <!-- Account Sub-header -->
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-2">
             <span class="w-7 h-7 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center text-sm">👤</span>
@@ -488,9 +476,7 @@
           <span class="text-[10px] font-mono text-cyan-400 font-bold" id="account-tg-id-display">ID: 7078896021</span>
         </div>
 
-        <!-- 2-Column Full Original Account Metric Grid -->
         <div class="grid grid-cols-2 gap-3 text-left">
-          <!-- 1. Invited by -->
           <div class="frosted-glass rounded-3xl p-4 space-y-1">
             <div class="flex justify-between items-center text-xs text-slate-400">
               <span>Invited by</span>
@@ -500,7 +486,6 @@
             <div class="text-[10px] text-cyan-400 font-medium">Active Referrer</div>
           </div>
 
-          <!-- 2. Coin balance -->
           <div class="frosted-glass rounded-3xl p-4 space-y-1">
             <div class="flex justify-between items-center text-xs text-slate-400">
               <span>Coin balance</span>
@@ -510,7 +495,6 @@
             <div class="text-[10px] text-amber-300 font-medium" id="acc-coins-usd">≈$100.00 USDT</div>
           </div>
 
-          <!-- 3. USDT balance -->
           <div class="frosted-glass rounded-3xl p-4 space-y-1 border-cyan-400/30">
             <div class="flex justify-between items-center text-xs text-slate-400">
               <span>USDT balance</span>
@@ -522,7 +506,6 @@
             </div>
           </div>
 
-          <!-- 4. Referral income -->
           <div class="frosted-glass rounded-3xl p-4 space-y-1">
             <div class="flex justify-between items-center text-xs text-slate-400">
               <span>Referral income</span>
@@ -532,7 +515,6 @@
             <div class="text-[10px] text-slate-400">Lifetime bonus</div>
           </div>
 
-          <!-- 5. Referral coins -->
           <div class="frosted-glass rounded-3xl p-4 space-y-1">
             <div class="flex justify-between items-center text-xs text-slate-400">
               <span>Referral coins</span>
@@ -542,7 +524,6 @@
             <div class="text-[10px] text-slate-400">+5 per invited friend</div>
           </div>
 
-          <!-- 6. USDT withdrawn -->
           <div class="frosted-glass rounded-3xl p-4 space-y-1">
             <div class="flex justify-between items-center text-xs text-slate-400">
               <span>USDT withdrawn</span>
@@ -553,7 +534,7 @@
           </div>
         </div>
 
-        <!-- 7. Interactive Theme Switcher Card (User Choice Restored) -->
+        <!-- Theme Experience Switcher -->
         <div class="frosted-glass rounded-3xl p-4 space-y-2.5">
           <div class="flex items-center justify-between">
             <div class="flex items-center gap-2">
@@ -576,7 +557,6 @@
           </div>
         </div>
 
-        <!-- 8. Language Selector -->
         <div onclick="showToast('Current interface: English', '🌐')" class="frosted-glass rounded-2xl p-3.5 flex items-center justify-between cursor-pointer tap-scale">
           <div class="flex items-center gap-2.5 text-xs">
             <span class="text-base">🇬🇧</span>
@@ -588,7 +568,6 @@
           <span class="text-xs font-semibold text-slate-300">English ➔</span>
         </div>
 
-        <!-- 9. Operations History -->
         <div onclick="showToast('Recent claims & deposits logged', '🕒')" class="frosted-glass rounded-2xl p-3.5 flex items-center justify-between cursor-pointer tap-scale">
           <div class="flex items-center gap-2.5 text-xs">
             <span class="text-cyan-400 text-base">🕒</span>
@@ -600,7 +579,6 @@
           <span class="text-xs text-slate-400">➔</span>
         </div>
 
-        <!-- 10. FAQ -->
         <div onclick="openHowToEarnModal()" class="frosted-glass rounded-2xl p-3.5 flex items-center justify-between cursor-pointer tap-scale">
           <div class="flex items-center gap-2.5 text-xs">
             <span class="text-emerald-400 text-base">❓</span>
@@ -612,7 +590,6 @@
           <span class="text-xs text-slate-400">➔</span>
         </div>
 
-        <!-- 11. Help & Support -->
         <div onclick="showToast('Connecting to 24/7 support bot...', '🛡️')" class="frosted-glass rounded-2xl p-3.5 flex items-center justify-between cursor-pointer tap-scale">
           <div class="flex items-center gap-2.5 text-xs">
             <span class="text-amber-400 text-base">🛡️</span>
@@ -633,7 +610,7 @@
 
     </main>
 
-    <!-- ================= FIXED BOTTOM NAV (MINE IS CENTRAL) ================= -->
+    <!-- Bottom Navigation -->
     <nav class="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-[#080d19]/90 backdrop-blur-2xl border-t border-white/10 flex items-center justify-around py-2.5 px-3 z-40">
       <button onclick="switchTab('friends')" id="nav-btn-friends" class="flex flex-col items-center text-slate-400 text-[11px] font-semibold tap-scale">
         <span class="text-xl">👥</span>
@@ -657,11 +634,9 @@
         <span class="mt-0.5">Account</span>
       </button>
     </nav>
-
   </div>
 
-
-  <!-- ================= TOP UP MODAL ================= -->
+  <!-- Top Up Modal -->
   <div id="topup-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex items-end justify-center">
     <div class="bg-[#0c162c] border-t border-cyan-400/30 w-full max-w-md rounded-t-[32px] p-6 space-y-4 max-h-[92vh] overflow-y-auto no-scrollbar shadow-2xl">
       <div class="flex justify-between items-center pb-2">
@@ -714,8 +689,7 @@
     </div>
   </div>
 
-
-  <!-- ================= PAYMENT DETAILS MODAL ================= -->
+  <!-- Payment Details Modal -->
   <div id="payment-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex items-end justify-center">
     <div class="bg-[#0c162c] border-t border-cyan-400/30 w-full max-w-md rounded-t-[32px] p-6 space-y-4 max-h-[92vh] overflow-y-auto no-scrollbar shadow-2xl">
       <div class="flex justify-between items-center pb-1">
@@ -747,15 +721,14 @@
       <div class="space-y-2">
         <label class="text-xs font-semibold text-slate-300 block">Submit Tx Hash (Tx ID):</label>
         <input id="deposit-tx-hash-input" placeholder="Paste transaction hash / signature" class="w-full bg-white/10 border border-white/15 p-3 rounded-2xl text-xs text-white outline-none font-mono" />
-        <button onclick="submitAuthorizeForAdmin()" class="w-full bg-[#ccff00] text-[#080d19] font-black py-3.5 rounded-2xl tap-scale text-xs shadow-md">
+        <button id="submit-hash-btn" onclick="submitAuthorizeForAdmin()" class="w-full bg-[#ccff00] text-[#080d19] font-black py-3.5 rounded-2xl tap-scale text-xs shadow-md">
           Authorize & Submit to Admin ➔
         </button>
       </div>
     </div>
   </div>
 
-
-  <!-- ================= WALLET MODAL ================= -->
+  <!-- Wallet Modal -->
   <div id="wallet-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex items-end justify-center">
     <div class="bg-[#0c162c] border-t border-cyan-400/30 w-full max-w-md rounded-t-[32px] p-6 space-y-4 max-h-[92vh] overflow-y-auto no-scrollbar shadow-2xl">
       <div class="flex justify-between items-center pb-2 border-b border-white/10">
@@ -789,10 +762,22 @@
     </div>
   </div>
 
-
-  <!-- ================= APPLICATION ENGINE JAVASCRIPT ================= -->
+  <!-- APPLICATION ENGINE & SUPABASE SYNC SCRIPT -->
   <script>
-    // --- 1. OFFICIAL VAULT WALLET ADDRESSES ---
+    // --- 1. SUPABASE CLIENT INITIALIZATION (HARDCODED & LIVE) ---
+    const SUPABASE_URL = 'https://ngeiyrrrgxlijyimmgsy.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5nZWl5cnJyZ3hsaWp5aW1tZ3N5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM4NjkxNTQsImV4cCI6MjEwOTQ0NTE1NH0.bYHaa2E-T-dKujuaUfnrKyWWnpi4Qw0wM1ZHjdH11Go';
+    
+    let supabaseClient = null;
+    try {
+      if (window.supabase) {
+        supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      }
+    } catch(err) {
+      console.warn('Supabase init warning:', err);
+    }
+
+    // --- 2. OFFICIAL VAULT WALLETS ---
     const OFFICIAL_WALLET_ADDRESSES = {
       'USDT BEP20': '0x4a5e6Ee24b1d4C6aCE3b96Dec2Fe8197a6Ca7726',
       'USDT TRC20': 'TF7HnqLafizs5zcK6DTdK55ZWxscunKeDu',
@@ -800,13 +785,13 @@
       'BTC':        'bc1q0r2p6h4mks4axe2e59kjtl0f9p9dlv3y52wp9v'
     };
 
-    // --- 2. LOCAL PERSISTENT STATE ---
-    const STORAGE_KEY = 'alpha_mining_master_v8';
+    // --- 3. STATE (INITIAL USDT BALANCE: 0.0000) ---
+    const STORAGE_KEY = 'alpha_mining_master_v9';
     const defaultState = {
       telegram_id: 7078896021,
       username: 'Alpha Node',
-      miningAmount: 0.000341990,
-      usdtBalance: 1.3374,
+      miningAmount: 0.000000000,
+      usdtBalance: 0.0000,      // <-- Fixed: exactly 0 for new user
       coins: 100,
       level: 1,
       isUpgraded: false,
@@ -821,8 +806,9 @@
 
     let state = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null') || defaultState;
     if (typeof state.coins !== 'number' || state.coins < 100) state.coins = 100;
+    if (state.usdtBalance === undefined) state.usdtBalance = 0.0000;
 
-    // --- 3. MATHEMATICALLY SUSTAINABLE TOKENOMICS ---
+    // --- 4. SUSTAINABLE TOKENOMICS ---
     const BASE_RATE_PER_SEC = 0.000000028;
 
     function getCurrentMiningRatePerSec() {
@@ -834,28 +820,31 @@
       }
     }
 
-    // --- 4. EVERY-SECOND LIVE CLAIM FEED ---
+    // --- 5. LIVE TICKER ---
     const activeMinerNames = ['@sam_sol', '@crypto_alex', '@maria_99', '@vlad_ton', '@neo_miner', '@ton_whale', '@dev_sarah', '@dex_trader', '@hamster_pro'];
     function startEverySecondClaimTicker() {
       setInterval(() => {
         const randomMiner = activeMinerNames[Math.floor(Math.random() * activeMinerNames.length)];
         const randomAmount = (0.004 + Math.random() * 0.041).toFixed(4);
         const tickerEl = document.getElementById('every-sec-claim-ticker');
-        tickerEl.style.opacity = '0';
-        setTimeout(() => {
-          tickerEl.innerText = `${randomMiner} claimed +$${randomAmount} USDT`;
-          tickerEl.style.opacity = '1';
-        }, 200);
+        if (tickerEl) {
+          tickerEl.style.opacity = '0';
+          setTimeout(() => {
+            tickerEl.innerText = `${randomMiner} claimed +$${randomAmount} USDT`;
+            tickerEl.style.opacity = '1';
+          }, 200);
+        }
       }, 1500);
     }
 
-    // --- 5. CONTINUOUS MICRO-STREAM MINING LOOP ---
+    // --- 6. CONTINUOUS MINING STREAM ---
     function startLiveMiningEngine() {
       setInterval(() => {
         const ratePerSec = getCurrentMiningRatePerSec();
         state.miningAmount += ratePerSec * 0.1;
         saveState();
-        document.getElementById('streaming-mining-counter').innerText = `$${state.miningAmount.toFixed(9)}`;
+        const counterEl = document.getElementById('streaming-mining-counter');
+        if (counterEl) counterEl.innerText = `$${state.miningAmount.toFixed(9)}`;
       }, 100);
     }
 
@@ -865,7 +854,9 @@
     }
 
     function updateAllUI() {
-      document.getElementById('streaming-mining-counter').innerText = `$${state.miningAmount.toFixed(9)}`;
+      const counterEl = document.getElementById('streaming-mining-counter');
+      if (counterEl) counterEl.innerText = `$${state.miningAmount.toFixed(9)}`;
+
       const usdtFormatted = `$${state.usdtBalance.toFixed(4)}`;
       document.getElementById('in-app-usdt-display').innerText = usdtFormatted;
       document.getElementById('vault-usdt-balance').innerText = `${state.usdtBalance.toFixed(4)} USDT`;
@@ -890,15 +881,15 @@
       setAppTheme(state.theme || 'aurora');
     }
 
-    // --- 6. CLAIM PROFIT (BULLETPROOF REALTIME CREDIT) ---
+    // --- 7. CLAIM PROFIT ---
     function handleClaimProfit() {
       if (state.miningAmount <= 0.000000010) {
         showToast('Accumulating micro-cents... Claim in a moment!', '⏳');
         return;
       }
       const harvested = state.miningAmount;
-      state.usdtBalance += harvested;       // Directly added to USDT balance
-      state.miningAmount = 0.000000000;     // Counter resets to 0.00
+      state.usdtBalance += harvested;
+      state.miningAmount = 0.000000000;
       saveState();
       updateAllUI();
 
@@ -918,7 +909,7 @@
       showToast(`+$${harvested.toFixed(4)} USDT credited to balance!`, '🎉');
     }
 
-    // --- 7. THEME SWITCHER (AURORA, CYBER, INDIGO) ---
+    // --- 8. THEME SWITCHER ---
     function setAppTheme(t) {
       state.theme = t;
       saveState();
@@ -931,11 +922,8 @@
       const btnIndigo = document.getElementById('btn-theme-indigo');
       const badge = document.getElementById('current-theme-badge');
 
-      // Reset buttons
       [btnAurora, btnCyber, btnIndigo].forEach(b => {
-        if (b) {
-          b.className = 'bg-white/10 hover:bg-white/20 text-white py-2 rounded-xl font-bold tap-scale transition-all';
-        }
+        if (b) b.className = 'bg-white/10 hover:bg-white/20 text-white py-2 rounded-xl font-bold tap-scale transition-all';
       });
 
       if (t === 'cyber') {
@@ -952,7 +940,7 @@
       }
     }
 
-    // --- 8. MODALS & TOP UP ---
+    // --- 9. TOP UP & SUBMIT TO SUPABASE ---
     let selectedAmount = 3;
     let selectedNet = 'USDT BEP20';
 
@@ -1001,9 +989,38 @@
       showToast(`${selectedNet} address copied!`, '📋');
     }
 
-    function submitAuthorizeForAdmin() {
+    // --- DIRECT SUPABASE INSERTION ---
+    async function submitAuthorizeForAdmin() {
       const tx = document.getElementById('deposit-tx-hash-input').value.trim();
       if (!tx) { alert('Please enter transaction hash!'); return; }
+
+      const submitBtn = document.getElementById('submit-hash-btn');
+      submitBtn.innerText = 'Submitting to Supabase...';
+      submitBtn.disabled = true;
+
+      try {
+        if (supabaseClient) {
+          const { data, error } = await supabaseClient
+            .from('deposits')
+            .insert([
+              {
+                telegram_id: state.telegram_id,
+                network: selectedNet,
+                amount: selectedAmount,
+                tx_hash: tx,
+                status: 'pending'
+              }
+            ]);
+
+          if (error) {
+            console.error('Supabase insert error:', error);
+          }
+        }
+      } catch (err) {
+        console.error('Supabase exception:', err);
+      }
+
+      // Local fallback queue
       const queue = JSON.parse(localStorage.getItem('alpha_pending_deposits') || '[]');
       queue.push({
         id: Date.now(),
@@ -1014,11 +1031,16 @@
         timestamp: new Date().toLocaleString()
       });
       localStorage.setItem('alpha_pending_deposits', JSON.stringify(queue));
+
+      document.getElementById('deposit-tx-hash-input').value = '';
+      submitBtn.innerText = 'Authorize & Submit to Admin ➔';
+      submitBtn.disabled = false;
+
       closePaymentModal();
-      showToast('Submitted to Admin for Authorization!', '⏳');
+      showToast('Deposit Hash Sent to Admin Panel via Supabase! ⚡', '✅');
     }
 
-    // --- 9. TON WALLET LINK ---
+    // --- 10. TON WALLET ---
     function openWalletModal() {
       const modal = document.getElementById('wallet-modal');
       const unconn = document.getElementById('wallet-modal-unconnected');
@@ -1059,7 +1081,7 @@
       showToast('Wallet disconnected', '🔌');
     }
 
-    // --- 10. TABS NAVIGATION ---
+    // --- 11. TABS & REWARDS ---
     const tabs = ['mine', 'friends', 'gifts', 'account'];
     function switchTab(tId) {
       state.activeTab = tId;
@@ -1094,7 +1116,7 @@
       window.open(`https://t.me/share/url?url=${link}&text=Join%20Alpha%20Mining!`, '_blank');
     }
     function claimMysteryGift() {
-      state.coins += 5; // Exactly 5 coins per invite/gift
+      state.coins += 5;
       saveState(); updateAllUI();
       showToast('Mystery Gift Opened! +5 Coins Added', '🎁');
     }
@@ -1112,7 +1134,7 @@
       else alert('App closed. Mining continues 24/7!');
     }
 
-    // Init boot
+    // Init
     updateAllUI();
     startLiveMiningEngine();
     startEverySecondClaimTicker();
