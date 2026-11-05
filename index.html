@@ -3,167 +3,1095 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-  <title>Alpha Mining</title>
+  <title>Alpha Mining - Telegram Mini App</title>
+  
   <!-- Telegram WebApp SDK -->
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+
   <style>
     body {
-      font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
-      background: #0e141b;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: #0e141b;
       color: #f1f5f9;
       user-select: none;
       -webkit-tap-highlight-color: transparent;
     }
-    .tap-scale:active { transform: scale(0.96); }
-    .glow-primary { box-shadow: 0 0 25px -5px rgba(79, 149, 247, 0.4); }
-    .glow-accent { box-shadow: 0 0 25px -5px rgba(196, 245, 66, 0.35); }
+    .tap-scale {
+      transition: transform 0.12s ease;
+    }
+    .tap-scale:active {
+      transform: scale(0.96);
+    }
+    .glow-primary {
+      box-shadow: 0 0 25px -4px rgba(79, 149, 247, 0.35);
+    }
+    .glow-accent {
+      box-shadow: 0 0 25px -4px rgba(196, 245, 66, 0.4);
+    }
+    .glow-orange {
+      box-shadow: 0 0 25px -4px rgba(245, 158, 11, 0.35);
+    }
+    /* Hide scrollbars but keep scrolling */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
   </style>
 </head>
 
-<body class="min-h-screen flex flex-col justify-between pb-24">
-  <!-- Header -->
-  <header class="p-4 flex items-center justify-between border-b border-[#1f2937]/50 bg-[#121922]">
+<body class="min-h-screen flex flex-col justify-between pb-28 text-slate-100 bg-[#0e141b] no-scrollbar">
+
+  <!-- ================= TOP HEADER (PERSISTENT) ================= -->
+  <header class="sticky top-0 z-40 px-4 py-3 bg-[#111722]/95 backdrop-blur-md border-b border-[#1f2937]/60 flex items-center justify-between">
     <div class="flex items-center space-x-3">
-      <div class="w-10 h-10 rounded-full bg-blue-500/20 border border-blue-400 flex items-center justify-center font-bold text-blue-400" id="user-avatar">α</div>
+      <div class="relative">
+        <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-600 to-cyan-400 p-[2px] flex items-center justify-center">
+          <div class="w-full h-full rounded-full bg-[#111722] flex items-center justify-center font-black text-blue-400 text-sm">
+            α
+          </div>
+        </div>
+        <span class="absolute -bottom-1 -right-1 bg-lime-400 text-black text-[9px] font-black px-1.5 py-0.2 rounded-full border border-[#111722]" id="header-user-level">
+          Lvl 4
+        </span>
+      </div>
       <div>
-        <div class="font-bold text-sm" id="user-name">@crypto_miner</div>
-        <div class="text-xs text-emerald-400 flex items-center gap-1">
-          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-          Supabase Connected
+        <div class="font-bold text-sm tracking-tight flex items-center gap-1.5" id="header-username">
+          Alpha Mining
+        </div>
+        <div class="text-[11px] text-gray-400 font-medium flex items-center gap-1">
+          <span class="text-blue-400 font-semibold" id="active-screen-badge">MINING DASHBOARD</span>
         </div>
       </div>
     </div>
-    <div class="bg-[#1a232f] px-3 py-1 rounded-full text-xs text-gray-300 font-medium border border-gray-700">
-      ⚡ 14,820 Mining
+
+    <div class="flex items-center gap-2">
+      <div class="bg-[#17202d] px-2.5 py-1 rounded-full text-xs text-gray-200 font-semibold border border-[#243347] flex items-center gap-1.5">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        <span id="active-miners-count">14,820</span> Mining
+      </div>
+      <button onclick="toggleAudioFeedback()" class="p-2 rounded-xl bg-[#17202d] text-gray-300 hover:text-white border border-[#243347] tap-scale text-xs" title="Toggle Sound">
+        <span id="sound-icon">🔊</span>
+      </button>
     </div>
   </header>
 
-  <!-- Main Area -->
-  <main class="flex-1 p-4 space-y-4 max-w-md mx-auto w-full">
-    <!-- Balance Card -->
-    <div class="bg-[#171f2a] rounded-3xl p-5 border border-[#253243] glow-primary">
-      <div class="flex justify-between items-center text-xs text-gray-400 mb-1">
-        <span>TOTAL VAULT BALANCE</span>
-        <span class="bg-blue-900/40 text-blue-400 px-2 py-0.5 rounded-md font-semibold">2.5x Active</span>
-      </div>
-      <div class="text-3xl font-extrabold tracking-tight text-white mb-1" id="balance-display">
-        1,248,500 <span class="text-blue-400 text-xl font-bold">$ALPHA</span>
-      </div>
-      <div class="flex justify-between text-xs text-gray-400">
-        <span>≈ $624.25 TON</span>
-        <span class="text-emerald-400 font-medium">+450 $ALPHA / hr</span>
-      </div>
-    </div>
+  <!-- ================= NOTIFICATION TOAST ================= -->
+  <div id="toast" class="fixed top-16 left-1/2 transform -translate-x-1/2 z-50 bg-[#1e293b] border border-blue-500/40 text-white text-xs px-4 py-2.5 rounded-2xl shadow-2xl opacity-0 pointer-events-none transition-all duration-300 flex items-center gap-2">
+    <span id="toast-icon">✨</span>
+    <span id="toast-msg">Notification</span>
+  </div>
 
-    <!-- Verification Banner -->
-    <div class="bg-[#1e1a14] border border-amber-500/30 rounded-2xl p-4 flex flex-col gap-2" id="verification-banner">
-      <div class="flex items-center justify-between">
-        <div class="flex items-center gap-2">
-          <span class="text-lg" id="status-icon">⚠️</span>
+  <!-- ================= SCREEN CONTAINER ================= -->
+  <main class="flex-1 w-full max-w-md mx-auto p-4 space-y-4">
+
+    <!-- ======================================================== -->
+    <!-- SCREEN 1: HOME MINING (Tab 1: mine)                      -->
+    <!-- ======================================================== -->
+    <div id="screen-mine" class="space-y-4">
+      <!-- Sync Node Status -->
+      <div class="flex items-center justify-between text-[11px] text-gray-400 px-1 font-mono">
+        <span class="flex items-center gap-1 text-emerald-400">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
+          NODE: SG-1 (SUPABASE SYNCED)
+        </span>
+        <span class="text-gray-400">Block #8,429,102</span>
+      </div>
+
+      <!-- Vault Balance Hero Card -->
+      <div class="bg-[#161f2b] rounded-3xl p-5 border border-[#263548] glow-primary relative overflow-hidden">
+        <div class="flex justify-between items-center text-[11px] text-gray-400 mb-1">
+          <span class="font-semibold tracking-wider">TOTAL VAULT BALANCE</span>
+          <span class="bg-blue-900/50 text-blue-400 px-2 py-0.5 rounded-md font-bold text-[10px] flex items-center gap-1">
+            ⚡ <span id="vault-multiplier-badge">2.5x Multiplier Active</span>
+          </span>
+        </div>
+        <div class="text-3xl font-black tracking-tight text-white mb-1">
+          <span id="main-balance-display">1,248,500</span>
+          <span class="text-blue-400 text-xl font-extrabold">$ALPHA</span>
+        </div>
+        <div class="flex justify-between text-xs text-gray-400 pt-1">
+          <span id="ton-estimated-val">Est. ≈ $624.25 TON</span>
+          <span class="text-emerald-400 font-semibold" id="hourly-rate-display">+450 $ALPHA / hr</span>
+        </div>
+      </div>
+
+      <!-- Verification Alert Banner -->
+      <div id="home-verification-banner" class="bg-[#211a12] border border-amber-500/40 rounded-2xl p-4 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <span class="text-2xl" id="home-banner-icon">⚠️</span>
           <div>
-            <div class="text-xs font-bold text-amber-400 uppercase tracking-wide" id="status-title">Wallet Unverified</div>
-            <div class="text-[11px] text-gray-400" id="status-subtitle">Verify to unlock TON withdrawals</div>
+            <div class="text-xs font-bold text-amber-400 uppercase tracking-wide" id="home-banner-title">TON Wallet Unverified</div>
+            <div class="text-[11px] text-gray-400" id="home-banner-subtitle">Verify to unlock direct TON withdrawals</div>
           </div>
         </div>
-        <button class="bg-amber-400 text-black px-3 py-1.5 rounded-xl font-bold text-xs tap-scale" id="verify-cta-btn" onclick="openVerifyModal()">
+        <button onclick="openVerifyModal()" class="bg-amber-400 hover:bg-amber-300 text-black px-3.5 py-1.5 rounded-xl font-extrabold text-xs tap-scale">
           Verify Now
         </button>
       </div>
-    </div>
 
-    <!-- 8h Mining Dial Widget -->
-    <div class="bg-[#171f2a] rounded-3xl p-6 border border-[#253243] flex flex-col items-center">
-      <div class="text-xs font-semibold text-gray-400 mb-4 tracking-wider uppercase">8-Hour Mining Cycle</div>
-      
-      <div class="relative w-44 h-44 flex items-center justify-center">
-        <svg class="w-full h-full transform -rotate-90">
-          <circle cx="88" cy="88" r="76" stroke="#232f3f" stroke-width="12" fill="transparent"></circle>
-          <circle id="progress-ring" cx="88" cy="88" r="76" stroke="#4f95f7" stroke-width="12" fill="transparent" stroke-dasharray="477" stroke-dashoffset="140" stroke-linecap="round"></circle>
-        </svg>
-        <div class="absolute flex flex-col items-center">
-          <span class="text-xs text-gray-400 uppercase tracking-wider font-semibold">Harvest In</span>
-          <span class="text-2xl font-black text-white font-mono mt-1" id="countdown-text">05:42:19</span>
-          <span class="text-xs text-blue-400 font-semibold mt-1">+1,920.00 $ALPHA</span>
+      <!-- 8-Hour Mining Circular Dial Card -->
+      <div class="bg-[#161f2b] rounded-3xl p-6 border border-[#263548] flex flex-col items-center relative">
+        <div class="w-full flex items-center justify-between mb-3 text-xs">
+          <span class="flex items-center gap-1.5 text-blue-400 font-bold">
+            <span class="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
+            8-HOUR MINING CYCLE
+          </span>
+          <button onclick="fastForwardDemoCycle()" class="text-[10px] bg-[#222e40] text-lime-400 hover:text-white px-2 py-0.5 rounded-md font-mono border border-lime-400/30 tap-scale">
+            ⚡ Fast Ready
+          </button>
+        </div>
+
+        <!-- Animated Progress Dial -->
+        <div class="relative w-48 h-48 flex items-center justify-center my-1">
+          <svg class="w-full h-full transform -rotate-90">
+            <circle cx="96" cy="96" r="82" stroke="#1f2c3d" stroke-width="12" fill="transparent"></circle>
+            <circle id="cycle-progress-ring" cx="96" cy="96" r="82" stroke="url(#blueLimeGradient)" stroke-width="12" fill="transparent"
+              stroke-dasharray="515" stroke-dashoffset="150" stroke-linecap="round" class="transition-all duration-700"></circle>
+            <defs>
+              <linearGradient id="blueLimeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#3b82f6" />
+                <stop offset="100%" stop-color="#c4f542" />
+              </linearGradient>
+            </defs>
+          </svg>
+          <div class="absolute flex flex-col items-center text-center">
+            <span class="text-[10px] text-gray-400 uppercase tracking-widest font-bold">Harvest Countdown</span>
+            <span class="text-2xl font-black text-white font-mono tracking-tight mt-1" id="mining-timer">05:42:19</span>
+            <span class="text-xs text-blue-400 font-bold mt-1" id="cycle-accumulated-reward">+1,920.00 $ALPHA</span>
+          </div>
+        </div>
+
+        <div class="w-full flex items-center justify-between text-[11px] text-gray-400 mt-2 px-2">
+          <span id="cycle-percentage-label">⏳ Cycle 71% Complete</span>
+          <span class="text-lime-400 font-bold">MAX CAP: 2,400 α</span>
+        </div>
+
+        <!-- Action CTAs -->
+        <div class="w-full mt-5 space-y-2.5">
+          <button id="primary-mining-cta" onclick="handleHarvestOrBoost()" class="w-full bg-[#4f95f7] hover:bg-blue-500 text-white font-black py-3.5 rounded-2xl shadow-lg tap-scale flex items-center justify-center gap-2 text-sm glow-primary">
+            ⚡ Boost Speed ⚡
+          </button>
+          
+          <button id="home-withdraw-btn" onclick="handleWithdrawAttempt()" class="w-full bg-[#1e2735] text-gray-500 font-bold py-3 rounded-2xl border border-gray-700/60 flex items-center justify-center gap-2 text-xs cursor-not-allowed">
+            🔒 Withdraw $ALPHA
+          </button>
         </div>
       </div>
 
-      <div class="w-full mt-6 flex flex-col gap-3">
-        <button class="w-full bg-[#4f95f7] hover:bg-blue-600 text-white font-extrabold py-3.5 rounded-2xl shadow-lg tap-scale flex items-center justify-center gap-2" onclick="handleMiningAction()">
-          ⚡ Boost Speed ⚡
-        </button>
-        <button class="w-full bg-gray-800 text-gray-500 font-extrabold py-3.5 rounded-2xl border border-gray-700 cursor-not-allowed flex items-center justify-center gap-2" id="withdraw-btn" onclick="handleWithdrawAction()">
-          🔒 Withdraw $ALPHA
-        </button>
+      <!-- Quick Metrics Grid -->
+      <div class="grid grid-cols-3 gap-2.5">
+        <div class="bg-[#141d27] border border-[#223042] rounded-2xl p-3 text-center">
+          <div class="text-[10px] text-gray-400 font-medium">Daily Streak</div>
+          <div class="text-sm font-black text-amber-400 mt-0.5" id="home-metric-streak">5 / 7 Days</div>
+        </div>
+        <div class="bg-[#141d27] border border-[#223042] rounded-2xl p-3 text-center">
+          <div class="text-[10px] text-gray-400 font-medium">Rank Status</div>
+          <div class="text-sm font-black text-blue-400 mt-0.5">#42 Worldwide</div>
+        </div>
+        <div class="bg-[#141d27] border border-[#223042] rounded-2xl p-3 text-center">
+          <div class="text-[10px] text-gray-400 font-medium">Tank Cap</div>
+          <div class="text-sm font-black text-emerald-400 mt-0.5" id="home-tank-cap">8.0h Cap</div>
+        </div>
       </div>
     </div>
+
+
+    <!-- ======================================================== -->
+    <!-- SCREEN 2: BOOSTS & RIG UPGRADES (Tab 2: boosts)          -->
+    <!-- ======================================================== -->
+    <div id="screen-boosts" class="space-y-4 hidden">
+      <!-- Balance Mini Card -->
+      <div class="bg-[#161f2b] rounded-2xl p-4 border border-[#263548] flex justify-between items-center">
+        <div>
+          <div class="text-[10px] text-gray-400 uppercase font-semibold">Mining Balance</div>
+          <div class="text-xl font-black text-white">
+            <span class="sync-balance-text">1,248,500</span> <span class="text-blue-400 text-sm">$ALPHA</span>
+          </div>
+        </div>
+        <span class="text-[11px] text-emerald-400 bg-emerald-950/40 border border-emerald-800/40 px-2.5 py-1 rounded-xl font-bold">
+          Free Refills Daily
+        </span>
+      </div>
+
+      <!-- Daily Free Boosts Section -->
+      <div>
+        <div class="flex justify-between items-center mb-2 px-1">
+          <h3 class="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-1.5">
+            ⚡ Daily Free Boosts
+          </h3>
+          <span class="text-[10px] text-gray-400 font-mono">RESETS 00:00 UTC</span>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <!-- Turbo Boost -->
+          <div class="bg-[#161f2b] border border-[#263548] rounded-2xl p-3.5 space-y-2">
+            <div class="flex justify-between items-center">
+              <span class="text-xl">🚀</span>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-lime-400/20 text-lime-400" id="turbo-left-count">3/3 LEFT</span>
+            </div>
+            <div>
+              <div class="font-bold text-xs text-white">Turbo Boost</div>
+              <div class="text-[10px] text-gray-400">3x rate for 60 min</div>
+            </div>
+            <button onclick="activateTurboBoost()" id="turbo-btn" class="w-full bg-lime-400 hover:bg-lime-300 text-black font-extrabold text-xs py-2 rounded-xl tap-scale">
+              Activate Free
+            </button>
+          </div>
+
+          <!-- Full Energy Refill -->
+          <div class="bg-[#161f2b] border border-[#263548] rounded-2xl p-3.5 space-y-2">
+            <div class="flex justify-between items-center">
+              <span class="text-xl">🔋</span>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-400/20 text-blue-400" id="energy-left-count">2/2 LEFT</span>
+            </div>
+            <div>
+              <div class="font-bold text-xs text-white">Full Energy</div>
+              <div class="text-[10px] text-gray-400">Instant 100% refill</div>
+            </div>
+            <button onclick="activateFullEnergy()" id="energy-btn" class="w-full bg-blue-500 hover:bg-blue-400 text-white font-extrabold text-xs py-2 rounded-xl tap-scale">
+              Refill 100%
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Permanent Rig Upgrades Section -->
+      <div class="space-y-3">
+        <div class="flex justify-between items-center px-1">
+          <h3 class="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-1.5">
+            ⚙️ Rig Hardware Upgrades
+          </h3>
+          <span class="text-[10px] text-blue-400 font-semibold">Permanent Specs</span>
+        </div>
+
+        <!-- Upgrade 1: Speed Overdrive -->
+        <div class="bg-[#161f2b] border border-[#263548] rounded-2xl p-4 space-y-3">
+          <div class="flex justify-between items-start">
+            <div class="flex items-center gap-3">
+              <div class="p-2.5 rounded-xl bg-lime-500/10 text-lime-400 text-lg">⚡</div>
+              <div>
+                <div class="font-bold text-xs text-white">Speed Overdrive</div>
+                <div class="text-[11px] text-lime-400 font-medium" id="upgrade-speed-desc">Boosts output to +900 $ALPHA/hr</div>
+              </div>
+            </div>
+            <span class="text-[10px] font-mono font-bold bg-[#111722] px-2 py-0.5 rounded-md text-gray-300" id="upgrade-speed-level">Lvl 4 / 10</span>
+          </div>
+          <div class="flex justify-between items-center pt-1 border-t border-[#233144]">
+            <div class="text-xs">
+              <span class="text-gray-400 block text-[10px]">UPGRADE COST</span>
+              <span class="font-extrabold text-white" id="upgrade-speed-cost">150,000 $ALPHA</span>
+            </div>
+            <button onclick="purchaseUpgrade('speed')" class="bg-lime-400 hover:bg-lime-300 text-black px-4 py-2 rounded-xl font-black text-xs tap-scale">
+              Upgrade Now ➔
+            </button>
+          </div>
+        </div>
+
+        <!-- Upgrade 2: Deep Core Storage -->
+        <div class="bg-[#161f2b] border border-[#263548] rounded-2xl p-4 space-y-3">
+          <div class="flex justify-between items-start">
+            <div class="flex items-center gap-3">
+              <div class="p-2.5 rounded-xl bg-blue-500/10 text-blue-400 text-lg">🗄️</div>
+              <div>
+                <div class="font-bold text-xs text-white">Deep Core Storage</div>
+                <div class="text-[11px] text-blue-400 font-medium" id="upgrade-storage-desc">Extends cycle from 8h to 12h storage</div>
+              </div>
+            </div>
+            <span class="text-[10px] font-mono font-bold bg-[#111722] px-2 py-0.5 rounded-md text-gray-300" id="upgrade-storage-level">Lvl 3 / 8</span>
+          </div>
+          <div class="flex justify-between items-center pt-1 border-t border-[#233144]">
+            <div class="text-xs">
+              <span class="text-gray-400 block text-[10px]">UPGRADE COST</span>
+              <span class="font-extrabold text-white" id="upgrade-storage-cost">220,000 $ALPHA</span>
+            </div>
+            <button onclick="purchaseUpgrade('storage')" class="bg-blue-500 hover:bg-blue-400 text-white px-4 py-2 rounded-xl font-black text-xs tap-scale">
+              Upgrade Now ➔
+            </button>
+          </div>
+        </div>
+
+        <!-- Upgrade 3: Neural AI Autopilot -->
+        <div class="bg-[#161f2b] border border-[#263548] rounded-2xl p-4 space-y-3">
+          <div class="flex justify-between items-start">
+            <div class="flex items-center gap-3">
+              <div class="p-2.5 rounded-xl bg-purple-500/10 text-purple-400 text-lg">🤖</div>
+              <div>
+                <div class="font-bold text-xs text-white">Neural AI Miner</div>
+                <div class="text-[11px] text-purple-400 font-medium">Auto-claims cycles when app is closed</div>
+              </div>
+            </div>
+            <span class="text-[10px] font-mono font-bold bg-[#111722] px-2 py-0.5 rounded-md text-gray-300" id="upgrade-ai-level">Lvl 1 / 3</span>
+          </div>
+          <div class="flex justify-between items-center pt-1 border-t border-[#233144]">
+            <div class="text-xs">
+              <span class="text-gray-400 block text-[10px]">UPGRADE COST</span>
+              <span class="font-extrabold text-white" id="upgrade-ai-cost">500,000 $ALPHA</span>
+            </div>
+            <button onclick="purchaseUpgrade('ai')" class="bg-purple-500 hover:bg-purple-400 text-white px-4 py-2 rounded-xl font-black text-xs tap-scale">
+              Upgrade Now ➔
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ======================================================== -->
+    <!-- SCREEN 3: TASKS & REWARDS (Tab 3: tasks)                  -->
+    <!-- ======================================================== -->
+    <div id="screen-tasks" class="space-y-4 hidden">
+      <!-- Streak Banner -->
+      <div class="bg-gradient-to-r from-[#17202e] to-[#122538] rounded-3xl p-5 border border-[#2b3e56] relative overflow-hidden">
+        <div class="flex justify-between items-center text-xs">
+          <span class="bg-amber-500/20 text-amber-400 border border-amber-500/30 font-bold px-2 py-0.5 rounded-lg text-[10px]">
+            🔥 5-DAY STREAK
+          </span>
+          <span class="text-lime-400 font-bold text-xs">Day 5 of 7</span>
+        </div>
+        <h2 class="text-base font-black text-white mt-2">Alpha Tasks & Bounties</h2>
+        <p class="text-[11px] text-gray-400 mt-0.5">Complete quests to supercharge your hash-rate and rack up coins.</p>
+        
+        <!-- Progress bar -->
+        <div class="w-full bg-[#0d141e] h-2.5 rounded-full overflow-hidden mt-3 border border-gray-800">
+          <div class="bg-gradient-to-r from-amber-400 to-lime-400 h-full w-[71%] rounded-full"></div>
+        </div>
+      </div>
+
+      <!-- 7-Day Login Protocol -->
+      <div class="bg-[#161f2b] rounded-3xl p-5 border border-[#263548] space-y-3">
+        <div class="flex justify-between items-center">
+          <h3 class="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-1.5">
+            🟢 7-Day Login Protocol
+          </h3>
+          <span class="text-[10px] text-gray-400 font-mono">RESET: 04H 18M</span>
+        </div>
+
+        <!-- 7 Days Grid -->
+        <div class="grid grid-cols-4 gap-2 text-center text-xs">
+          <div class="bg-[#101721] p-2 rounded-xl border border-emerald-500/40 opacity-70">
+            <div class="text-[10px] text-gray-400">Day 1</div>
+            <div class="text-emerald-400 font-bold my-1">✓</div>
+            <div class="text-[9px] text-gray-500">Claimed</div>
+          </div>
+          <div class="bg-[#101721] p-2 rounded-xl border border-emerald-500/40 opacity-70">
+            <div class="text-[10px] text-gray-400">Day 2</div>
+            <div class="text-emerald-400 font-bold my-1">✓</div>
+            <div class="text-[9px] text-gray-500">Claimed</div>
+          </div>
+          <div class="bg-[#101721] p-2 rounded-xl border border-emerald-500/40 opacity-70">
+            <div class="text-[10px] text-gray-400">Day 3</div>
+            <div class="text-emerald-400 font-bold my-1">✓</div>
+            <div class="text-[9px] text-gray-500">Claimed</div>
+          </div>
+          <div class="bg-[#101721] p-2 rounded-xl border border-emerald-500/40 opacity-70">
+            <div class="text-[10px] text-gray-400">Day 4</div>
+            <div class="text-emerald-400 font-bold my-1">✓</div>
+            <div class="text-[9px] text-gray-500">Claimed</div>
+          </div>
+        </div>
+
+        <!-- Day 5 Active Claim Box -->
+        <div class="bg-gradient-to-r from-[#1b261a] to-[#12231b] border-2 border-lime-400/60 rounded-2xl p-3.5 flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <span class="text-2xl">🎁</span>
+            <div>
+              <div class="text-xs font-black text-lime-400">TODAY: DAY 5 REWARD</div>
+              <div class="text-sm font-black text-white">+30,000 $ALPHA</div>
+            </div>
+          </div>
+          <button id="claim-day5-btn" onclick="claimDailyDay5()" class="bg-lime-400 hover:bg-lime-300 text-black px-4 py-2 rounded-xl font-black text-xs tap-scale">
+            Claim Now
+          </button>
+        </div>
+      </div>
+
+      <!-- Community Tasks -->
+      <div class="space-y-2">
+        <h3 class="text-xs font-bold text-white uppercase tracking-wider px-1">
+          🌐 Community Bounties
+        </h3>
+
+        <!-- Task 1: Telegram Channel -->
+        <div class="bg-[#161f2b] border border-[#263548] rounded-2xl p-3 flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="p-2 rounded-xl bg-blue-500/20 text-blue-400 text-base">✈️</div>
+            <div>
+              <div class="font-bold text-xs text-white">Join Alpha Mining Official</div>
+              <div class="text-[11px] text-lime-400 font-semibold">+25,000 $ALPHA</div>
+            </div>
+          </div>
+          <button id="task-tg-btn" onclick="completeTask('tg', 25000)" class="bg-[#1e2a3a] text-blue-400 hover:bg-blue-600 hover:text-white px-3.5 py-1.5 rounded-xl font-bold text-xs tap-scale">
+            Join ➔
+          </button>
+        </div>
+
+        <!-- Task 2: Follow on X (Twitter) -->
+        <div class="bg-[#161f2b] border border-[#263548] rounded-2xl p-3 flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="p-2 rounded-xl bg-gray-500/20 text-white text-base">✖️</div>
+            <div>
+              <div class="font-bold text-xs text-white">Follow Alpha Mining on X</div>
+              <div class="text-[11px] text-lime-400 font-semibold">+35,000 $ALPHA</div>
+            </div>
+          </div>
+          <button id="task-x-btn" onclick="completeTask('x', 35000)" class="bg-[#1e2a3a] text-blue-400 hover:bg-blue-600 hover:text-white px-3.5 py-1.5 rounded-xl font-bold text-xs tap-scale">
+            Follow ➔
+          </button>
+        </div>
+
+        <!-- Task 3: Watch YouTube Web3 Guide -->
+        <div class="bg-[#161f2b] border border-[#263548] rounded-2xl p-3 flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="p-2 rounded-xl bg-red-500/20 text-red-400 text-base">▶️</div>
+            <div>
+              <div class="font-bold text-xs text-white">Watch Web3 Mining Guide</div>
+              <div class="text-[11px] text-lime-400 font-semibold">+15,000 $ALPHA</div>
+            </div>
+          </div>
+          <button id="task-yt-btn" onclick="completeTask('yt', 15000)" class="bg-[#1e2a3a] text-blue-400 hover:bg-blue-600 hover:text-white px-3.5 py-1.5 rounded-xl font-bold text-xs tap-scale">
+            Watch ➔
+          </button>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ======================================================== -->
+    <!-- SCREEN 4: FRIENDS & REFERRALS (Tab 4: friends)           -->
+    <!-- ======================================================== -->
+    <div id="screen-friends" class="space-y-4 hidden">
+      <!-- Referral Hero Banner -->
+      <div class="bg-gradient-to-tr from-[#162130] to-[#142d3a] rounded-3xl p-5 border border-[#254158] relative">
+        <span class="bg-lime-400/20 text-lime-400 text-[10px] font-bold px-2 py-0.5 rounded-md border border-lime-400/30">
+          ★ ALPHA SQUAD MULTIPLIER
+        </span>
+        <h2 class="text-base font-black text-white mt-2">Invite Friends & Earn Together!</h2>
+        <p class="text-[11px] text-gray-300 mt-1 leading-relaxed">
+          Receive <span class="text-lime-400 font-bold">+25,000 $ALPHA</span> for every recruited miner, plus <span class="text-blue-400 font-bold">10% lifetime royalties</span> from their mined blocks.
+        </p>
+
+        <div class="mt-3 bg-[#0d141e]/80 p-3 rounded-2xl flex items-center justify-between border border-gray-800">
+          <div class="flex items-center gap-2">
+            <span class="text-blue-400 text-lg">⭐</span>
+            <div class="text-xs">
+              <div class="font-bold text-white">Telegram Premium Friend</div>
+              <div class="text-[10px] text-gray-400">Instant 2x Welcome Grant</div>
+            </div>
+          </div>
+          <span class="text-lime-400 font-black text-xs">+50,000 α</span>
+        </div>
+      </div>
+
+      <!-- Referral Link Box -->
+      <div class="bg-[#161f2b] rounded-3xl p-5 border border-[#263548] space-y-3">
+        <div class="flex justify-between items-center text-xs">
+          <span class="text-gray-400 font-semibold">YOUR PERSONAL INVITE LINK</span>
+          <span class="text-lime-400 font-bold text-[10px] bg-lime-400/10 px-2 py-0.5 rounded-md">Tier 2 Syndicate</span>
+        </div>
+
+        <div class="flex items-center gap-2 bg-[#0e141c] p-2.5 rounded-2xl border border-gray-800">
+          <input id="ref-link-input" readonly value="https://t.me/AlphaMiningCrypto_bot?startapp=ref_89410321" class="w-full bg-transparent text-xs text-blue-400 font-mono outline-none"/>
+          <button onclick="copyReferralLink()" class="bg-blue-600 hover:bg-blue-500 text-white text-xs px-3 py-1.5 rounded-xl font-bold tap-scale flex items-center gap-1">
+            <span>📋</span> Copy
+          </button>
+        </div>
+
+        <button onclick="shareViaTelegramDirect()" class="w-full bg-[#3b82f6] hover:bg-blue-500 text-white font-extrabold py-3.5 rounded-2xl tap-scale flex items-center justify-center gap-2 text-sm shadow-lg glow-primary">
+          <span>✈️</span> Share via Telegram
+        </button>
+      </div>
+
+      <!-- Stats Grid -->
+      <div class="grid grid-cols-3 gap-2.5 text-center">
+        <div class="bg-[#141d27] border border-[#223042] rounded-2xl p-3">
+          <div class="text-[10px] text-gray-400">Total Miners</div>
+          <div class="text-base font-black text-white mt-0.5" id="stats-recruits-count">14</div>
+          <div class="text-[9px] text-lime-400">+3 today</div>
+        </div>
+        <div class="bg-[#141d27] border border-[#223042] rounded-2xl p-3">
+          <div class="text-[10px] text-gray-400">Invites Reward</div>
+          <div class="text-base font-black text-white mt-0.5">+485K</div>
+          <div class="text-[9px] text-blue-400">$ALPHA</div>
+        </div>
+        <div class="bg-[#141d27] border border-[#223042] rounded-2xl p-3">
+          <div class="text-[10px] text-gray-400">10% Yield</div>
+          <div class="text-base font-black text-lime-400 mt-0.5">+82.4K</div>
+          <div class="text-[9px] text-gray-400">/ wk auto</div>
+        </div>
+      </div>
+
+      <!-- Squad List -->
+      <div class="space-y-2">
+        <div class="flex justify-between items-center px-1">
+          <h3 class="text-xs font-bold text-white uppercase tracking-wider">👥 Your Syndicate Miners</h3>
+          <span class="text-[11px] text-gray-400">14 Recruits</span>
+        </div>
+
+        <div class="space-y-2" id="squad-miners-list">
+          <div class="bg-[#161f2b] border border-[#263548] rounded-2xl p-3 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <div class="w-9 h-9 rounded-full bg-cyan-900/40 border border-cyan-500/40 flex items-center justify-center font-bold text-xs text-cyan-400">
+                AT
+              </div>
+              <div>
+                <div class="text-xs font-bold text-white flex items-center gap-1.5">
+                  @alex_ton <span class="bg-lime-400/20 text-lime-400 text-[9px] font-bold px-1.5 rounded">Lvl 5 Titan</span>
+                </div>
+                <div class="text-[10px] text-gray-400 flex items-center gap-1">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Active 2h ago
+                </div>
+              </div>
+            </div>
+            <div class="text-right">
+              <div class="text-xs font-black text-lime-400">+65,000</div>
+              <div class="text-[9px] text-gray-500">$ALPHA</div>
+            </div>
+          </div>
+
+          <div class="bg-[#161f2b] border border-[#263548] rounded-2xl p-3 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <div class="w-9 h-9 rounded-full bg-purple-900/40 border border-purple-500/40 flex items-center justify-center font-bold text-xs text-purple-400">
+                CS
+              </div>
+              <div>
+                <div class="text-xs font-bold text-white flex items-center gap-1.5">
+                  @crypto_sophia <span class="bg-blue-400/20 text-blue-400 text-[9px] font-bold px-1.5 rounded">Lvl 4</span>
+                </div>
+                <div class="text-[10px] text-gray-400 flex items-center gap-1">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Mining block
+                </div>
+              </div>
+            </div>
+            <div class="text-right">
+              <div class="text-xs font-black text-lime-400">+95,000</div>
+              <div class="text-[9px] text-gray-500">$ALPHA</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ======================================================== -->
+    <!-- SCREEN 5: PROFILE & WALLET (Tab 5: profile)              -->
+    <!-- ======================================================== -->
+    <div id="screen-profile" class="space-y-4 hidden">
+      <!-- Profile Card -->
+      <div class="bg-[#161f2b] rounded-3xl p-5 border border-[#263548] flex items-center gap-4 relative overflow-hidden">
+        <div class="w-16 h-16 rounded-full bg-gradient-to-tr from-blue-600 via-indigo-600 to-lime-400 p-[2px] flex items-center justify-center">
+          <div class="w-full h-full rounded-full bg-[#111722] flex items-center justify-center text-2xl font-black text-blue-400">
+            👨‍🚀
+          </div>
+        </div>
+        <div>
+          <div class="text-base font-black text-white flex items-center gap-2" id="profile-card-name">
+            @crypto_miner
+            <span class="text-amber-400 text-xs">👑</span>
+          </div>
+          <div class="text-xs text-blue-400 font-semibold">Alpha Titan (Rank #42)</div>
+          <div class="text-[10px] text-gray-400 font-mono mt-0.5">TG ID: #89410321 • <span class="text-emerald-400">Cloud Sync Active</span></div>
+        </div>
+      </div>
+
+      <!-- TON Wallet Management Hub -->
+      <div class="bg-[#161f2b] rounded-3xl p-5 border border-[#263548] space-y-3">
+        <div class="flex justify-between items-center">
+          <div class="flex items-center gap-2">
+            <span class="text-lg">💼</span>
+            <div>
+              <div class="text-xs font-bold text-white">TON Wallet Allocation Hub</div>
+              <div class="text-[10px] text-gray-400">Airdrop Distribution Endpoint</div>
+            </div>
+          </div>
+          <span id="profile-wallet-status-badge" class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-400/20 text-amber-400 border border-amber-400/30">
+            Unverified
+          </span>
+        </div>
+
+        <div class="bg-[#0e141c] p-3 rounded-2xl border border-gray-800 flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="text-blue-400 text-sm">💎</span>
+            <div>
+              <div class="text-xs font-mono text-white font-bold" id="profile-wallet-address-text">Not Connected</div>
+              <div class="text-[10px] text-gray-500">Tonkeeper / Tonhub</div>
+            </div>
+          </div>
+          <button onclick="openVerifyModal()" class="bg-[#243347] hover:bg-blue-600 text-white text-xs px-3 py-1.5 rounded-xl font-bold tap-scale">
+            Change / Verify
+          </button>
+        </div>
+
+        <p class="text-[11px] text-gray-400 leading-normal">
+          Your in-game $ALPHA points will determine your future token allocation on TON blockchain. No real gas fees required for playing.
+        </p>
+      </div>
+
+      <!-- Language Selector -->
+      <div class="bg-[#161f2b] rounded-2xl p-4 border border-[#263548] flex items-center justify-between">
+        <span class="text-xs font-bold text-gray-300 flex items-center gap-1.5">
+          🌐 Language / زبان
+        </span>
+        <div class="flex gap-1.5 bg-[#0e141c] p-1 rounded-xl border border-gray-800 text-xs">
+          <button onclick="switchLanguage('EN')" id="lang-btn-en" class="px-2.5 py-1 rounded-lg font-bold bg-blue-600 text-white tap-scale">🇬🇧 EN</button>
+          <button onclick="switchLanguage('UR')" id="lang-btn-ur" class="px-2.5 py-1 rounded-lg font-bold text-gray-400 hover:text-white tap-scale">🇵🇰 UR</button>
+          <button onclick="switchLanguage('RU')" id="lang-btn-ru" class="px-2.5 py-1 rounded-lg font-bold text-gray-400 hover:text-white tap-scale">🇷🇺 RU</button>
+        </div>
+      </div>
+
+      <!-- Activity Ledger History -->
+      <div class="space-y-2">
+        <div class="flex justify-between items-center px-1">
+          <h3 class="text-xs font-bold text-white uppercase tracking-wider">📜 Activity Ledger</h3>
+          <span class="text-[11px] text-gray-400">Latest 5</span>
+        </div>
+
+        <div class="space-y-2" id="activity-ledger-container">
+          <div class="bg-[#161f2b] border border-[#263548] rounded-2xl p-3 flex items-center justify-between text-xs">
+            <div class="flex items-center gap-2.5">
+              <span class="p-2 rounded-xl bg-lime-500/10 text-lime-400">⚡</span>
+              <div>
+                <div class="font-bold text-white">8h Cycle Harvested</div>
+                <div class="text-[10px] text-gray-400">2 hours ago</div>
+              </div>
+            </div>
+            <span class="font-black text-lime-400">+2,400</span>
+          </div>
+
+          <div class="bg-[#161f2b] border border-[#263548] rounded-2xl p-3 flex items-center justify-between text-xs">
+            <div class="flex items-center gap-2.5">
+              <span class="p-2 rounded-xl bg-amber-500/10 text-amber-400">🎁</span>
+              <div>
+                <div class="font-bold text-white">Daily Streak Bonus</div>
+                <div class="text-[10px] text-gray-400">5 hours ago</div>
+              </div>
+            </div>
+            <span class="font-black text-amber-400">+30,000</span>
+          </div>
+
+          <div class="bg-[#161f2b] border border-[#263548] rounded-2xl p-3 flex items-center justify-between text-xs">
+            <div class="flex items-center gap-2.5">
+              <span class="p-2 rounded-xl bg-blue-500/10 text-blue-400">👥</span>
+              <div>
+                <div class="font-bold text-white">Referral: @elena_web3</div>
+                <div class="text-[10px] text-gray-400">1 day ago</div>
+              </div>
+            </div>
+            <span class="font-black text-blue-400">+25,000</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </main>
 
-  <!-- Slide-up Verification Modal -->
-  <div class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-end justify-center" id="verify-modal">
-    <div class="bg-[#141b24] w-full max-w-md rounded-t-[32px] p-6 border-t border-[#253346] space-y-4">
-      <div class="flex justify-between items-center pb-2 border-b border-gray-800">
-        <h3 class="text-base font-bold text-white flex items-center gap-2">🛡️ TON Wallet Verification</h3>
-        <button class="text-gray-400 hover:text-white text-xl" onclick="closeVerifyModal()">✕</button>
-      </div>
 
-      <div>
-        <label class="text-xs font-semibold text-gray-400">1. Admin Master Deposit Address:</label>
-        <div class="flex items-center gap-2 mt-1.5 bg-[#0e131a] p-3 rounded-2xl border border-gray-800">
-          <input id="admin-address" class="bg-transparent text-xs text-blue-400 font-mono w-full outline-none" readonly value="UQBYW_alpha_master_vault_ton_771x" />
-          <button class="bg-blue-600 text-white text-xs px-3 py-1.5 rounded-xl font-bold tap-scale" onclick="copyAdminAddress()">Copy</button>
-        </div>
-        <p class="text-[11px] text-gray-500 mt-1">Send minimum 0.1 TON anti-sybil deposit to this address.</p>
-      </div>
-
-      <div class="space-y-3">
+  <!-- ================= FLOATING AUTO-CLAIM BAR ================= -->
+  <!-- Always visible floating reward bar right above navigation -->
+  <div class="fixed bottom-20 left-0 right-0 max-w-md mx-auto px-4 z-30">
+    <div class="bg-[#141e2a]/95 backdrop-blur-md border border-[#293d55] rounded-2xl p-2.5 px-4 flex items-center justify-between shadow-2xl">
+      <div class="flex items-center gap-2.5">
+        <span class="text-lime-400 text-lg animate-bounce">⚡</span>
         <div>
-          <label class="text-xs font-semibold text-gray-400">2. Your TON Wallet Address:</label>
-          <input id="user-wallet-input" class="mt-1 w-full bg-[#0e131a] p-3 rounded-2xl border border-gray-800 text-xs text-white outline-none focus:border-blue-500" placeholder="e.g. UQD9...8k2F" />
-        </div>
-        <div>
-          <label class="text-xs font-semibold text-gray-400">3. Transaction Hash (Tx ID):</label>
-          <input id="user-tx-input" class="mt-1 w-full bg-[#0e131a] p-3 rounded-2xl border border-gray-800 text-xs text-white outline-none focus:border-blue-500 font-mono" placeholder="Paste TON transaction hash" />
+          <div class="text-xs font-black text-white flex items-center gap-1.5">
+            Auto-Mining Reward: <span class="text-lime-400" id="claim-float-val">+450 α</span>
+          </div>
+          <div class="text-[10px] text-gray-400">Realtime anti-cheat cooldown verified</div>
         </div>
       </div>
-
-      <button class="w-full bg-[#c4f542] hover:bg-lime-400 text-black font-extrabold py-3.5 rounded-2xl tap-scale glow-accent text-sm" onclick="submitAuthorizeVerification()">
-        Authorize & Submit for Approval
+      <button onclick="claimFloatingReward()" id="floating-claim-btn" class="bg-lime-400 hover:bg-lime-300 text-black px-3.5 py-1.5 rounded-xl font-black text-xs tap-scale glow-accent">
+        Claim
       </button>
     </div>
   </div>
 
-  <!-- Bottom Navigation Bar -->
-  <nav class="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-[#101620]/95 backdrop-blur-md border-t border-[#1d2735] flex justify-around py-3 px-2 z-40">
-    <button class="flex flex-col items-center text-blue-400 text-[10px] font-bold"><span class="text-lg">⛏️</span> Mine</button>
-    <button class="flex flex-col items-center text-gray-400 text-[10px] font-medium"><span class="text-lg">🚀</span> Boosts</button>
-    <button class="flex flex-col items-center text-gray-400 text-[10px] font-medium"><span class="text-lg">📋</span> Tasks</button>
-    <button class="flex flex-col items-center text-gray-400 text-[10px] font-medium"><span class="text-lg">👥</span> Friends</button>
-    <button class="flex flex-col items-center text-gray-400 text-[10px] font-medium"><span class="text-lg">💼</span> Profile</button>
+
+  <!-- ================= BOTTOM NAVIGATION BAR (FIXED) ================= -->
+  <nav class="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-[#101722]/95 backdrop-blur-md border-t border-[#1f2937] flex justify-around py-3 px-2 z-40">
+    <button onclick="switchTab('mine')" id="nav-btn-mine" class="flex flex-col items-center text-blue-400 text-[11px] font-bold tap-scale transition-colors">
+      <span class="text-lg">⛏️</span>
+      <span>Mine</span>
+    </button>
+    <button onclick="switchTab('boosts')" id="nav-btn-boosts" class="flex flex-col items-center text-gray-400 text-[11px] font-medium tap-scale transition-colors">
+      <span class="text-lg">🚀</span>
+      <span>Boosts</span>
+    </button>
+    <button onclick="switchTab('tasks')" id="nav-btn-tasks" class="flex flex-col items-center text-gray-400 text-[11px] font-medium tap-scale transition-colors">
+      <span class="text-lg">📋</span>
+      <span>Tasks</span>
+    </button>
+    <button onclick="switchTab('friends')" id="nav-btn-friends" class="flex flex-col items-center text-gray-400 text-[11px] font-medium tap-scale transition-colors">
+      <span class="text-lg">👥</span>
+      <span>Friends</span>
+    </button>
+    <button onclick="switchTab('profile')" id="nav-btn-profile" class="flex flex-col items-center text-gray-400 text-[11px] font-medium tap-scale transition-colors">
+      <span class="text-lg">💼</span>
+      <span>Profile</span>
+    </button>
   </nav>
 
+
+  <!-- ================= WALLET VERIFICATION MODAL ================= -->
+  <div id="verify-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-end justify-center">
+    <div class="bg-[#141c26] w-full max-w-md rounded-t-[32px] p-6 border-t border-[#293d55] space-y-4 max-h-[90vh] overflow-y-auto no-scrollbar">
+      
+      <div class="flex justify-between items-center pb-2 border-b border-gray-800">
+        <h3 class="text-base font-bold text-white flex items-center gap-2">
+          🛡️ TON Wallet Verification
+        </h3>
+        <button onclick="closeVerifyModal()" class="text-gray-400 hover:text-white text-xl p-1">✕</button>
+      </div>
+
+      <!-- Step 1: Admin Deposit Address -->
+      <div>
+        <label class="text-xs font-semibold text-gray-300">1. Admin Master Deposit Address:</label>
+        <div class="flex items-center gap-2 mt-1.5 bg-[#0e141c] p-3 rounded-2xl border border-gray-800">
+          <input id="admin-address-input" class="bg-transparent text-xs text-blue-400 font-mono w-full outline-none" readonly value="UQBYW_alpha_master_vault_ton_771x" />
+          <button onclick="copyAdminAddress()" class="bg-blue-600 hover:bg-blue-500 text-white text-xs px-3 py-1.5 rounded-xl font-bold tap-scale">
+            Copy
+          </button>
+        </div>
+        <p class="text-[11px] text-gray-500 mt-1">Send anti-sybil fee (0.1 TON) to verify real wallet ownership.</p>
+      </div>
+
+      <!-- Step 2 & 3: User Details -->
+      <div class="space-y-3">
+        <div>
+          <label class="text-xs font-semibold text-gray-300">2. Your TON Wallet Address:</label>
+          <input id="user-wallet-input" class="mt-1 w-full bg-[#0e141c] p-3 rounded-2xl border border-gray-800 text-xs text-white outline-none focus:border-blue-500" placeholder="e.g. UQD9...8k2F" />
+        </div>
+        <div>
+          <label class="text-xs font-semibold text-gray-300">3. Transaction Hash (Tx ID):</label>
+          <input id="user-tx-input" class="mt-1 w-full bg-[#0e141c] p-3 rounded-2xl border border-gray-800 text-xs text-white outline-none focus:border-blue-500 font-mono" placeholder="Paste transaction hash / signature" />
+        </div>
+      </div>
+
+      <button onclick="submitWalletVerification()" class="w-full bg-[#c4f542] hover:bg-lime-400 text-black font-black py-3.5 rounded-2xl tap-scale glow-accent text-sm">
+        Authorize & Submit for Verification
+      </button>
+    </div>
+  </div>
+
+
+  <!-- ================= JAVASCRIPT APPLICATION LOGIC ================= -->
   <script>
-    const tg = window.Telegram?.WebApp;
-    let userState = {
+    // --- 1. Global User State ---
+    const state = {
       telegram_id: 89410321,
+      username: 'crypto_miner',
       balance: 1248500,
-      wallet_status: 'unverified'
+      hourly_rate: 450,
+      wallet_status: 'unverified', // 'unverified', 'pending', 'verified'
+      wallet_address: '',
+      soundEnabled: true,
+      
+      // Cycle & Timer
+      cycleSecondsRemaining: 20539, // ~05:42:19
+      cycleMaxSeconds: 28800,       // 8 hours
+      cycleRewardCap: 2400,
+      
+      // Boosts counters
+      turboBoostsLeft: 3,
+      energyRefillsLeft: 2,
+
+      // Rig Upgrades
+      upgrades: {
+        speed: { level: 4, max: 10, cost: 150000, rateBonus: 150 },
+        storage: { level: 3, max: 8, cost: 220000, capBonus: 4 },
+        ai: { level: 1, max: 3, cost: 500000 }
+      },
+
+      // Quests State
+      day5Claimed: false,
+      tasksCompleted: {
+        tg: false,
+        x: false,
+        yt: false
+      }
     };
 
+    // --- 2. Telegram SDK Initialization ---
+    const tg = window.Telegram?.WebApp;
     if (tg) {
       tg.ready();
       tg.expand();
       if (tg.disableVerticalSwipes) tg.disableVerticalSwipes();
       if (tg.initDataUnsafe?.user) {
-        document.getElementById('user-name').innerText = `@${tg.initDataUnsafe.user.username || 'miner'}`;
-        userState.telegram_id = tg.initDataUnsafe.user.id;
+        state.username = tg.initDataUnsafe.user.username || tg.initDataUnsafe.user.first_name || 'crypto_miner';
+        state.telegram_id = tg.initDataUnsafe.user.id || 89410321;
+        document.getElementById('header-username').innerText = `@${state.username}`;
+        document.getElementById('profile-card-name').innerHTML = `@${state.username} <span class="text-amber-400 text-xs">👑</span>`;
       }
     }
 
+    // --- 3. Notification Toast & Audio ---
+    function showToast(msg, icon = '✨') {
+      const toast = document.getElementById('toast');
+      document.getElementById('toast-msg').innerText = msg;
+      document.getElementById('toast-icon').innerText = icon;
+      toast.classList.remove('opacity-0', 'pointer-events-none');
+      
+      if (tg?.HapticFeedback && state.soundEnabled) {
+        tg.HapticFeedback.notificationOccurred('success');
+      }
+
+      setTimeout(() => {
+        toast.classList.add('opacity-0', 'pointer-events-none');
+      }, 2500);
+    }
+
+    function toggleAudioFeedback() {
+      state.soundEnabled = !state.soundEnabled;
+      document.getElementById('sound-icon').innerText = state.soundEnabled ? '🔊' : '🔇';
+      showToast(state.soundEnabled ? 'Sound/Haptics Enabled' : 'Muted', state.soundEnabled ? '🔊' : '🔇');
+    }
+
+    // --- 4. Navigation Tab Switching ---
+    const screens = ['mine', 'boosts', 'tasks', 'friends', 'profile'];
+    const badgeTitles = {
+      mine: 'MINING DASHBOARD',
+      boosts: 'BOOSTERS & RIGS',
+      tasks: 'TASKS & REWARDS',
+      friends: 'FRIENDS & REFERRALS',
+      profile: 'MINER PROFILE'
+    };
+
+    function switchTab(tabName) {
+      if (tg?.HapticFeedback && state.soundEnabled) {
+        tg.HapticFeedback.impactOccurred('light');
+      }
+
+      screens.forEach(s => {
+        const screenEl = document.getElementById(`screen-${s}`);
+        const navBtn = document.getElementById(`nav-btn-${s}`);
+        if (s === tabName) {
+          screenEl.classList.remove('hidden');
+          navBtn.classList.add('text-blue-400');
+          navBtn.classList.remove('text-gray-400');
+        } else {
+          screenEl.classList.add('hidden');
+          navBtn.classList.remove('text-blue-400');
+          navBtn.classList.add('text-gray-400');
+        }
+      });
+
+      document.getElementById('active-screen-badge').innerText = badgeTitles[tabName];
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // --- 5. Realtime Timer & Progress Dial ---
+    function formatTime(totalSeconds) {
+      const h = String(Math.floor(totalSeconds / 3600)).padStart(2, '0');
+      const m = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0');
+      const s = String(totalSeconds % 60).padStart(2, '0');
+      return `${h}:${m}:${s}`;
+    }
+
+    function tickTimer() {
+      if (state.cycleSecondsRemaining > 0) {
+        state.cycleSecondsRemaining--;
+        document.getElementById('mining-timer').innerText = formatTime(state.cycleSecondsRemaining);
+        
+        // Progress ring calculation (circumference 515)
+        const progress = (state.cycleMaxSeconds - state.cycleSecondsRemaining) / state.cycleMaxSeconds;
+        const offset = 515 - (progress * 515);
+        document.getElementById('cycle-progress-ring').style.strokeDashoffset = Math.max(0, offset);
+        
+        const percent = Math.floor(progress * 100);
+        document.getElementById('cycle-percentage-label').innerText = `⏳ Cycle ${percent}% Complete`;
+
+        const curReward = Math.min(state.cycleRewardCap, Math.floor(progress * state.cycleRewardCap));
+        document.getElementById('cycle-accumulated-reward').innerText = `+${curReward.toLocaleString()} $ALPHA`;
+      } else {
+        // Ready to harvest
+        document.getElementById('mining-timer').innerText = '00:00:00';
+        document.getElementById('cycle-percentage-label').innerText = '✅ Harvest Ready!';
+        const cta = document.getElementById('primary-mining-cta');
+        cta.innerText = '🎁 Harvest +2,400 $ALPHA';
+        cta.className = 'w-full bg-[#c4f542] hover:bg-lime-400 text-black font-black py-3.5 rounded-2xl shadow-lg tap-scale flex items-center justify-center gap-2 text-sm glow-accent';
+      }
+    }
+    setInterval(tickTimer, 1000);
+
+    // Fast Forward demo trigger
+    function fastForwardDemoCycle() {
+      state.cycleSecondsRemaining = 2;
+      tickTimer();
+      showToast('Cycle fast-forwarded to Ready!', '⚡');
+    }
+
+    // Handle Harvest or Boost CTA
+    function handleHarvestOrBoost() {
+      if (state.cycleSecondsRemaining <= 0) {
+        // Harvest
+        updateBalance(2400);
+        state.cycleSecondsRemaining = state.cycleMaxSeconds;
+        const cta = document.getElementById('primary-mining-cta');
+        cta.innerText = '⚡ Boost Speed ⚡';
+        cta.className = 'w-full bg-[#4f95f7] hover:bg-blue-500 text-white font-black py-3.5 rounded-2xl shadow-lg tap-scale flex items-center justify-center gap-2 text-sm glow-primary';
+        showToast('Harvested 2,400 $ALPHA to Vault!', '🎉');
+      } else {
+        // Boost action
+        showToast('Speed Boost Active! +50% hash-rate', '🚀');
+      }
+    }
+
+    // --- 6. Balance Updates & Sync ---
+    function updateBalance(amountToAdd) {
+      state.balance += amountToAdd;
+      const formatted = state.balance.toLocaleString();
+      document.getElementById('main-balance-display').innerText = formatted;
+      document.querySelectorAll('.sync-balance-text').forEach(el => el.innerText = formatted);
+      
+      const tonVal = (state.balance / 2000).toFixed(2);
+      document.getElementById('ton-estimated-val').innerText = `Est. ≈ $${tonVal} TON`;
+    }
+
+    // Floating Claim Bar
+    function claimFloatingReward() {
+      updateBalance(450);
+      showToast('+450 $ALPHA added to balance!', '⚡');
+      
+      const btn = document.getElementById('floating-claim-btn');
+      btn.disabled = true;
+      btn.innerText = 'Claimed';
+      btn.className = 'bg-gray-700 text-gray-400 px-3 py-1.5 rounded-xl font-bold text-xs cursor-not-allowed';
+      
+      setTimeout(() => {
+        btn.disabled = false;
+        btn.innerText = 'Claim';
+        btn.className = 'bg-lime-400 hover:bg-lime-300 text-black px-3.5 py-1.5 rounded-xl font-black text-xs tap-scale glow-accent';
+      }, 5000);
+    }
+
+    // --- 7. Boosts & Rig Upgrades Handlers ---
+    function activateTurboBoost() {
+      if (state.turboBoostsLeft > 0) {
+        state.turboBoostsLeft--;
+        document.getElementById('turbo-left-count').innerText = `${state.turboBoostsLeft}/3 LEFT`;
+        showToast('Turbo Boost 3x Activated for 60m!', '🚀');
+        if (state.turboBoostsLeft === 0) {
+          const btn = document.getElementById('turbo-btn');
+          btn.disabled = true;
+          btn.innerText = 'Limit Reached';
+          btn.className = 'w-full bg-gray-800 text-gray-500 font-bold text-xs py-2 rounded-xl cursor-not-allowed';
+        }
+      }
+    }
+
+    function activateFullEnergy() {
+      if (state.energyRefillsLeft > 0) {
+        state.energyRefillsLeft--;
+        document.getElementById('energy-left-count').innerText = `${state.energyRefillsLeft}/2 LEFT`;
+        showToast('Mining Energy Refilled to 100%!', '🔋');
+        if (state.energyRefillsLeft === 0) {
+          const btn = document.getElementById('energy-btn');
+          btn.disabled = true;
+          btn.innerText = 'Limit Reached';
+          btn.className = 'w-full bg-gray-800 text-gray-500 font-bold text-xs py-2 rounded-xl cursor-not-allowed';
+        }
+      }
+    }
+
+    function purchaseUpgrade(type) {
+      const up = state.upgrades[type];
+      if (!up) return;
+
+      if (state.balance < up.cost) {
+        showToast('Not enough $ALPHA balance!', '⚠️');
+        return;
+      }
+
+      if (up.level >= up.max) {
+        showToast('Already at maximum level!', '✅');
+        return;
+      }
+
+      // Deduct cost
+      updateBalance(-up.cost);
+      up.level++;
+      up.cost = Math.floor(up.cost * 1.5);
+
+      if (type === 'speed') {
+        state.hourly_rate += 150;
+        document.getElementById('hourly-rate-display').innerText = `+${state.hourly_rate} $ALPHA / hr`;
+        document.getElementById('upgrade-speed-level').innerText = `Lvl ${up.level} / ${up.max}`;
+        document.getElementById('upgrade-speed-cost').innerText = `${up.cost.toLocaleString()} $ALPHA`;
+        document.getElementById('upgrade-speed-desc').innerText = `Boosts output to +${state.hourly_rate} $ALPHA/hr`;
+      } else if (type === 'storage') {
+        state.cycleMaxSeconds += 14400; // +4 hours
+        document.getElementById('home-tank-cap').innerText = `${state.cycleMaxSeconds / 3600}h Cap`;
+        document.getElementById('upgrade-storage-level').innerText = `Lvl ${up.level} / ${up.max}`;
+        document.getElementById('upgrade-storage-cost').innerText = `${up.cost.toLocaleString()} $ALPHA`;
+      } else if (type === 'ai') {
+        document.getElementById('upgrade-ai-level').innerText = `Lvl ${up.level} / ${up.max}`;
+        document.getElementById('upgrade-ai-cost').innerText = `${up.cost.toLocaleString()} $ALPHA`;
+      }
+
+      showToast(`Rig Upgraded to Level ${up.level}!`, '⚙️');
+    }
+
+    // --- 8. Tasks & Bounties Handlers ---
+    function claimDailyDay5() {
+      if (state.day5Claimed) return;
+      state.day5Claimed = true;
+      updateBalance(30000);
+      showToast('Claimed +30,000 $ALPHA Day 5 bonus!', '🎁');
+      const btn = document.getElementById('claim-day5-btn');
+      btn.disabled = true;
+      btn.innerText = 'Claimed ✓';
+      btn.className = 'bg-gray-800 text-gray-500 px-4 py-2 rounded-xl font-bold text-xs cursor-not-allowed';
+    }
+
+    function completeTask(taskKey, reward) {
+      if (state.tasksCompleted[taskKey]) return;
+      state.tasksCompleted[taskKey] = true;
+      updateBalance(reward);
+      showToast(`Task Complete! +${reward.toLocaleString()} $ALPHA`, '🌟');
+      
+      const btn = document.getElementById(`task-${taskKey}-btn`);
+      btn.disabled = true;
+      btn.innerText = 'Claimed ✓';
+      btn.className = 'bg-emerald-950/60 text-emerald-400 border border-emerald-500/40 px-3 py-1.5 rounded-xl font-bold text-xs cursor-not-allowed';
+    }
+
+    // --- 9. Friends & Referrals ---
+    function copyReferralLink() {
+      const input = document.getElementById('ref-link-input');
+      navigator.clipboard.writeText(input.value);
+      showToast('Referral Link Copied!', '📋');
+    }
+
+    function shareViaTelegramDirect() {
+      const link = encodeURIComponent(document.getElementById('ref-link-input').value);
+      const text = encodeURIComponent('🚀 Join me on Alpha Mining and get +25,000 $ALPHA free starting bonus!');
+      const tgShareUrl = `https://t.me/share/url?url=${link}&text=${text}`;
+      window.open(tgShareUrl, '_blank');
+      showToast('Opening Telegram Share...', '✈️');
+    }
+
+    // --- 10. Profile & Language Switcher ---
+    function switchLanguage(lang) {
+      ['en', 'ur', 'ru'].forEach(l => {
+        const btn = document.getElementById(`lang-btn-${l}`);
+        if (l === lang.toLowerCase()) {
+          btn.className = 'px-2.5 py-1 rounded-lg font-bold bg-blue-600 text-white tap-scale';
+        } else {
+          btn.className = 'px-2.5 py-1 rounded-lg font-bold text-gray-400 hover:text-white tap-scale';
+        }
+      });
+      showToast(`Language switched to ${lang}`, '🌐');
+    }
+
+    // --- 11. Verification Modal & Withdrawals ---
     function openVerifyModal() {
-      if (tg?.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
+      if (tg?.HapticFeedback && state.soundEnabled) tg.HapticFeedback.impactOccurred('medium');
       document.getElementById('verify-modal').classList.remove('hidden');
     }
 
@@ -172,93 +1100,87 @@
     }
 
     function copyAdminAddress() {
-      const copyText = document.getElementById('admin-address');
-      navigator.clipboard.writeText(copyText.value);
-      if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
-      alert('Admin Master Vault address copied!');
+      const input = document.getElementById('admin-address-input');
+      navigator.clipboard.writeText(input.value);
+      showToast('Master Vault Address Copied!', '📋');
     }
 
-    async function submitAuthorizeVerification() {
+    async function submitWalletVerification() {
       const wallet = document.getElementById('user-wallet-input').value.trim();
       const tx = document.getElementById('user-tx-input').value.trim();
 
       if (!wallet || !tx) {
-        alert('Please fill in both your wallet address and transaction hash!');
+        showToast('Please enter wallet and transaction hash!', '⚠️');
         return;
       }
 
+      // Send to serverless API
       try {
-        const res = await fetch('/api/submit-verification', {
+        await fetch('/api/submit-verification', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            telegram_id: userState.telegram_id,
+            telegram_id: state.telegram_id,
             wallet_address: wallet,
             tx_hash: tx,
-            admin_deposit_address: document.getElementById('admin-address').value
+            admin_deposit_address: document.getElementById('admin-address-input').value
           })
         });
-        const data = await res.json();
-        userState.wallet_status = 'pending';
-        updateUI();
-        closeVerifyModal();
-        if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
-        alert('Verification submitted! Status is now Pending Admin Approval.');
-      } catch (err) {
-        userState.wallet_status = 'pending';
-        updateUI();
-        closeVerifyModal();
+      } catch (e) {
+        // graceful offline fallback
       }
+
+      state.wallet_status = 'pending';
+      state.wallet_address = wallet;
+      
+      // Update UI across all screens
+      updateVerificationStatusUI();
+      closeVerifyModal();
+      showToast('Verification Submitted! Under Admin Review.', '⏳');
     }
 
-    function handleWithdrawAction() {
-      if (userState.wallet_status !== 'verified') {
-        if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
-        alert('Please verify your wallet first.');
+    function handleWithdrawAttempt() {
+      if (state.wallet_status === 'unverified') {
+        showToast('Verify wallet first to unlock withdrawal!', '⚠️');
+        openVerifyModal();
+      } else if (state.wallet_status === 'pending') {
+        showToast('Verification pending admin approval. Please wait.', '⏳');
       } else {
-        if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
-        alert('Withdrawal request initiated!');
+        showToast('Withdrawal of $ALPHA triggered to your TON wallet!', '💸');
       }
     }
 
-    function handleMiningAction() {
-      if (tg?.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
-      alert('Mining speed boosted for current cycle!');
-    }
+    function updateVerificationStatusUI() {
+      const banner = document.getElementById('home-verification-banner');
+      const bannerTitle = document.getElementById('home-banner-title');
+      const bannerSubtitle = document.getElementById('home-banner-subtitle');
+      const bannerIcon = document.getElementById('home-banner-icon');
+      const withdrawBtn = document.getElementById('home-withdraw-btn');
+      const profileBadge = document.getElementById('profile-wallet-status-badge');
+      const profileAddr = document.getElementById('profile-wallet-address-text');
 
-    function updateUI() {
-      const banner = document.getElementById('verification-banner');
-      const title = document.getElementById('status-title');
-      const subtitle = document.getElementById('status-subtitle');
-      const icon = document.getElementById('status-icon');
-      const cta = document.getElementById('verify-cta-btn');
-      const withdrawBtn = document.getElementById('withdraw-btn');
+      if (state.wallet_status === 'pending') {
+        banner.className = 'bg-[#141e2b] border border-blue-500/40 rounded-2xl p-4 flex items-center justify-between';
+        bannerTitle.innerText = 'Verification Pending';
+        bannerTitle.className = 'text-xs font-bold text-blue-400 uppercase tracking-wide';
+        bannerSubtitle.innerText = 'Admin review in progress. Please wait.';
+        bannerIcon.innerText = '⏳';
+        
+        profileBadge.className = 'text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30';
+        profileBadge.innerText = 'Pending Review';
+        profileAddr.innerText = state.wallet_address ? `${state.wallet_address.substring(0, 6)}...${state.wallet_address.slice(-4)}` : 'Submitted';
+      } else if (state.wallet_status === 'verified') {
+        banner.className = 'bg-[#122319] border border-emerald-500/40 rounded-2xl p-4 flex items-center justify-between';
+        bannerTitle.innerText = 'Wallet Verified & Active';
+        bannerTitle.className = 'text-xs font-bold text-emerald-400 uppercase tracking-wide';
+        bannerSubtitle.innerText = 'Direct TON withdrawals unlocked';
+        bannerIcon.innerText = '🛡️';
 
-      if (userState.wallet_status === 'unverified') {
-        banner.className = 'bg-[#1e1a14] border border-amber-500/30 rounded-2xl p-4 flex flex-col gap-2';
-        title.innerText = 'Wallet Unverified';
-        title.className = 'text-xs font-bold text-amber-400 uppercase tracking-wide';
-        subtitle.innerText = 'Verify to unlock TON withdrawals';
-        icon.innerText = '⚠️';
-        cta.style.display = 'block';
-        withdrawBtn.className = 'w-full bg-gray-800 text-gray-500 font-extrabold py-3.5 rounded-2xl border border-gray-700 cursor-not-allowed flex items-center justify-center gap-2';
-      } else if (userState.wallet_status === 'pending') {
-        banner.className = 'bg-[#141d24] border border-blue-500/30 rounded-2xl p-4 flex flex-col gap-2';
-        title.innerText = 'Verification Pending Approval';
-        title.className = 'text-xs font-bold text-blue-400 uppercase tracking-wide';
-        subtitle.innerText = 'Admin review in progress. Please wait.';
-        icon.innerText = '⏳';
-        cta.style.display = 'none';
-        withdrawBtn.className = 'w-full bg-gray-800 text-gray-500 font-extrabold py-3.5 rounded-2xl border border-gray-700 cursor-not-allowed flex items-center justify-center gap-2';
-      } else if (userState.wallet_status === 'verified') {
-        banner.className = 'bg-[#122319] border border-emerald-500/30 rounded-2xl p-4 flex flex-col gap-2';
-        title.innerText = 'Wallet Verified & Active';
-        title.className = 'text-xs font-bold text-emerald-400 uppercase tracking-wide';
-        subtitle.innerText = 'Withdrawals enabled & unlocked';
-        icon.innerText = '🛡️';
-        cta.style.display = 'none';
-        withdrawBtn.className = 'w-full bg-gradient-to-r from-emerald-500 to-green-600 text-black font-extrabold py-3.5 rounded-2xl shadow-lg tap-scale flex items-center justify-center gap-2 cursor-pointer';
-        withdrawBtn.innerHTML = '💸 Withdraw $ALPHA Now';
+        withdrawBtn.className = 'w-full bg-gradient-to-r from-emerald-500 to-green-600 text-black font-black py-3 rounded-2xl tap-scale flex items-center justify-center gap-2 text-xs shadow-lg cursor-pointer';
+        withdrawBtn.innerText = '💸 Withdraw $ALPHA Now';
+
+        profileBadge.className = 'text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30';
+        profileBadge.innerText = 'Verified';
       }
     }
   </script>
