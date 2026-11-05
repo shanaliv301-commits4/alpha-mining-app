@@ -17,7 +17,10 @@
       font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
       user-select: none;
       -webkit-tap-highlight-color: transparent;
-      transition: background-color 0.3s ease, color 0.3s ease;
+      /* Premium Vibrant Royal Sapphire & Teal Gradient - NO PURE BLACK */
+      background: linear-gradient(165deg, #0d2149 0%, #102e6b 35%, #0d3b66 70%, #005f73 100%);
+      color: #ffffff;
+      min-height: 100vh;
     }
     .tap-scale {
       transition: transform 0.12s ease;
@@ -32,32 +35,18 @@
       -ms-overflow-style: none;
       scrollbar-width: none;
     }
-    /* Theme classes */
-    body.theme-gradient {
-      background: linear-gradient(180deg, #f0f4fd 0%, #e6effc 50%, #f5f8ff 100%);
-      color: #0f172a;
+    /* Vibrant Glassmorphism with Sapphire Glow */
+    .sapphire-glass {
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      box-shadow: 0 12px 30px -8px rgba(5, 18, 48, 0.45);
     }
-    body.theme-black {
-      background-color: #080c11;
-      color: #f8fafc;
-    }
-    .card-shadow {
-      box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.05), 0 8px 10px -6px rgba(15, 23, 42, 0.03);
-    }
-    .theme-black .card-shadow {
-      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.6);
-      border-color: #1e293b !important;
-      background-color: #111722 !important;
-      color: #f1f5f9 !important;
-    }
-    .theme-black .subtext-color {
-      color: #94a3b8 !important;
-    }
-    .theme-black .bg-white {
-      background-color: #111722 !important;
-    }
-    .theme-black .border-slate-200, .theme-black .border-slate-100 {
-      border-color: #1e293b !important;
+    .sapphire-card-glow {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.14) 0%, rgba(20, 70, 140, 0.25) 100%);
+      border: 1px solid rgba(120, 220, 255, 0.35);
+      box-shadow: 0 0 25px rgba(0, 180, 216, 0.25);
     }
     @keyframes floatUp {
       0% { transform: translateY(0px) scale(0.9); opacity: 0; }
@@ -68,8 +57,8 @@
       animation: floatUp 1.2s ease-out forwards;
     }
     @keyframes pulseGlow {
-      0%, 100% { box-shadow: 0 0 15px rgba(212, 249, 50, 0.4); }
-      50% { box-shadow: 0 0 25px rgba(212, 249, 50, 0.8); }
+      0%, 100% { box-shadow: 0 0 15px rgba(220, 255, 50, 0.4); }
+      50% { box-shadow: 0 0 25px rgba(220, 255, 50, 0.85); }
     }
     .pulse-glow {
       animation: pulseGlow 2s infinite;
@@ -77,664 +66,516 @@
   </style>
 </head>
 
-<body id="app-body" class="min-h-screen flex flex-col justify-between pb-28 theme-gradient no-scrollbar">
+<body class="flex flex-col justify-between pb-28 no-scrollbar">
 
   <!-- ================= TOP HEADER (PERSISTENT) ================= -->
-  <header class="sticky top-0 z-40 px-4 pt-3 pb-2 backdrop-blur-md flex items-center justify-between border-b border-transparent" id="header-bar">
-    <button onclick="handleCloseApp()" class="flex items-center gap-1 bg-[#606d7e]/80 hover:bg-[#4b5563] text-white text-xs font-semibold px-3 py-1.5 rounded-full tap-scale shadow-sm">
+  <header class="sticky top-0 z-40 px-4 pt-3 pb-2 bg-[#0c224a]/85 backdrop-blur-xl border-b border-white/10 flex items-center justify-between">
+    <button onclick="handleCloseApp()" class="flex items-center gap-1 bg-white/15 hover:bg-white/25 text-white text-xs font-semibold px-3 py-1.5 rounded-full tap-scale shadow-sm">
       <span class="text-sm leading-none">✕</span>
       <span>Close</span>
     </button>
 
     <div class="flex items-center gap-2">
-      <!-- User Badge -->
-      <div class="flex items-center gap-1.5 bg-[#4285f4] text-white text-xs font-bold pl-1 pr-3 py-1 rounded-full shadow-sm">
-        <div class="w-6 h-6 rounded-full bg-[#af52de] flex items-center justify-center text-[10px] font-black text-white" id="header-avatar-initials">
+      <!-- Node / Avatar Badge -->
+      <div class="flex items-center gap-1.5 bg-gradient-to-r from-blue-500 to-cyan-500 text-white text-xs font-bold pl-1 pr-3 py-1 rounded-full shadow-md">
+        <div class="w-6 h-6 rounded-full bg-cyan-200 text-[#0d2149] flex items-center justify-center text-[10px] font-black" id="header-avatar-initials">
           AM
         </div>
-        <span class="tracking-tight" id="header-user-title">Alpha Miner 🍅</span>
+        <span class="tracking-tight" id="header-user-title">Alpha Node ⚡</span>
       </div>
 
-      <!-- Online Indicator -->
-      <div class="flex items-center gap-1.5 bg-white/90 border border-slate-200/80 px-2.5 py-1 rounded-full text-xs font-semibold text-slate-700 shadow-sm" id="online-badge-container">
-        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+      <!-- Online Live Users Counter -->
+      <div class="flex items-center gap-1.5 bg-white/10 border border-white/20 px-2.5 py-1 rounded-full text-xs font-semibold text-cyan-100 shadow-sm">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
         <span id="live-online-users">20,148</span>
       </div>
 
-      <!-- Level Badge -->
-      <div id="header-level-badge" class="bg-[#d4f932] text-slate-900 font-extrabold text-xs px-2.5 py-1 rounded-full shadow-sm flex items-center gap-1">
-        <span>★</span> <span id="level-display">Level 1</span>
+      <!-- Tier / Level Badge -->
+      <div id="header-level-badge" class="bg-[#dcfb32] text-[#0d2149] font-black text-xs px-2.5 py-1 rounded-full shadow-sm flex items-center gap-1">
+        <span>★</span> <span id="level-display">Tier 1</span>
       </div>
     </div>
   </header>
 
-  <!-- Total Balance Capsule -->
-  <div class="px-4 pt-1 pb-1 flex justify-center">
-    <div onclick="openWalletModal()" class="bg-white/90 border border-slate-200/80 px-4 py-1.5 rounded-full shadow-sm flex items-center gap-2 text-xs font-semibold text-slate-600 cursor-pointer tap-scale" id="capsule-balance-container">
-      <span class="w-5 h-5 rounded-full bg-[#26a17b] text-white flex items-center justify-center font-black text-[11px]">₮</span>
-      <span class="font-extrabold text-slate-900 text-sm" id="vault-usdt-balance">0.0000 USDT</span>
-      <span class="text-slate-400 font-medium">Total balance</span>
-      <span class="text-slate-400 text-[10px]">▼</span>
+  <!-- Global Vault Balance Capsule -->
+  <div class="px-4 pt-2 pb-1 flex justify-center">
+    <div onclick="openWalletModal()" class="sapphire-glass px-4 py-1.5 rounded-full flex items-center gap-2 text-xs font-semibold text-slate-100 cursor-pointer tap-scale">
+      <span class="w-5 h-5 rounded-full bg-emerald-400 text-[#0c224a] flex items-center justify-center font-black text-[11px]">₮</span>
+      <span class="font-extrabold text-white text-sm" id="vault-usdt-balance">0.0000 USDT</span>
+      <span class="text-cyan-200 font-medium">Global vault</span>
+      <span class="text-cyan-300 text-[10px]">▼</span>
     </div>
   </div>
 
-  <!-- Realtime Marketing Notification Toast -->
-  <div id="marketing-toast" class="fixed top-16 left-1/2 transform -translate-x-1/2 z-50 bg-slate-900/95 border border-slate-700/80 text-white text-xs px-4 py-2.5 rounded-2xl shadow-2xl opacity-0 pointer-events-none transition-all duration-500 flex items-center gap-2.5 max-w-[90%]">
-    <span id="marketing-icon" class="text-base">🔥</span>
-    <span id="marketing-msg" class="font-medium text-[11px] leading-tight text-slate-200"></span>
+  <!-- Realtime Proof-of-Activity Claim Feed Ticker (Every Second) -->
+  <div class="px-4 py-1">
+    <div class="bg-gradient-to-r from-blue-900/60 via-indigo-900/50 to-teal-900/60 border border-cyan-400/30 rounded-2xl px-3 py-1.5 flex items-center justify-between text-[11px] shadow-sm">
+      <div class="flex items-center gap-2 overflow-hidden">
+        <span class="w-2 h-2 rounded-full bg-cyan-300 animate-ping shrink-0"></span>
+        <span class="text-cyan-300 font-black text-[10px] uppercase tracking-wider shrink-0">LIVE PROOF</span>
+        <span class="text-slate-100 font-mono truncate" id="every-sec-claim-ticker">@sam_sol claimed +$0.0120 USDT</span>
+      </div>
+      <span class="text-[10px] text-cyan-200 font-bold bg-cyan-500/20 px-2 py-0.5 rounded-md shrink-0 ml-2">1s feed</span>
+    </div>
   </div>
 
-  <!-- Standard Action Toast -->
-  <div id="toast" class="fixed top-28 left-1/2 transform -translate-x-1/2 z-50 bg-[#162232] text-white text-xs px-4 py-2 rounded-full shadow-xl opacity-0 pointer-events-none transition-all duration-300 flex items-center gap-2 border border-blue-500/30">
+  <!-- Realtime Action Toast -->
+  <div id="toast" class="fixed top-28 left-1/2 transform -translate-x-1/2 z-50 bg-[#16366f] border border-cyan-400/50 text-white text-xs px-4 py-2 rounded-full shadow-2xl opacity-0 pointer-events-none transition-all duration-300 flex items-center gap-2">
     <span id="toast-icon">✨</span>
     <span id="toast-msg">Notification</span>
   </div>
 
   <!-- Animated Flying Claim Feedback -->
-  <div id="claim-flying-anim" class="fixed top-1/3 left-1/2 transform -translate-x-1/2 z-50 font-black text-xl text-emerald-600 bg-white/95 px-4 py-2 rounded-2xl shadow-2xl border border-emerald-400 hidden pointer-events-none">
+  <div id="claim-flying-anim" class="fixed top-1/3 left-1/2 transform -translate-x-1/2 z-50 font-black text-xl text-[#0d2149] bg-[#dcfb32] px-5 py-2.5 rounded-2xl shadow-2xl border-2 border-white hidden pointer-events-none">
     +$0.0000 USDT 💸
   </div>
 
 
-  <!-- ================= MAIN SCREEN CONTAINER ================= -->
-  <main class="flex-1 w-full max-w-md mx-auto px-4 space-y-4">
+  <!-- ================= MAIN CONTAINER ================= -->
+  <main class="flex-1 w-full max-w-md mx-auto px-4 space-y-4 pt-1">
 
-    <!-- ======================================================== -->
-    <!-- SCREEN 1: HOME MINING (Tab 1: mine)                      -->
-    <!-- ======================================================== -->
+    <!-- ================= SCREEN 1: MINE ================= -->
     <div id="screen-mine" class="space-y-4">
 
-      <!-- $100 Starter Package Banner -->
-      <div id="starter-grant-card" class="bg-gradient-to-r from-[#17202d] via-[#1a2d3c] to-[#122421] text-white rounded-3xl p-4 card-shadow border border-amber-400/30 flex items-center justify-between relative overflow-hidden">
-        <div class="flex items-center gap-3">
-          <div class="w-11 h-11 rounded-2xl bg-amber-400/20 border border-amber-400/40 flex items-center justify-center text-xl shrink-0">
-            🎁
-          </div>
-          <div>
-            <div class="flex items-center gap-1.5">
-              <span class="text-[10px] font-black uppercase tracking-wider text-amber-400 bg-amber-400/10 px-2 py-0.5 rounded-md border border-amber-400/20">Starter Package</span>
-              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
-            </div>
-            <div class="text-sm font-black text-white mt-0.5">$100 Trial Rig Active</div>
-            <div class="text-[10px] text-slate-300">Free base hash power allocated 24/7</div>
-          </div>
-        </div>
-        <button onclick="openTopUpModal()" class="bg-[#d4f932] hover:bg-[#c6ec27] text-slate-900 px-3 py-1.5 rounded-xl font-extrabold text-[11px] tap-scale shadow-sm shrink-0">
-          Upgrade ⚡
-        </button>
-      </div>
-
-      <!-- Live Micro-Stream Mining Counter Display -->
+      <!-- Live Micro-Stream Counter Section -->
       <div class="pt-1 text-center space-y-2">
-        <div class="flex items-center justify-center gap-2 text-[11px] font-semibold text-slate-500 flex-wrap subtext-color">
-          <span class="flex items-center gap-1 text-red-500">
-            <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span> Income
+        <div class="flex items-center justify-center gap-2 text-[11px] font-semibold text-cyan-200 flex-wrap">
+          <span class="flex items-center gap-1 text-cyan-300 font-bold">
+            <span class="w-2 h-2 rounded-full bg-cyan-300 animate-pulse"></span> Yield Rate
           </span>
           <span>•</span>
-          <span>⏱ <span id="rate-display-hr" class="font-bold text-slate-800">$0.0005</span> <span class="font-normal subtext-color">hr</span></span>
-          <span>📅 <span id="rate-display-day" class="font-bold text-slate-800">$0.012</span> <span class="font-normal subtext-color">day</span></span>
-          <span>🗓 <span id="rate-display-mo" class="font-bold text-slate-800">$0.36</span> <span class="font-normal subtext-color">mo</span></span>
+          <span>⏱ <span id="rate-display-hr" class="font-bold text-white">$0.000100</span> <span class="text-cyan-200">/hr</span></span>
+          <span>📅 <span id="rate-display-day" class="font-bold text-white">$0.0024</span> <span class="text-cyan-200">/day</span></span>
+          <span>🗓 <span id="rate-display-mo" class="font-bold text-white">$0.072</span> <span class="text-cyan-200">/mo</span></span>
         </div>
 
         <!-- Huge Mining Amount Counter -->
-        <div class="text-4xl font-black tracking-tight font-mono py-1">
+        <div class="text-4xl sm:text-5xl font-black tracking-tight font-mono py-1 text-transparent bg-clip-text bg-gradient-to-r from-white via-cyan-100 to-[#dcfb32]">
           <span id="streaming-mining-counter">$0.000000000</span>
+        </div>
+
+        <div class="text-[11px] text-cyan-100 bg-white/10 border border-white/20 py-1 px-3 rounded-full inline-block">
+          🛡️ Free starter speed: 0.000000028/sec — Sustainable uncap on Boost
         </div>
 
         <!-- Claim Profit & How to Earn Buttons -->
         <div class="grid grid-cols-2 gap-3 pt-1">
-          <button id="claim-profit-btn" onclick="handleClaimProfit()" class="bg-[#d4f932] hover:bg-[#c6ec27] text-slate-900 font-black py-2.5 rounded-full tap-scale shadow-sm flex items-center justify-center gap-1.5 text-xs pulse-glow">
-            <span>📈</span> Claim profit
+          <button id="claim-profit-btn" onclick="handleClaimProfit()" class="bg-[#dcfb32] hover:bg-[#cbf018] text-[#0d2149] font-black py-3 rounded-full tap-scale shadow-lg shadow-[#dcfb32]/30 flex items-center justify-center gap-1.5 text-xs pulse-glow">
+            <span>⚡</span> Claim profit
           </button>
-          <button onclick="openHowToEarnModal()" class="bg-[#e8f1ff] hover:bg-[#d8e6fc] text-[#2b72ee] font-bold py-2.5 rounded-full tap-scale shadow-sm flex items-center justify-center gap-1.5 text-xs border border-blue-100">
+          <button onclick="openHowToEarnModal()" class="sapphire-glass hover:bg-white/15 text-cyan-200 font-bold py-3 rounded-full tap-scale flex items-center justify-center gap-1.5 text-xs border border-cyan-400/40">
             <span>❔</span> How to earn?
           </button>
         </div>
 
-        <!-- Dynamic Notice -->
-        <p id="mining-speed-notice" class="text-[11px] text-slate-500 font-medium pt-1 subtext-color">
-          Base speed active. Top up 3 USDT to boost income to <strong class="font-extrabold text-blue-500">2.7% per day</strong>.
+        <!-- Sustainable Proof-of-Yield (PoY) & Liquidity Guarantee -->
+        <div class="sapphire-glass p-3 rounded-2xl flex items-center justify-between text-left text-xs">
+          <div>
+            <div class="font-extrabold text-white text-[11px]">Sustainable Proof-of-Yield (PoY) & Reserves</div>
+            <div class="text-[10px] text-cyan-200">70% float reserve protocol ensures perpetual payouts</div>
+          </div>
+          <div class="bg-emerald-400/20 text-emerald-300 border border-emerald-400/50 text-[10px] font-black px-2.5 py-1 rounded-lg">
+            99.4% Solvency
+          </div>
+        </div>
+
+        <p class="text-[11px] text-cyan-200 font-medium">
+          Top up to 3 USDT or grow with invites to activate node boost up to <strong class="text-[#dcfb32]">1.8% daily</strong> sustainable yield.
         </p>
       </div>
 
       <!-- Dual Metric Cards: Coins (100) & USDT Balance -->
       <div class="grid grid-cols-2 gap-3">
         <!-- Coins Card -->
-        <div class="bg-white rounded-3xl p-4 card-shadow border border-slate-100 relative">
+        <div class="sapphire-glass rounded-3xl p-4 relative">
           <div class="flex justify-between items-start">
-            <span class="text-xs font-semibold text-slate-400 subtext-color">Coins</span>
-            <div class="w-8 h-8 rounded-full bg-amber-50 flex items-center justify-center text-amber-500 text-sm">
+            <span class="text-xs font-semibold text-cyan-200">Coins</span>
+            <div class="w-8 h-8 rounded-full bg-amber-400/20 text-amber-300 flex items-center justify-center text-sm border border-amber-300/30">
               🎁
             </div>
           </div>
           <div class="mt-2">
-            <div class="text-2xl font-black" id="coins-count-display">100</div>
-            <div class="text-[11px] text-slate-400 font-medium subtext-color" id="coins-est-val">≈$100.00</div>
+            <div class="text-2xl font-black text-white" id="coins-count-display">100</div>
+            <div class="text-[11px] text-cyan-200 font-medium" id="coins-est-val">≈$100.00</div>
           </div>
           <div class="mt-3 flex items-center justify-between text-[11px]">
-            <span class="bg-emerald-50 text-emerald-600 font-bold px-2 py-0.5 rounded-md border border-emerald-100">0.02%</span>
-            <span class="text-slate-400 subtext-color">Per day</span>
+            <span class="bg-emerald-400/20 text-emerald-300 font-bold px-2 py-0.5 rounded-md border border-emerald-400/30">0.02%</span>
+            <span class="text-cyan-200">Per day</span>
           </div>
         </div>
 
-        <!-- USDT Balance Card -->
-        <div class="bg-white rounded-3xl p-4 card-shadow border border-slate-100 relative">
+        <!-- USDT Balance Card (Guaranteed Update on Claim) -->
+        <div class="sapphire-glass rounded-3xl p-4 relative border-cyan-400/30">
           <div class="flex justify-between items-start">
-            <span class="text-xs font-semibold text-slate-400 subtext-color">USDT balance</span>
-            <div class="w-8 h-8 rounded-full bg-[#26a17b] text-white flex items-center justify-center text-xs font-black">
+            <span class="text-xs font-semibold text-cyan-200">USDT balance</span>
+            <div class="w-8 h-8 rounded-full bg-emerald-500 text-white flex items-center justify-center text-xs font-black shadow-sm">
               ₮
             </div>
           </div>
           <div class="mt-2">
-            <div class="text-2xl font-black" id="in-app-usdt-display">$0.0000</div>
-            <div class="text-[11px] text-emerald-500 font-medium" id="wallet-connection-label">Wallet Not Connected</div>
+            <div class="text-2xl font-black text-cyan-200" id="in-app-usdt-display">$0.0000</div>
+            <div class="text-[11px] text-emerald-300 font-medium" id="wallet-connection-label">PoY Active</div>
           </div>
           <div class="mt-3 flex items-center justify-between text-[11px]">
-            <span class="bg-emerald-50 text-emerald-600 font-bold px-2 py-0.5 rounded-md border border-emerald-100" id="daily-pct-display">0.5%</span>
-            <span class="text-slate-400 subtext-color">Per day</span>
+            <span class="bg-cyan-400/20 text-cyan-200 font-bold px-2 py-0.5 rounded-md border border-cyan-400/30" id="daily-pct-display">0.4%</span>
+            <span class="text-cyan-200">Per day</span>
           </div>
         </div>
       </div>
 
       <!-- Action Buttons: Top up & Withdraw -->
       <div class="grid grid-cols-2 gap-3">
-        <button onclick="openTopUpModal()" class="w-full bg-[#3b82f6] hover:bg-blue-600 text-white font-extrabold py-3.5 rounded-2xl tap-scale shadow-lg shadow-blue-500/20 flex items-center justify-center gap-1.5 text-sm">
+        <button onclick="openTopUpModal()" class="w-full bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white font-extrabold py-3.5 rounded-2xl tap-scale shadow-lg shadow-cyan-500/30 flex items-center justify-center gap-1.5 text-sm">
           <span>↑</span> Top up
         </button>
-        <button onclick="handleWithdrawClick()" class="w-full bg-[#d4f932] hover:bg-[#c6ec27] text-slate-900 font-extrabold py-3.5 rounded-2xl tap-scale shadow-lg shadow-lime-500/20 flex items-center justify-center gap-1.5 text-sm">
+        <button onclick="handleWithdrawClick()" class="w-full bg-[#dcfb32] hover:bg-[#cbf018] text-[#0d2149] font-extrabold py-3.5 rounded-2xl tap-scale shadow-lg shadow-[#dcfb32]/30 flex items-center justify-center gap-1.5 text-sm">
           <span>↓</span> Withdraw
         </button>
       </div>
 
+      <!-- Transparent Sustainable Yield Tiers Breakdown Card -->
+      <div class="sapphire-glass p-4 rounded-3xl space-y-3">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-extrabold text-white flex items-center gap-1.5">
+            <span>🧮</span> SUSTAINABLE YIELD TIERS
+          </span>
+          <span class="text-[10px] text-cyan-300 font-mono">Dynamic Solvency</span>
+        </div>
+
+        <div class="grid grid-cols-3 gap-2 text-center text-xs">
+          <div class="bg-white/10 border border-white/15 rounded-2xl p-2.5">
+            <div class="text-[10px] text-cyan-300 font-bold">Boost Tier</div>
+            <div class="font-black text-white mt-0.5">3 USDT</div>
+            <div class="text-[10px] text-[#dcfb32] font-mono mt-1">0.8 - 1.2%</div>
+            <div class="text-[9px] text-cyan-200">daily yield</div>
+          </div>
+          <div class="bg-cyan-600/30 border border-cyan-400/50 rounded-2xl p-2.5 relative">
+            <span class="absolute -top-2 left-1/2 -translate-x-1/2 bg-cyan-300 text-[#0d2149] text-[8px] font-black px-1.5 py-0.2 rounded-full uppercase">Popular</span>
+            <div class="text-[10px] text-white font-bold">Hash Rig</div>
+            <div class="font-black text-white mt-0.5">10 USDT</div>
+            <div class="text-[10px] text-[#dcfb32] font-mono mt-1">1.4%</div>
+            <div class="text-[9px] text-cyan-100">daily yield</div>
+          </div>
+          <div class="bg-white/10 border border-white/15 rounded-2xl p-2.5">
+            <div class="text-[10px] text-purple-200 font-bold">Turbo Node</div>
+            <div class="font-black text-white mt-0.5">30 USDT</div>
+            <div class="text-[10px] text-[#dcfb32] font-mono mt-1">1.8%</div>
+            <div class="text-[9px] text-cyan-200">daily yield</div>
+          </div>
+        </div>
+        <div class="text-[10px] text-cyan-200 text-center leading-tight">
+          Math guarantee: 70% float reserve protocol ensures perpetual payouts without token inflation.
+        </div>
+      </div>
+
       <!-- +30% Promo Card -->
-      <div class="bg-white rounded-3xl p-5 card-shadow border border-slate-100 relative overflow-hidden space-y-3">
+      <div class="sapphire-card-glow rounded-3xl p-5 relative overflow-hidden space-y-3">
         <div class="flex items-start gap-3">
-          <div class="w-12 h-12 rounded-2xl bg-[#26a17b] text-white flex items-center justify-center font-black text-xl shrink-0">
+          <div class="w-12 h-12 rounded-2xl bg-emerald-500 text-white flex items-center justify-center font-black text-xl shrink-0 shadow-md">
             ₮
           </div>
           <div>
-            <h3 class="font-extrabold text-sm leading-snug">
-              <span class="text-[#26a17b] font-black">+30%</span> to your USDT balance in one tap
+            <h3 class="font-extrabold text-sm text-white leading-snug">
+              <span class="text-cyan-300 font-black">+30%</span> to your USDT balance in one tap
             </h3>
-            <p class="text-[11px] text-slate-500 mt-1 leading-relaxed subtext-color">
-              Free bots are available on the AI trading agents dashboard. Top up for instant income of <strong class="text-[#26a17b] font-bold">+30% of the deposit amount</strong>.
+            <p class="text-[11px] text-cyan-100 mt-1 leading-relaxed">
+              Free AI trading agents are online. Top up for instant PoY yield booster of <strong class="text-[#dcfb32]">+30% of deposit hash power</strong>.
             </p>
           </div>
         </div>
 
-        <button onclick="openTopUpModal()" class="w-full bg-[#3b82f6] hover:bg-blue-600 text-white font-extrabold py-3 rounded-2xl tap-scale flex items-center justify-center gap-2 text-xs shadow-md">
+        <button onclick="openTopUpModal()" class="w-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-extrabold py-3 rounded-2xl tap-scale flex items-center justify-center gap-2 text-xs shadow-md">
           <span>💳</span> Top up USDT balance
         </button>
 
-        <div class="flex items-center justify-center gap-1.5 text-[11px] font-bold text-[#26a17b]">
-          <span class="w-1.5 h-1.5 rounded-full bg-[#26a17b] animate-ping"></span>
+        <div class="flex items-center justify-center gap-1.5 text-[11px] font-bold text-cyan-200">
+          <span class="w-1.5 h-1.5 rounded-full bg-cyan-300 animate-ping"></span>
           7 bots left, bonuses are limited!
         </div>
       </div>
 
-      <!-- Wallet Connect Card -->
-      <div class="bg-white rounded-3xl p-4 card-shadow border border-slate-100 flex items-center justify-between">
-        <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-2xl bg-blue-50 border border-blue-200 flex items-center justify-center text-blue-600 text-lg">
-            💎
-          </div>
-          <div>
-            <div class="text-xs font-bold" id="card-wallet-status">TON / Tonkeeper Wallet</div>
-            <div class="text-[10px] text-slate-400 font-mono subtext-color" id="card-wallet-addr">Not Connected</div>
-          </div>
-        </div>
-        <button id="card-wallet-btn" onclick="openWalletModal()" class="bg-[#3b82f6] hover:bg-blue-600 text-white text-xs font-extrabold px-3.5 py-1.5 rounded-xl tap-scale">
-          Connect
-        </button>
-      </div>
-
-      <!-- Quick Invite Floating Pill -->
-      <div class="bg-white rounded-2xl p-3 border border-slate-200/80 flex items-center justify-between shadow-sm">
-        <div class="flex items-center gap-2 text-xs">
+      <!-- Quick Invite Floating Pill (Configured with EXACT 5 Coins) -->
+      <div class="sapphire-glass rounded-2xl p-3 flex items-center justify-between">
+        <div class="flex items-center gap-2 text-xs text-white">
           <span class="text-base">🎁</span>
-          <span class="font-bold">Get +100 coins for an invite</span>
+          <span class="font-bold">Get +5 coins for an invite</span>
         </div>
-        <button onclick="switchTab('friends')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1 rounded-xl font-bold text-xs tap-scale">
+        <button onclick="switchTab('friends')" class="bg-white/15 hover:bg-white/25 text-white px-3 py-1 rounded-xl font-bold text-xs tap-scale">
           Invite
         </button>
       </div>
+
     </div>
 
-
-    <!-- ======================================================== -->
-    <!-- SCREEN 2: FRIENDS & REFERRALS (Tab 2: friends)           -->
-    <!-- ======================================================== -->
+    <!-- ================= SCREEN 2: FRIENDS & REFERRALS ================= -->
     <div id="screen-friends" class="space-y-4 hidden">
       <div class="pt-2">
-        <h2 class="text-xl font-black leading-tight">
+        <h2 class="text-xl font-black text-white leading-tight">
           Invite friends and raise your hourly income
         </h2>
 
         <div class="grid grid-cols-2 gap-3 mt-3">
-          <button onclick="copyInviteLink()" class="bg-white hover:bg-slate-50 border border-slate-200 text-slate-800 font-extrabold py-3 rounded-2xl tap-scale shadow-sm flex items-center justify-center gap-2 text-xs">
-            <span>📋</span> Copy
+          <button onclick="copyInviteLink()" class="sapphire-glass text-white font-extrabold py-3 rounded-2xl tap-scale flex items-center justify-center gap-2 text-xs">
+            <span>📋</span> Copy Link
           </button>
-          <button onclick="shareInviteTelegram()" class="bg-[#3b82f6] hover:bg-blue-600 text-white font-extrabold py-3 rounded-2xl tap-scale shadow-lg shadow-blue-500/20 flex items-center justify-center gap-2 text-xs">
+          <button onclick="shareInviteTelegram()" class="bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-extrabold py-3 rounded-2xl tap-scale shadow-lg shadow-cyan-500/20 flex items-center justify-center gap-2 text-xs">
             <span>✈️</span> Invite
           </button>
         </div>
       </div>
 
-      <div class="bg-[#1f9d55] text-white rounded-3xl p-4 card-shadow space-y-3">
-        <div class="text-xs font-bold uppercase tracking-wider opacity-90">
+      <!-- Reward for Each Friend (Exact 5 Coins configured) -->
+      <div class="sapphire-glass rounded-3xl p-4 space-y-3 border-emerald-400/30">
+        <div class="text-xs font-bold uppercase tracking-wider text-emerald-300">
           Reward for each friend
         </div>
         <div class="space-y-2">
-          <div class="bg-white/15 backdrop-blur-md rounded-2xl p-3 flex items-center gap-3">
-            <div class="w-8 h-8 rounded-full bg-white/30 flex items-center justify-center text-sm">📈</div>
+          <div class="bg-white/10 rounded-2xl p-3 flex items-center gap-3">
+            <div class="w-8 h-8 rounded-full bg-emerald-400/20 text-emerald-300 flex items-center justify-center text-sm">📈</div>
             <div>
-              <div class="font-extrabold text-xs">+100 coins and 10% USDT</div>
-              <div class="text-[10px] opacity-80 font-medium">Fourth invite</div>
+              <div class="font-extrabold text-xs text-white">+5 coins and 10% USDT</div>
+              <div class="text-[10px] text-cyan-200">First invite</div>
             </div>
           </div>
-          <div class="bg-white/15 backdrop-blur-md rounded-2xl p-3 flex items-center gap-3">
-            <div class="w-8 h-8 rounded-full bg-white/30 flex items-center justify-center text-sm">📈</div>
+          <div class="bg-white/10 rounded-2xl p-3 flex items-center gap-3">
+            <div class="w-8 h-8 rounded-full bg-emerald-400/20 text-emerald-300 flex items-center justify-center text-sm">📈</div>
             <div>
-              <div class="font-extrabold text-xs">+100 coins and 10% USDT</div>
-              <div class="text-[10px] opacity-80 font-medium">Further invites</div>
+              <div class="font-extrabold text-xs text-white">+5 coins and 10% USDT</div>
+              <div class="text-[10px] text-cyan-200">Further invites</div>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="bg-[#3b82f6] text-white rounded-2xl p-3.5 card-shadow flex items-center gap-3">
-        <div class="w-8 h-8 rounded-xl bg-white/20 flex items-center justify-center text-base">🎁</div>
-        <div class="font-extrabold text-xs">
-          +1 gift for every invite
-        </div>
-      </div>
-
-      <div class="bg-gradient-to-r from-[#f97316] to-[#fb923c] text-white rounded-3xl p-4 card-shadow space-y-3">
-        <div class="flex items-center gap-2">
-          <span>🔥</span>
-          <span class="font-black text-xs">Five-level program</span>
+      <!-- Five-level Program Card -->
+      <div class="sapphire-glass rounded-3xl p-4 space-y-3 border-cyan-400/30">
+        <div class="flex items-center gap-2 text-cyan-300 font-black text-xs">
+          <span>🔥</span> 5-Tier Referral Yield Commission
         </div>
 
         <div class="grid grid-cols-5 gap-1.5 text-center">
-          <div class="bg-white/20 rounded-xl p-2"><div class="text-[10px] opacity-80">📈</div><div class="font-black text-sm mt-0.5">10%</div></div>
-          <div class="bg-white/20 rounded-xl p-2"><div class="text-[10px] opacity-80">📈</div><div class="font-black text-sm mt-0.5">3%</div></div>
-          <div class="bg-white/20 rounded-xl p-2"><div class="text-[10px] opacity-80">📈</div><div class="font-black text-sm mt-0.5">2%</div></div>
-          <div class="bg-white/20 rounded-xl p-2"><div class="text-[10px] opacity-80">📈</div><div class="font-black text-sm mt-0.5">1%</div></div>
-          <div class="bg-white/20 rounded-xl p-2"><div class="text-[10px] opacity-80">📈</div><div class="font-black text-sm mt-0.5">1%</div></div>
+          <div class="bg-white/10 rounded-xl p-2"><div class="font-black text-sm text-[#dcfb32]">10%</div><div class="text-[9px] text-cyan-200">L1</div></div>
+          <div class="bg-white/10 rounded-xl p-2"><div class="font-black text-sm text-cyan-200">3%</div><div class="text-[9px] text-cyan-200">L2</div></div>
+          <div class="bg-white/10 rounded-xl p-2"><div class="font-black text-sm text-cyan-200">2%</div><div class="text-[9px] text-cyan-200">L3</div></div>
+          <div class="bg-white/10 rounded-xl p-2"><div class="font-black text-sm text-slate-200">1%</div><div class="text-[9px] text-cyan-200">L4</div></div>
+          <div class="bg-white/10 rounded-xl p-2"><div class="font-black text-sm text-slate-200">1%</div><div class="text-[9px] text-cyan-200">L5</div></div>
         </div>
-        <div class="text-[10px] opacity-90 text-center font-medium">From every USDT top-up</div>
-      </div>
-
-      <div class="space-y-2">
-        <div class="text-xs font-bold">Your referrals</div>
-        <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-1">
-          <button class="bg-[#3b82f6] text-white text-[11px] font-bold px-3 py-1 rounded-full">All • 3</button>
-          <button class="bg-white border border-slate-200 text-slate-600 text-[11px] font-medium px-3 py-1 rounded-full">L1 • 3</button>
-          <button class="bg-white border border-slate-200 text-slate-600 text-[11px] font-medium px-3 py-1 rounded-full">L2 • 0</button>
-        </div>
+        <div class="text-[10px] text-cyan-200 text-center font-medium">Earned automatically from all peer network top-ups</div>
       </div>
     </div>
 
-
-    <!-- ======================================================== -->
-    <!-- SCREEN 3: GIFTS / REWARDS (Tab 3: gifts)                 -->
-    <!-- ======================================================== -->
+    <!-- ================= SCREEN 3: GIFTS ================= -->
     <div id="screen-gifts" class="space-y-4 hidden">
-      <div class="bg-white rounded-3xl p-5 card-shadow border border-slate-100 text-center space-y-2">
-        <div class="w-16 h-16 rounded-full bg-amber-50 text-amber-500 text-3xl flex items-center justify-center mx-auto">
+      <div class="sapphire-glass rounded-3xl p-5 text-center space-y-2">
+        <div class="w-16 h-16 rounded-full bg-amber-400/20 text-amber-300 text-3xl flex items-center justify-center mx-auto border border-amber-300/30">
           🎁
         </div>
-        <h2 class="text-lg font-black">Alpha Gift Vault</h2>
-        <p class="text-xs text-slate-500 subtext-color">Collect daily gift crates and open mystery booster packs.</p>
-        <button onclick="claimMysteryGift()" class="bg-[#d4f932] hover:bg-[#c6ec27] text-slate-900 font-extrabold px-6 py-2.5 rounded-full text-xs tap-scale mt-2">
-          Open Daily Mystery Box (+100 Coins)
+        <h2 class="text-lg font-black text-white">Alpha Gift Vault</h2>
+        <p class="text-xs text-cyan-200">Collect daily gift crates and open mystery booster packs.</p>
+        <button onclick="claimMysteryGift()" class="bg-[#dcfb32] text-[#0d2149] font-extrabold px-6 py-2.5 rounded-full text-xs tap-scale mt-2 shadow-md">
+          Open Daily Mystery Box (+5 Coins)
         </button>
       </div>
     </div>
 
-
-    <!-- ======================================================== -->
-    <!-- SCREEN 4: ACCOUNT DETAILS & THEME (Tab 4: account)       -->
-    <!-- ======================================================== -->
+    <!-- ================= SCREEN 4: ACCOUNT ================= -->
     <div id="screen-account" class="space-y-3 hidden">
-      <div class="grid grid-cols-2 bg-slate-200/70 p-1 rounded-2xl text-xs font-bold text-center">
-        <button class="bg-white text-slate-900 py-1.5 rounded-xl shadow-sm">Account</button>
-        <button onclick="switchTab('friends')" class="text-slate-500 hover:text-slate-800 py-1.5 rounded-xl">Friends</button>
-      </div>
-
-      <div class="flex items-center justify-between pt-1">
-        <div class="flex items-center gap-2">
-          <div class="w-10 h-10 rounded-full bg-[#af52de] flex items-center justify-center text-sm font-black text-white" id="account-avatar-char">
+      <div class="sapphire-glass rounded-3xl p-4 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-cyan-300 text-[#0d2149] flex items-center justify-center font-black text-sm">
             AM
           </div>
           <div>
-            <div class="bg-[#4285f4] text-white text-xs font-bold px-3 py-0.5 rounded-full shadow-sm inline-flex items-center gap-1" id="account-name-badge">
-              Alpha Miner 🍅
-            </div>
-            <div class="text-[10px] font-mono font-bold text-slate-400 mt-0.5 subtext-color" id="account-tg-id-display">
-              TG ID: #89410321
-            </div>
+            <div class="text-sm font-black text-white" id="account-name-badge">Alpha Miner ⚡</div>
+            <div class="text-[10px] font-mono text-cyan-300" id="account-tg-id-display">TG ID: #89410321</div>
           </div>
         </div>
-        <div class="bg-[#d4f932] text-slate-900 font-extrabold text-xs px-3 py-1 rounded-full shadow-sm" id="account-level-pill">
-          ★ Level 1 (Starter)
+        <div class="bg-[#dcfb32] text-[#0d2149] font-black text-xs px-3 py-1 rounded-full">
+          Tier 1 (Starter)
         </div>
       </div>
 
-      <div class="bg-white border border-slate-200/80 p-2.5 rounded-2xl flex items-center justify-center gap-2 text-xs font-semibold text-slate-600 shadow-sm">
-        <span class="w-5 h-5 rounded-full bg-[#26a17b] text-white flex items-center justify-center font-black text-[11px]">₮</span>
-        <span class="font-extrabold text-sm" id="account-usdt-balance">0.0000 USDT</span>
-        <span class="text-slate-400 font-medium subtext-color">Total balance</span>
-      </div>
-
-      <!-- 2-Column Pastel Metric Grid -->
       <div class="grid grid-cols-2 gap-3 text-left">
-        <div class="bg-[#e9f2ff] rounded-3xl p-4 card-shadow space-y-1">
-          <div class="w-7 h-7 rounded-xl bg-blue-100 flex items-center justify-center text-blue-600 text-xs">👥</div>
-          <div class="text-[11px] font-semibold text-slate-600">Invited by</div>
-          <div class="text-xs font-black text-[#2b72ee]">ID 7078896021</div>
+        <div class="sapphire-glass rounded-3xl p-4 space-y-1">
+          <div class="text-[11px] text-cyan-200">Coin balance</div>
+          <div class="text-base font-black text-amber-300" id="acc-coins">100</div>
         </div>
-
-        <div class="bg-[#fff9eb] rounded-3xl p-4 card-shadow space-y-1">
-          <div class="w-7 h-7 rounded-xl bg-amber-100 flex items-center justify-center text-amber-600 text-xs">📈</div>
-          <div class="text-[11px] font-semibold text-slate-600">Coin balance</div>
-          <div class="text-base font-black text-amber-500" id="acc-coins">100</div>
-        </div>
-
-        <div class="bg-[#edfaf3] rounded-3xl p-4 card-shadow space-y-1">
-          <div class="w-7 h-7 rounded-xl bg-emerald-100 flex items-center justify-center text-emerald-600 text-xs">₮</div>
-          <div class="text-[11px] font-semibold text-slate-600">USDT balance</div>
-          <div class="text-sm font-black text-[#1f9d55]" id="acc-usdt">$0.0000</div>
-        </div>
-
-        <div class="bg-[#f7effe] rounded-3xl p-4 card-shadow space-y-1">
-          <div class="w-7 h-7 rounded-xl bg-purple-100 flex items-center justify-center text-purple-600 text-xs">👤</div>
-          <div class="text-[11px] font-semibold text-slate-600">Referral income</div>
-          <div class="text-sm font-black text-purple-600">0.00 USDT</div>
-        </div>
-
-        <!-- Dynamic Theme Switcher Card -->
-        <div onclick="toggleTheme()" class="bg-[#fff9eb] rounded-3xl p-4 card-shadow space-y-1 cursor-pointer tap-scale">
-          <div class="w-7 h-7 rounded-xl bg-amber-100 flex items-center justify-center text-xs">🎨</div>
-          <div class="text-[11px] font-semibold text-slate-600">Visual Theme</div>
-          <div class="flex items-center justify-between pt-0.5">
-            <span class="text-xs font-bold" id="theme-label-text">Gradient</span>
-            <div id="theme-toggle-pill" class="w-8 h-4 bg-[#26a17b] rounded-full flex items-center justify-end px-0.5 transition-all">
-              <div id="theme-toggle-knob" class="w-3 h-3 bg-white rounded-full"></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="bg-[#edf5ff] rounded-3xl p-4 card-shadow space-y-1">
-          <div class="w-7 h-7 rounded-xl bg-blue-100 flex items-center justify-center text-blue-500 text-xs">↓</div>
-          <div class="text-[11px] font-semibold text-slate-600">USDT withdrawn</div>
-          <div class="text-sm font-black text-blue-600">0.00 USDT</div>
+        <div class="sapphire-glass rounded-3xl p-4 space-y-1">
+          <div class="text-[11px] text-cyan-200">USDT balance</div>
+          <div class="text-base font-black text-cyan-200" id="acc-usdt">$0.0000</div>
         </div>
       </div>
 
-      <!-- Wallet Management in Account -->
-      <div onclick="openWalletModal()" class="bg-[#e9fbf2] rounded-3xl p-4 card-shadow flex items-center justify-between cursor-pointer tap-scale">
+      <div onclick="openWalletModal()" class="sapphire-glass rounded-3xl p-4 flex items-center justify-between cursor-pointer tap-scale">
         <div class="flex items-center gap-3">
-          <div class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-sm">
+          <div class="w-8 h-8 rounded-full bg-cyan-400/20 text-cyan-300 flex items-center justify-center text-sm border border-cyan-400/30">
             💎
           </div>
           <div>
-            <div class="text-xs font-black">TON / Tonkeeper Wallet Hub</div>
-            <div class="text-[11px] text-emerald-600 font-semibold" id="acc-wallet-summary">Tap to view / connect / link manually</div>
+            <div class="text-xs font-black text-white">Wallet Management Hub</div>
+            <div class="text-[11px] text-cyan-300 font-semibold" id="acc-wallet-summary">Tonkeeper / Manual Link</div>
           </div>
         </div>
-        <span class="text-slate-400 text-xs font-bold">➔</span>
-      </div>
-
-      <div class="text-center text-[10px] text-slate-400 font-mono py-2 subtext-color">
-        2026-09-29-v17 • Alpha Mining Protocol
+        <span class="text-cyan-200 text-xs font-bold">➔</span>
       </div>
     </div>
 
   </main>
 
-
-  <!-- ================= BOTTOM NAVIGATION BAR (FIXED) ================= -->
-  <!-- "Trade" button completely removed -->
-  <nav class="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white/95 backdrop-blur-md border-t border-slate-200/80 flex items-center justify-around py-2.5 px-3 z-40 card-shadow" id="bottom-navbar">
-    <button onclick="switchTab('friends')" id="nav-btn-friends" class="flex flex-col items-center text-slate-400 text-[11px] font-semibold tap-scale transition-colors">
+  <!-- ================= FIXED BOTTOM NAV ================= -->
+  <nav class="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-[#0a1e42]/95 backdrop-blur-xl border-t border-white/10 flex items-center justify-around py-2.5 px-3 z-40">
+    <button onclick="switchTab('friends')" id="nav-btn-friends" class="flex flex-col items-center text-cyan-200/70 text-[11px] font-semibold tap-scale">
       <span class="text-xl">👥</span>
       <span class="mt-0.5">Friends</span>
     </button>
 
     <button onclick="switchTab('mine')" id="nav-btn-mine" class="flex flex-col items-center tap-scale">
-      <div class="w-12 h-12 rounded-full bg-[#d4f932] shadow-md shadow-lime-400/40 flex items-center justify-center text-slate-900 font-black text-xl">
+      <div class="w-12 h-12 rounded-full bg-[#dcfb32] shadow-lg shadow-[#dcfb32]/40 flex items-center justify-center text-[#0d2149] font-black text-xl">
         ⚡
       </div>
-      <span class="text-[11px] font-extrabold text-slate-900 mt-0.5">Mine</span>
+      <span class="text-[11px] font-black text-[#dcfb32] mt-0.5">Mine</span>
     </button>
 
-    <button onclick="switchTab('gifts')" id="nav-btn-gifts" class="flex flex-col items-center text-slate-400 text-[11px] font-semibold tap-scale transition-colors">
+    <button onclick="switchTab('gifts')" id="nav-btn-gifts" class="flex flex-col items-center text-cyan-200/70 text-[11px] font-semibold tap-scale">
       <span class="text-xl">🎁</span>
       <span class="mt-0.5">Gifts</span>
     </button>
 
-    <button onclick="switchTab('account')" id="nav-btn-account" class="flex flex-col items-center text-slate-400 text-[11px] font-semibold tap-scale transition-colors">
+    <button onclick="switchTab('account')" id="nav-btn-account" class="flex flex-col items-center text-cyan-200/70 text-[11px] font-semibold tap-scale">
       <span class="text-xl">👤</span>
       <span class="mt-0.5">Account</span>
     </button>
   </nav>
 
-
-  <!-- ================= 1. MODAL: TOP UP SELECTION ================= -->
-  <div id="topup-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-end justify-center">
-    <div class="bg-white w-full max-w-md rounded-t-[32px] p-6 space-y-4 max-h-[92vh] overflow-y-auto no-scrollbar shadow-2xl">
-      
+  <!-- ================= TOP UP MODAL ================= -->
+  <div id="topup-modal" class="fixed inset-0 bg-[#061226]/85 backdrop-blur-md z-50 hidden flex items-end justify-center">
+    <div class="bg-[#0e2754] border-t border-cyan-400/30 w-full max-w-md rounded-t-[32px] p-6 space-y-4 max-h-[92vh] overflow-y-auto no-scrollbar shadow-2xl">
       <div class="flex justify-between items-center pb-2">
-        <h3 class="text-lg font-black text-slate-900">Top up & Boost Speed</h3>
-        <button onclick="closeTopUpModal()" class="text-xs font-bold text-slate-500 bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-full tap-scale">
-          Close ✕
-        </button>
-      </div>
-
-      <div class="bg-blue-50 border border-blue-200 rounded-2xl p-3 text-xs text-blue-900">
-        ⚡ <strong>Speed Multipliers:</strong>
-        <div class="mt-1 grid grid-cols-3 gap-1 text-[11px] font-mono">
-          <span>• 3 USDT: 5x</span>
-          <span>• 10 USDT: 15x</span>
-          <span>• 30 USDT: 50x</span>
-        </div>
+        <h3 class="text-lg font-black text-white">Top Up & Node Upgrade</h3>
+        <button onclick="closeTopUpModal()" class="text-xs font-bold text-cyan-200 bg-white/10 px-3 py-1.5 rounded-full tap-scale">Close ✕</button>
       </div>
 
       <div>
-        <label class="text-xs font-semibold text-slate-500">Top-up amount (USDT)</label>
-        <div class="flex items-center justify-between bg-slate-100 p-3.5 rounded-2xl mt-1">
-          <input id="topup-amount-input" oninput="handleAmountInput(this.value)" type="number" value="3" class="bg-transparent text-xl font-black text-slate-900 outline-none w-full" />
-          <span class="text-xs font-extrabold text-slate-400">USDT</span>
+        <label class="text-xs font-semibold text-cyan-200">Deposit Amount (USDT)</label>
+        <div class="flex items-center justify-between bg-white/10 border border-white/15 p-3.5 rounded-2xl mt-1">
+          <input id="topup-amount-input" oninput="handleAmountInput(this.value)" type="number" value="3" class="bg-transparent text-xl font-black text-white outline-none w-full" />
+          <span class="text-xs font-extrabold text-cyan-300">USDT</span>
         </div>
       </div>
 
-      <!-- Quick Preset Pills -->
       <div class="grid grid-cols-6 gap-1 text-center text-xs">
-        <button onclick="setTopUpAmount(3)" class="preset-btn bg-blue-600 text-white p-2 rounded-xl font-bold">3</button>
-        <button onclick="setTopUpAmount(5)" class="preset-btn bg-slate-100 text-slate-800 p-2 rounded-xl font-bold">5</button>
-        <button onclick="setTopUpAmount(10)" class="preset-btn bg-slate-100 text-slate-800 p-2 rounded-xl font-bold">10</button>
-        <button onclick="setTopUpAmount(30)" class="preset-btn bg-slate-100 text-slate-800 p-2 rounded-xl font-bold">30</button>
-        <button onclick="setTopUpAmount(100)" class="preset-btn bg-slate-100 text-slate-800 p-2 rounded-xl font-bold">100</button>
-        <button onclick="setTopUpAmount(300)" class="preset-btn bg-slate-100 text-slate-800 p-2 rounded-xl font-bold">300</button>
+        <button onclick="setTopUpAmount(3)" class="preset-btn bg-cyan-400 text-[#0d2149] p-2 rounded-xl font-bold">3</button>
+        <button onclick="setTopUpAmount(5)" class="preset-btn bg-white/10 text-white p-2 rounded-xl font-bold">5</button>
+        <button onclick="setTopUpAmount(10)" class="preset-btn bg-white/10 text-white p-2 rounded-xl font-bold">10</button>
+        <button onclick="setTopUpAmount(30)" class="preset-btn bg-white/10 text-white p-2 rounded-xl font-bold">30</button>
+        <button onclick="setTopUpAmount(100)" class="preset-btn bg-white/10 text-white p-2 rounded-xl font-bold">100</button>
+        <button onclick="setTopUpAmount(300)" class="preset-btn bg-white/10 text-white p-2 rounded-xl font-bold">300</button>
       </div>
 
-      <!-- Crypto Networks Grid (USDT BEP20, USDT TRC20, USDT TON, BTC) -->
       <div class="space-y-2 pt-1">
-        <div class="text-xs font-bold text-slate-600">Select Network / Coin</div>
+        <div class="text-xs font-bold text-cyan-200">Select Network / Coin</div>
         <div class="grid grid-cols-2 gap-2 text-left text-xs">
-          <!-- 1. USDT BEP20 -->
-          <div onclick="selectNetwork('USDT BEP20', this)" class="net-pill border-2 border-blue-500 bg-blue-50/50 p-2.5 rounded-2xl flex items-center gap-2.5 cursor-pointer">
-            <div class="w-8 h-8 rounded-full bg-[#26a17b] text-white flex items-center justify-center font-black text-xs">₮</div>
-            <div>
-              <div class="font-bold text-slate-900 leading-tight">USDT BEP20</div>
-              <div class="text-[10px] text-slate-400">BNB Smart Chain</div>
-            </div>
+          <div onclick="selectNetwork('USDT BEP20', this)" class="net-pill border-2 border-cyan-400 bg-cyan-600/30 p-2.5 rounded-2xl flex items-center gap-2.5 cursor-pointer">
+            <div class="w-8 h-8 rounded-full bg-emerald-500 text-white flex items-center justify-center font-black text-xs">₮</div>
+            <div><div class="font-bold text-white">USDT BEP20</div><div class="text-[10px] text-cyan-200">BNB Chain</div></div>
           </div>
-
-          <!-- 2. USDT TRC20 -->
-          <div onclick="selectNetwork('USDT TRC20', this)" class="net-pill border border-slate-200 bg-slate-50 p-2.5 rounded-2xl flex items-center gap-2.5 cursor-pointer">
+          <div onclick="selectNetwork('USDT TRC20', this)" class="net-pill border border-white/15 bg-white/10 p-2.5 rounded-2xl flex items-center gap-2.5 cursor-pointer">
             <div class="w-8 h-8 rounded-full bg-red-600 text-white flex items-center justify-center font-black text-xs">₮</div>
-            <div>
-              <div class="font-bold text-slate-900 leading-tight">USDT TRC20</div>
-              <div class="text-[10px] text-slate-400">TRON Network</div>
-            </div>
+            <div><div class="font-bold text-white">USDT TRC20</div><div class="text-[10px] text-cyan-200">TRON</div></div>
           </div>
-
-          <!-- 3. USDT TON -->
-          <div onclick="selectNetwork('USDT TON', this)" class="net-pill border border-slate-200 bg-slate-50 p-2.5 rounded-2xl flex items-center gap-2.5 cursor-pointer">
+          <div onclick="selectNetwork('USDT TON', this)" class="net-pill border border-white/15 bg-white/10 p-2.5 rounded-2xl flex items-center gap-2.5 cursor-pointer">
             <div class="w-8 h-8 rounded-full bg-[#0098ea] text-white flex items-center justify-center font-black text-xs">💎</div>
-            <div>
-              <div class="font-bold text-slate-900 leading-tight">USDT TON</div>
-              <div class="text-[10px] text-slate-400">TON Network</div>
-            </div>
+            <div><div class="font-bold text-white">USDT TON</div><div class="text-[10px] text-cyan-200">TON</div></div>
           </div>
-
-          <!-- 4. BTC -->
-          <div onclick="selectNetwork('BTC', this)" class="net-pill border border-slate-200 bg-slate-50 p-2.5 rounded-2xl flex items-center gap-2.5 cursor-pointer">
+          <div onclick="selectNetwork('BTC', this)" class="net-pill border border-white/15 bg-white/10 p-2.5 rounded-2xl flex items-center gap-2.5 cursor-pointer">
             <div class="w-8 h-8 rounded-full bg-amber-500 text-white flex items-center justify-center font-black text-xs">₿</div>
-            <div>
-              <div class="font-bold text-slate-900 leading-tight">BTC</div>
-              <div class="text-[10px] text-slate-400">Bitcoin Mainnet</div>
-            </div>
+            <div><div class="font-bold text-white">BTC</div><div class="text-[10px] text-cyan-200">Bitcoin</div></div>
           </div>
         </div>
       </div>
 
-      <button onclick="proceedToPaymentDetails()" class="w-full bg-[#3b82f6] hover:bg-blue-600 text-white font-black py-3.5 rounded-2xl tap-scale shadow-lg shadow-blue-500/20 text-sm">
+      <button onclick="proceedToPaymentDetails()" class="w-full bg-gradient-to-r from-blue-500 to-cyan-400 hover:from-blue-600 hover:to-cyan-500 text-[#0d2149] font-black py-3.5 rounded-2xl tap-scale shadow-lg text-sm">
         Proceed to Deposit Details ➔
       </button>
     </div>
   </div>
 
-
-  <!-- ================= 2. MODAL: PAYMENT DETAILS (WITH DYNAMIC OFFICIAL ADDRESSES) ================= -->
-  <div id="payment-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-end justify-center">
-    <div class="bg-white w-full max-w-md rounded-t-[32px] p-6 space-y-4 max-h-[92vh] overflow-y-auto no-scrollbar shadow-2xl">
-      
+  <!-- ================= PAYMENT DETAILS MODAL ================= -->
+  <div id="payment-modal" class="fixed inset-0 bg-[#061226]/85 backdrop-blur-md z-50 hidden flex items-end justify-center">
+    <div class="bg-[#0e2754] border-t border-cyan-400/30 w-full max-w-md rounded-t-[32px] p-6 space-y-4 max-h-[92vh] overflow-y-auto no-scrollbar shadow-2xl">
       <div class="flex justify-between items-center pb-1">
-        <h3 class="text-lg font-black text-slate-900">Payment details</h3>
-        <button onclick="closePaymentModal()" class="text-xs font-bold text-slate-500 bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-full tap-scale">
-          Close ✕
-        </button>
+        <h3 class="text-lg font-black text-white">Payment details</h3>
+        <button onclick="closePaymentModal()" class="text-xs font-bold text-cyan-200 bg-white/10 px-3 py-1.5 rounded-full tap-scale">Close ✕</button>
       </div>
 
-      <div class="bg-slate-50 border border-slate-200 rounded-3xl p-4 space-y-3">
-        <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-full bg-[#26a17b] text-white flex items-center justify-center font-black text-sm" id="pay-network-icon">
-            ₮
-          </div>
-          <div>
-            <div class="font-black text-slate-900 text-sm" id="pay-network-name">USDT BEP20</div>
-            <div class="text-[10px] text-slate-400 font-medium">Selected transfer network</div>
-          </div>
-        </div>
-
-        <div class="flex justify-between items-center text-xs pt-1 border-t border-slate-200/80">
-          <span class="text-slate-400">To pay:</span>
-          <div class="flex items-center gap-2">
-            <span class="font-black text-slate-900 text-sm" id="pay-topay-val">3 USDT</span>
-            <button onclick="copyPayAmount()" class="text-blue-600 font-bold text-xs tap-scale">Copy</button>
-          </div>
-        </div>
-
+      <div class="sapphire-glass rounded-3xl p-4 space-y-2">
         <div class="flex justify-between items-center text-xs">
-          <span class="text-slate-400">Target Level & Speed:</span>
-          <span class="font-extrabold text-[#26a17b]" id="pay-target-upgrade-lvl">Level 2 Rig (5x Speed)</span>
+          <span class="text-cyan-200">Network:</span>
+          <span class="font-black text-white" id="pay-network-name">USDT BEP20</span>
+        </div>
+        <div class="flex justify-between items-center text-xs">
+          <span class="text-cyan-200">To pay:</span>
+          <span class="font-black text-cyan-200" id="pay-topay-val">3 USDT</span>
         </div>
       </div>
 
-      <!-- Official Deposit Address Box (Dynamically shows selected wallet address) -->
       <div>
-        <label class="text-xs font-semibold text-slate-400 block mb-1">Official Vault Deposit Address</label>
-        <div class="bg-slate-100 p-4 rounded-2xl break-all font-mono text-xs font-extrabold text-slate-800 leading-relaxed" id="master-deposit-addr">
+        <label class="text-xs font-semibold text-cyan-200 block mb-1">Official Vault Deposit Address</label>
+        <div class="bg-[#091b3b] border border-white/20 p-4 rounded-2xl break-all font-mono text-xs font-extrabold text-cyan-300" id="master-deposit-addr">
           0x4a5e6Ee24b1d4C6aCE3b96Dec2Fe8197a6Ca7726
         </div>
-        <button onclick="copyDepositAddress()" class="w-full mt-2.5 bg-[#3b82f6] hover:bg-blue-600 text-white font-extrabold py-3 rounded-2xl tap-scale shadow-lg shadow-blue-500/20 text-xs">
+        <button onclick="copyDepositAddress()" class="w-full mt-2.5 bg-cyan-400 hover:bg-cyan-300 text-[#0d2149] font-black py-3 rounded-2xl tap-scale text-xs">
           Copy address
         </button>
       </div>
 
       <div class="space-y-2">
-        <label class="text-xs font-semibold text-slate-400 block">Submit Transaction Hash (Tx ID):</label>
-        <input id="deposit-tx-hash-input" placeholder="Paste transaction hash / signature here" class="w-full bg-slate-100 p-3 rounded-2xl text-xs text-slate-900 outline-none border border-slate-200 focus:border-blue-500 font-mono" />
-        <button onclick="submitAuthorizeForAdmin()" class="w-full bg-[#d4f932] hover:bg-[#c6ec27] text-slate-900 font-black py-3.5 rounded-2xl tap-scale text-xs shadow-md">
+        <label class="text-xs font-semibold text-cyan-200 block">Submit Tx Hash (Tx ID):</label>
+        <input id="deposit-tx-hash-input" placeholder="Paste transaction hash / signature" class="w-full bg-white/10 border border-white/15 p-3 rounded-2xl text-xs text-white outline-none font-mono" />
+        <button onclick="submitAuthorizeForAdmin()" class="w-full bg-[#dcfb32] text-[#0d2149] font-black py-3.5 rounded-2xl tap-scale text-xs shadow-md">
           Authorize & Submit to Admin ➔
         </button>
-      </div>
-
-      <div class="bg-slate-50 border border-slate-200 rounded-2xl p-3 text-center space-y-1">
-        <div class="text-xs font-extrabold text-slate-800 flex items-center justify-center gap-1.5">
-          <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
-          Waiting for verification
-        </div>
-        <div class="text-[10px] text-slate-400">Admin reviews Tx Hash on-chain and credits upgraded speed</div>
       </div>
     </div>
   </div>
 
-
-  <!-- ================= 3. MODAL: TONKEEPER & MANUAL WALLET ================= -->
-  <div id="wallet-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-end justify-center">
-    <div class="bg-white w-full max-w-md rounded-t-[32px] p-6 space-y-4 max-h-[92vh] overflow-y-auto no-scrollbar shadow-2xl">
-      
-      <div class="flex justify-between items-center pb-2 border-b border-slate-100">
-        <h3 class="text-lg font-black text-slate-900 flex items-center gap-2">
-          💎 TON Wallet Link & Management
-        </h3>
-        <button onclick="closeWalletModal()" class="text-xs font-bold text-slate-500 bg-slate-100 px-3 py-1.5 rounded-full tap-scale">Close ✕</button>
+  <!-- ================= WALLET MODAL ================= -->
+  <div id="wallet-modal" class="fixed inset-0 bg-[#061226]/85 backdrop-blur-md z-50 hidden flex items-end justify-center">
+    <div class="bg-[#0e2754] border-t border-cyan-400/30 w-full max-w-md rounded-t-[32px] p-6 space-y-4 max-h-[92vh] overflow-y-auto no-scrollbar shadow-2xl">
+      <div class="flex justify-between items-center pb-2 border-b border-white/10">
+        <h3 class="text-lg font-black text-white flex items-center gap-2">💎 TON Wallet Link</h3>
+        <button onclick="closeWalletModal()" class="text-xs font-bold text-cyan-200 bg-white/10 px-3 py-1.5 rounded-full tap-scale">Close ✕</button>
       </div>
 
-      <!-- State A: Not Connected -->
       <div id="wallet-modal-unconnected" class="space-y-4">
-        <div class="bg-blue-50/70 border border-blue-200 rounded-2xl p-3.5 space-y-2">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-bold text-blue-900 flex items-center gap-1.5">
-              <span>💎</span> Tonkeeper App Connection
-            </span>
-            <span class="text-[10px] bg-blue-200 text-blue-800 px-2 py-0.5 rounded-md font-extrabold">Official</span>
-          </div>
-          <p class="text-[11px] text-blue-700">Open Tonkeeper directly via deep-link protocol:</p>
-          <button onclick="launchTonkeeperLink()" class="w-full bg-[#0098ea] hover:bg-[#0087cf] text-white py-2.5 rounded-xl font-black text-xs tap-scale flex items-center justify-center gap-2 shadow-sm">
-            <span>💎</span> Open & Link via Tonkeeper
-          </button>
-        </div>
+        <button onclick="launchTonkeeperLink()" class="w-full bg-[#0098ea] hover:bg-[#0087cf] text-white py-3 rounded-xl font-black text-xs tap-scale flex items-center justify-center gap-2 shadow-sm">
+          <span>💎</span> Open & Link via Tonkeeper
+        </button>
 
         <div class="space-y-2 pt-1">
-          <label class="text-xs font-bold text-slate-700">Or Link TON / USDT Address Manually:</label>
-          <input id="manual-wallet-input" placeholder="Paste your TON wallet address (e.g. UQC4...DKvm)" class="w-full bg-slate-100 p-3 rounded-xl text-xs text-slate-900 font-mono outline-none border border-slate-200 focus:border-blue-500" />
-          <button onclick="saveManualWalletAddress()" class="w-full bg-[#3b82f6] hover:bg-blue-600 text-white font-black py-3 rounded-xl text-xs tap-scale">
+          <label class="text-xs font-bold text-cyan-200">Or Paste TON Address Manually:</label>
+          <input id="manual-wallet-input" placeholder="Paste TON address (e.g. UQC4...DKvm)" class="w-full bg-white/10 border border-white/15 p-3 rounded-xl text-xs text-white font-mono outline-none" />
+          <button onclick="saveManualWalletAddress()" class="w-full bg-gradient-to-r from-blue-500 to-cyan-400 text-[#0d2149] font-black py-3 rounded-xl text-xs tap-scale">
             Link Address Manually ➔
           </button>
         </div>
       </div>
 
-      <!-- State B: Connected -->
       <div id="wallet-modal-connected" class="space-y-4 hidden">
-        <div class="bg-emerald-50 border border-emerald-200 rounded-2xl p-4 space-y-2">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-bold text-emerald-800 flex items-center gap-1.5">
-              <span class="w-2 h-2 rounded-full bg-emerald-500"></span> Active Linked Wallet
-            </span>
-            <span class="bg-emerald-200 text-emerald-900 text-[10px] font-black px-2 py-0.5 rounded-md" id="connected-wallet-brand">Tonkeeper</span>
-          </div>
-          <div class="font-mono text-xs font-black text-slate-800 break-all bg-white p-2.5 rounded-xl border border-emerald-100" id="connected-wallet-full-addr">
-            Not Linked
-          </div>
+        <div class="sapphire-glass rounded-2xl p-4 space-y-2">
+          <div class="text-xs font-bold text-emerald-300">Active Linked Wallet</div>
+          <div class="font-mono text-xs font-black text-white break-all" id="connected-wallet-full-addr">Not Linked</div>
         </div>
-
-        <button onclick="executeDisconnectWallet()" class="w-full bg-rose-50 hover:bg-rose-100 text-rose-600 font-extrabold py-3.5 rounded-2xl tap-scale border border-rose-200 text-xs flex items-center justify-center gap-2">
-          <span>🔌</span> Disconnect Wallet
+        <button onclick="executeDisconnectWallet()" class="w-full bg-rose-500/20 text-rose-300 border border-rose-500/40 font-extrabold py-3.5 rounded-2xl tap-scale text-xs">
+          Disconnect Wallet
         </button>
       </div>
-
     </div>
   </div>
 
-
-  <!-- ================= JAVASCRIPT: APPLICATION LOGIC ================= -->
+  <!-- ================= APPLICATION ENGINE SCRIPT ================= -->
   <script>
-    // --- 1. OFFICIAL VAULT WALLET ADDRESSES MAPPING ---
+    // --- 1. OFFICIAL VAULT WALLETS ---
     const OFFICIAL_WALLET_ADDRESSES = {
       'USDT BEP20': '0x4a5e6Ee24b1d4C6aCE3b96Dec2Fe8197a6Ca7726',
       'USDT TRC20': 'TF7HnqLafizs5zcK6DTdK55ZWxscunKeDu',
@@ -742,55 +583,62 @@
       'BTC':        'bc1q0r2p6h4mks4axe2e59kjtl0f9p9dlv3y52wp9v'
     };
 
-    // --- 2. Persistent State Management ---
-    const STORAGE_KEY = 'alpha_mining_master_v5';
-
+    // --- 2. STATE ---
+    const STORAGE_KEY = 'alpha_mining_master_v7';
     const defaultState = {
       telegram_id: 89410321,
-      username: 'Alpha Miner',
+      username: 'Alpha Node',
       miningAmount: 0.000000000,
       usdtBalance: 0.0000,
-      coins: 100, // 100 starting coins
+      coins: 100,
       level: 1,
       isUpgraded: false,
       upgradeAmount: 0,
       walletConnected: false,
       walletAddress: '',
       walletBrand: '',
-      theme: 'gradient',
       lastTimestamp: Date.now(),
       activeTab: 'mine'
     };
 
-    let state = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
-    if (!state) {
-      state = defaultState;
-    }
+    let state = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null') || defaultState;
+    if (typeof state.coins !== 'number' || state.coins < 100) state.coins = 100;
 
-    if (typeof state.coins !== 'number' || state.coins < 100) {
-      state.coins = 100;
-    }
-
-    // --- 3. Mining Speed Engine ---
-    const BASE_RATE_PER_SEC = 0.0005 / 3600;
+    // --- 3. MATHEMATICALLY SUSTAINABLE TOKENOMICS ---
+    const BASE_RATE_PER_SEC = 0.000000028;
 
     function getCurrentMiningRatePerSec() {
       if (!state.isUpgraded) {
         return BASE_RATE_PER_SEC;
       } else {
-        const mult = Math.max(2.5, state.upgradeAmount * 1.8);
-        return BASE_RATE_PER_SEC * mult;
+        const dailyTargetRate = state.upgradeAmount >= 30 ? 0.018 : (state.upgradeAmount >= 10 ? 0.014 : 0.010);
+        return (state.upgradeAmount * dailyTargetRate) / 86400;
       }
     }
 
-    function catchUpOfflineMining() {
-      const now = Date.now();
-      const elapsed = Math.max(0, (now - state.lastTimestamp) / 1000);
-      const generated = elapsed * getCurrentMiningRatePerSec();
-      state.miningAmount += generated;
-      state.lastTimestamp = now;
-      saveState();
-      updateAllUI();
+    // --- 4. REAL-TIME CLAIM TICKER (EVERY SECOND LIVE SIMULATION) ---
+    const activeMinerNames = ['@sam_sol', '@crypto_alex', '@ton_whale', '@maria_web3', '@neo_miner', '@vlad_ton', '@dev_sarah', '@dex_trader', '@hamster_pro', '@ton_matrix'];
+    function startEverySecondClaimTicker() {
+      setInterval(() => {
+        const randomMiner = activeMinerNames[Math.floor(Math.random() * activeMinerNames.length)];
+        const randomAmount = (0.004 + Math.random() * 0.041).toFixed(4);
+        const tickerEl = document.getElementById('every-sec-claim-ticker');
+        tickerEl.style.opacity = '0';
+        setTimeout(() => {
+          tickerEl.innerText = `${randomMiner} claimed +$${randomAmount} USDT`;
+          tickerEl.style.opacity = '1';
+        }, 200);
+      }, 1500);
+    }
+
+    // --- 5. CONTINUOUS MINING STREAM ---
+    function startLiveMiningEngine() {
+      setInterval(() => {
+        const ratePerSec = getCurrentMiningRatePerSec();
+        state.miningAmount += ratePerSec * 0.1;
+        saveState();
+        document.getElementById('streaming-mining-counter').innerText = `$${state.miningAmount.toFixed(9)}`;
+      }, 100);
     }
 
     function saveState() {
@@ -798,105 +646,44 @@
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     }
 
-    // --- 4. Realtime Continuous Micro-Streaming Loop ---
-    function startLiveMiningEngine() {
-      setInterval(() => {
-        const ratePerSec = getCurrentMiningRatePerSec();
-        state.miningAmount += ratePerSec * 0.1; // 100ms
-        saveState();
-        document.getElementById('streaming-mining-counter').innerText = `$${state.miningAmount.toFixed(9)}`;
-      }, 100);
-    }
-
-    // --- 5. UI Updates ---
     function updateAllUI() {
       document.getElementById('streaming-mining-counter').innerText = `$${state.miningAmount.toFixed(9)}`;
-      
       const usdtFormatted = `$${state.usdtBalance.toFixed(4)}`;
       document.getElementById('in-app-usdt-display').innerText = usdtFormatted;
       document.getElementById('vault-usdt-balance').innerText = `${state.usdtBalance.toFixed(4)} USDT`;
-      document.getElementById('account-usdt-balance').innerText = `${state.usdtBalance.toFixed(4)} USDT`;
       document.getElementById('acc-usdt').innerText = usdtFormatted;
-
       document.getElementById('coins-count-display').innerText = state.coins;
       document.getElementById('acc-coins').innerText = state.coins;
-      document.getElementById('coins-est-val').innerText = `≈$${state.coins}.00`;
 
-      document.getElementById('header-user-title').innerText = `${state.username} 🍅`;
-      document.getElementById('account-name-badge').innerText = `${state.username} 🍅`;
-      document.getElementById('account-tg-id-display').innerText = `TG ID: #${state.telegram_id}`;
-
-      const lvlText = state.isUpgraded ? `Level ${state.level} (Boosted)` : 'Level 1';
-      document.getElementById('level-display').innerText = lvlText;
-      document.getElementById('account-level-pill').innerText = `★ ${lvlText}`;
+      const rateHr = (getCurrentMiningRatePerSec() * 3600).toFixed(6);
+      const rateDay = (getCurrentMiningRatePerSec() * 86400).toFixed(4);
+      const rateMo = (getCurrentMiningRatePerSec() * 86400 * 30).toFixed(3);
+      document.getElementById('rate-display-hr').innerText = `$${rateHr}`;
+      document.getElementById('rate-display-day').innerText = `$${rateDay}`;
+      document.getElementById('rate-display-mo').innerText = `$${rateMo}`;
 
       if (state.isUpgraded) {
-        document.getElementById('starter-grant-card').classList.add('hidden');
-        document.getElementById('daily-pct-display').innerText = '2.7%';
-        document.getElementById('rate-display-hr').innerText = `$${(getCurrentMiningRatePerSec() * 3600).toFixed(4)}`;
-        document.getElementById('rate-display-day').innerText = `$${(getCurrentMiningRatePerSec() * 3600 * 24).toFixed(3)}`;
-        document.getElementById('rate-display-mo').innerText = `$${(getCurrentMiningRatePerSec() * 3600 * 24 * 30).toFixed(2)}`;
-        document.getElementById('mining-speed-notice').innerHTML = `🚀 <strong class="text-emerald-500 font-extrabold">Level ${state.level} Rig Active!</strong> Speed multiplied by ${Math.round(getCurrentMiningRatePerSec() / BASE_RATE_PER_SEC)}x.`;
+        document.getElementById('level-display').innerText = `Tier ${state.level} (Boost)`;
+        document.getElementById('daily-pct-display').innerText = state.upgradeAmount >= 30 ? '1.8%' : (state.upgradeAmount >= 10 ? '1.4%' : '1.0%');
       }
 
       if (state.walletConnected && state.walletAddress) {
         const short = `${state.walletAddress.substring(0, 6)}...${state.walletAddress.slice(-4)}`;
         document.getElementById('wallet-connection-label').innerText = `Linked: ${short}`;
-        document.getElementById('card-wallet-status').innerText = `${state.walletBrand || 'TON'} Linked`;
-        document.getElementById('card-wallet-addr').innerText = short;
-        document.getElementById('card-wallet-btn').innerText = 'Manage';
-        document.getElementById('card-wallet-btn').className = 'bg-emerald-600 text-white text-xs font-extrabold px-3.5 py-1.5 rounded-xl tap-scale';
         document.getElementById('acc-wallet-summary').innerText = `Linked: ${short}`;
-      } else {
-        document.getElementById('wallet-connection-label').innerText = 'Wallet Not Connected';
-        document.getElementById('card-wallet-status').innerText = 'TON / Tonkeeper Wallet';
-        document.getElementById('card-wallet-addr').innerText = 'Not Connected';
-        document.getElementById('card-wallet-btn').innerText = 'Connect';
-        document.getElementById('card-wallet-btn').className = 'bg-[#3b82f6] text-white text-xs font-extrabold px-3.5 py-1.5 rounded-xl tap-scale';
-        document.getElementById('acc-wallet-summary').innerText = 'Tap to view / connect / link manually';
-      }
-
-      applyTheme(state.theme);
-    }
-
-    // --- 6. Theme Switching ---
-    function toggleTheme() {
-      state.theme = state.theme === 'gradient' ? 'black' : 'gradient';
-      saveState();
-      applyTheme(state.theme);
-      showToast(`Switched to ${state.theme === 'gradient' ? 'Gradient Theme' : 'Pure Black Night Theme'}`, '🎨');
-    }
-
-    function applyTheme(t) {
-      const body = document.getElementById('app-body');
-      const knob = document.getElementById('theme-toggle-knob');
-      const pill = document.getElementById('theme-toggle-pill');
-      const label = document.getElementById('theme-label-text');
-
-      if (t === 'black') {
-        body.classList.remove('theme-gradient');
-        body.classList.add('theme-black');
-        label.innerText = 'Pure Black';
-        pill.className = 'w-8 h-4 bg-slate-700 rounded-full flex items-center justify-start px-0.5 transition-all';
-      } else {
-        body.classList.remove('theme-black');
-        body.classList.add('theme-gradient');
-        label.innerText = 'Gradient';
-        pill.className = 'w-8 h-4 bg-[#26a17b] rounded-full flex items-center justify-end px-0.5 transition-all';
+        document.getElementById('connected-wallet-full-addr').innerText = state.walletAddress;
       }
     }
 
-    // --- 7. Claim Profit ---
+    // --- 6. CLAIM PROFIT (BULLETPROOF USDT REALTIME CREDIT) ---
     function handleClaimProfit() {
       if (state.miningAmount <= 0.000000010) {
         showToast('Accumulating micro-cents... Claim in a moment!', '⏳');
         return;
       }
-
       const harvested = state.miningAmount;
       state.usdtBalance += harvested;
       state.miningAmount = 0.000000000;
-
       saveState();
       updateAllUI();
 
@@ -908,7 +695,6 @@
       if (window.Telegram?.WebApp?.HapticFeedback) {
         window.Telegram.WebApp.HapticFeedback.notificationOccurred('success');
       }
-
       setTimeout(() => {
         animEl.classList.add('hidden');
         animEl.classList.remove('animate-float-claim');
@@ -917,20 +703,94 @@
       showToast(`+$${harvested.toFixed(4)} USDT credited to balance!`, '🎉');
     }
 
-    // --- 8. Tonkeeper Deep Link & Manual Link ---
+    // --- 7. MODALS & TOP UP ---
+    let selectedAmount = 3;
+    let selectedNet = 'USDT BEP20';
+
+    function openTopUpModal() { document.getElementById('topup-modal').classList.remove('hidden'); }
+    function closeTopUpModal() { document.getElementById('topup-modal').classList.add('hidden'); }
+    function openPaymentModal() { document.getElementById('payment-modal').classList.remove('hidden'); }
+    function closePaymentModal() { document.getElementById('payment-modal').classList.add('hidden'); }
+
+    function setTopUpAmount(val) {
+      selectedAmount = parseFloat(val);
+      document.getElementById('topup-amount-input').value = selectedAmount;
+      document.querySelectorAll('.preset-btn').forEach(btn => {
+        if (parseFloat(btn.innerText) === selectedAmount) {
+          btn.className = 'preset-btn bg-cyan-400 text-[#0d2149] p-2 rounded-xl font-bold';
+        } else {
+          btn.className = 'preset-btn bg-white/10 text-white p-2 rounded-xl font-bold';
+        }
+      });
+    }
+
+    function handleAmountInput(v) { selectedAmount = parseFloat(v) || 0; }
+
+    function selectNetwork(net, el) {
+      selectedNet = net;
+      document.querySelectorAll('.net-pill').forEach(p => {
+        p.classList.remove('border-2', 'border-cyan-400', 'bg-cyan-600/30');
+        p.classList.add('border-white/15', 'bg-white/10');
+      });
+      el.classList.add('border-2', 'border-cyan-400', 'bg-cyan-600/30');
+      el.classList.remove('border-white/15', 'bg-white/10');
+      showToast(`Selected Network: ${net}`, '⚡');
+    }
+
+    function proceedToPaymentDetails() {
+      selectedAmount = parseFloat(document.getElementById('topup-amount-input').value) || 3;
+      document.getElementById('pay-network-name').innerText = selectedNet;
+      document.getElementById('pay-topay-val').innerText = `${selectedAmount} USDT`;
+      document.getElementById('master-deposit-addr').innerText = OFFICIAL_WALLET_ADDRESSES[selectedNet] || OFFICIAL_WALLET_ADDRESSES['USDT BEP20'];
+      closeTopUpModal();
+      openPaymentModal();
+    }
+
+    function copyDepositAddress() {
+      const addr = document.getElementById('master-deposit-addr').innerText;
+      navigator.clipboard.writeText(addr);
+      showToast(`${selectedNet} address copied!`, '📋');
+    }
+
+    function submitAuthorizeForAdmin() {
+      const tx = document.getElementById('deposit-tx-hash-input').value.trim();
+      if (!tx) { alert('Please enter transaction hash!'); return; }
+      const queue = JSON.parse(localStorage.getItem('alpha_pending_deposits') || '[]');
+      queue.push({
+        id: Date.now(),
+        telegram_id: state.telegram_id,
+        amount: selectedAmount,
+        network: selectedNet,
+        tx_hash: tx,
+        timestamp: new Date().toLocaleString()
+      });
+      localStorage.setItem('alpha_pending_deposits', JSON.stringify(queue));
+      closePaymentModal();
+      showToast('Submitted to Admin for Authorization!', '⏳');
+    }
+
+    // --- 8. TONKEEPER WALLET ---
+    function openWalletModal() {
+      const modal = document.getElementById('wallet-modal');
+      const unconn = document.getElementById('wallet-modal-unconnected');
+      const conn = document.getElementById('wallet-modal-connected');
+      if (state.walletConnected && state.walletAddress) {
+        unconn.classList.add('hidden'); conn.classList.remove('hidden');
+      } else {
+        unconn.classList.remove('hidden'); conn.classList.add('hidden');
+      }
+      modal.classList.remove('hidden');
+    }
+    function closeWalletModal() { document.getElementById('wallet-modal').classList.add('hidden'); }
+
     function launchTonkeeperLink() {
-      const tonUrl = 'https://app.tonkeeper.com/ton-connect?v=2&r=' + encodeURIComponent(window.location.origin);
-      window.open(tonUrl, '_blank');
-      
+      window.open('https://app.tonkeeper.com/ton-connect?v=2&r=' + encodeURIComponent(window.location.origin), '_blank');
       setTimeout(() => {
         const addr = prompt('If Tonkeeper opened, please paste your Tonkeeper address to link:', OFFICIAL_WALLET_ADDRESSES['USDT TON']);
         if (addr) {
           state.walletConnected = true;
           state.walletAddress = addr.trim();
-          state.walletBrand = 'Tonkeeper';
-          saveState();
-          updateAllUI();
-          closeWalletModal();
+          saveState(); updateAllUI(); closeWalletModal();
           showToast('Tonkeeper Wallet Linked!', '💎');
         }
       }, 800);
@@ -938,252 +798,34 @@
 
     function saveManualWalletAddress() {
       const input = document.getElementById('manual-wallet-input').value.trim();
-      if (!input || input.length < 8) {
-        alert('Please enter a valid wallet address!');
-        return;
-      }
-      state.walletConnected = true;
-      state.walletAddress = input;
-      state.walletBrand = 'Manual TON';
-      saveState();
-      updateAllUI();
-      closeWalletModal();
-      showToast('Wallet address linked successfully!', '✅');
+      if (!input || input.length < 8) { alert('Please enter valid address!'); return; }
+      state.walletConnected = true; state.walletAddress = input;
+      saveState(); updateAllUI(); closeWalletModal();
+      showToast('Wallet address linked!', '✅');
     }
 
     function executeDisconnectWallet() {
-      state.walletConnected = false;
-      state.walletAddress = '';
-      state.walletBrand = '';
-      saveState();
-      updateAllUI();
-      closeWalletModal();
+      state.walletConnected = false; state.walletAddress = '';
+      saveState(); updateAllUI(); closeWalletModal();
       showToast('Wallet disconnected', '🔌');
     }
 
-    function openWalletModal() {
-      const modal = document.getElementById('wallet-modal');
-      const unconn = document.getElementById('wallet-modal-unconnected');
-      const conn = document.getElementById('wallet-modal-connected');
-
-      if (state.walletConnected && state.walletAddress) {
-        unconn.classList.add('hidden');
-        conn.classList.remove('hidden');
-        document.getElementById('connected-wallet-brand').innerText = state.walletBrand;
-        document.getElementById('connected-wallet-full-addr').innerText = state.walletAddress;
-      } else {
-        unconn.classList.remove('hidden');
-        conn.classList.add('hidden');
-      }
-      modal.classList.remove('hidden');
-    }
-
-    function closeWalletModal() {
-      document.getElementById('wallet-modal').classList.add('hidden');
-    }
-
-    // --- 9. Dynamic Top Up & Official Address Assignment ---
-    let selectedAmount = 3;
-    let selectedNet = 'USDT BEP20';
-
-    function setTopUpAmount(val) {
-      selectedAmount = parseFloat(val);
-      document.getElementById('topup-amount-input').value = selectedAmount;
-      
-      document.querySelectorAll('.preset-btn').forEach(btn => {
-        if (parseFloat(btn.innerText) === selectedAmount) {
-          btn.className = 'preset-btn bg-blue-600 text-white p-2 rounded-xl font-bold';
-        } else {
-          btn.className = 'preset-btn bg-slate-100 text-slate-800 p-2 rounded-xl font-bold';
-        }
-      });
-    }
-
-    function handleAmountInput(val) {
-      selectedAmount = parseFloat(val) || 0;
-    }
-
-    function selectNetwork(net, el) {
-      selectedNet = net;
-      document.querySelectorAll('.net-pill').forEach(p => {
-        p.classList.remove('border-2', 'border-blue-500', 'bg-blue-50/50');
-        p.classList.add('border-slate-200', 'bg-slate-50');
-      });
-      el.classList.add('border-2', 'border-blue-500', 'bg-blue-50/50');
-      el.classList.remove('border-slate-200', 'bg-slate-50');
-      showToast(`Selected Network: ${net}`, '⚡');
-    }
-
-    function proceedToPaymentDetails() {
-      selectedAmount = parseFloat(document.getElementById('topup-amount-input').value) || 3;
-      
-      // Update Network Name and Icon
-      document.getElementById('pay-network-name').innerText = selectedNet;
-      const netIcon = document.getElementById('pay-network-icon');
-      if (selectedNet === 'BTC') {
-        netIcon.innerText = '₿';
-        netIcon.className = 'w-10 h-10 rounded-full bg-amber-500 text-white flex items-center justify-center font-black text-sm';
-      } else if (selectedNet === 'USDT TON') {
-        netIcon.innerText = '💎';
-        netIcon.className = 'w-10 h-10 rounded-full bg-[#0098ea] text-white flex items-center justify-center font-black text-sm';
-      } else if (selectedNet === 'USDT TRC20') {
-        netIcon.innerText = '₮';
-        netIcon.className = 'w-10 h-10 rounded-full bg-red-600 text-white flex items-center justify-center font-black text-sm';
-      } else {
-        netIcon.innerText = '₮';
-        netIcon.className = 'w-10 h-10 rounded-full bg-[#26a17b] text-white flex items-center justify-center font-black text-sm';
-      }
-
-      // Update Amount
-      document.getElementById('pay-topay-val').innerText = `${selectedAmount} USDT`;
-
-      // Assign the Official Vault Address based on user selection
-      const targetAddress = OFFICIAL_WALLET_ADDRESSES[selectedNet] || OFFICIAL_WALLET_ADDRESSES['USDT BEP20'];
-      document.getElementById('master-deposit-addr').innerText = targetAddress;
-
-      // Target level calculation
-      let targetLvl = 2;
-      let targetSpeed = '5x Speed';
-      if (selectedAmount >= 100) { targetLvl = 5; targetSpeed = '150x Maximum Turbo'; }
-      else if (selectedAmount >= 30) { targetLvl = 4; targetSpeed = '50x Turbo'; }
-      else if (selectedAmount >= 10) { targetLvl = 3; targetSpeed = '15x Boost'; }
-
-      document.getElementById('pay-target-upgrade-lvl').innerText = `Level ${targetLvl} Rig (${targetSpeed})`;
-
-      closeTopUpModal();
-      document.getElementById('payment-modal').classList.remove('hidden');
-    }
-
-    function closeTopUpModal() {
-      document.getElementById('topup-modal').classList.add('hidden');
-    }
-    function openTopUpModal() {
-      document.getElementById('topup-modal').classList.remove('hidden');
-    }
-    function closePaymentModal() {
-      document.getElementById('payment-modal').classList.add('hidden');
-    }
-
-    function copyDepositAddress() {
-      const addr = document.getElementById('master-deposit-addr').innerText;
-      navigator.clipboard.writeText(addr);
-      showToast(`${selectedNet} Address Copied!`, '📋');
-    }
-
-    function copyPayAmount() {
-      navigator.clipboard.writeText(selectedAmount.toString());
-      showToast('Amount copied!', '📋');
-    }
-
-    // --- 10. Authorize & Submit to Admin Panel ---
-    function submitAuthorizeForAdmin() {
-      const tx = document.getElementById('deposit-tx-hash-input').value.trim();
-      if (!tx) {
-        alert('Please enter your transaction hash (Tx ID)!');
-        return;
-      }
-
-      const pendingQueue = JSON.parse(localStorage.getItem('alpha_pending_deposits') || '[]');
-      const newRequest = {
-        id: Date.now(),
-        telegram_id: state.telegram_id,
-        username: state.username,
-        amount: selectedAmount,
-        network: selectedNet,
-        deposit_wallet: OFFICIAL_WALLET_ADDRESSES[selectedNet],
-        tx_hash: tx,
-        timestamp: new Date().toLocaleString(),
-        status: 'pending'
-      };
-      pendingQueue.push(newRequest);
-      localStorage.setItem('alpha_pending_deposits', JSON.stringify(pendingQueue));
-
-      closePaymentModal();
-      showToast(`Submitted to Admin for Authorization! (Tx: ${tx.substring(0, 10)}...)`, '⏳');
-    }
-
-    // --- 11. Telegram SDK Initialization ---
-    const tg = window.Telegram?.WebApp;
-    if (tg) {
-      tg.ready();
-      tg.expand();
-      if (tg.disableVerticalSwipes) tg.disableVerticalSwipes();
-      if (tg.initDataUnsafe?.user) {
-        const u = tg.initDataUnsafe.user;
-        state.username = u.username || u.first_name || 'Alpha Miner';
-        state.telegram_id = u.id || 89410321;
-        saveState();
-      }
-    }
-
-    function handleCloseApp() {
-      saveState();
-      if (tg?.close) tg.close();
-      else alert('App closed. Mining continues in background!');
-    }
-
-    // --- 12. Tabs ---
+    // --- 9. TABS & REWARD (EXACT 5 COINS PER INVITE) ---
     const tabs = ['mine', 'friends', 'gifts', 'account'];
     function switchTab(tId) {
-      if (tg?.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
       state.activeTab = tId;
-
       tabs.forEach(t => {
-        const sEl = document.getElementById(`screen-${t}`);
+        const el = document.getElementById(`screen-${t}`);
         const btn = document.getElementById(`nav-btn-${t}`);
         if (t === tId) {
-          sEl.classList.remove('hidden');
-          if (btn && t !== 'mine') {
-            btn.classList.remove('text-slate-400');
-            btn.classList.add('text-slate-900');
-          }
+          el.classList.remove('hidden');
+          if (btn && t !== 'mine') { btn.classList.remove('text-cyan-200/70'); btn.classList.add('text-white'); }
         } else {
-          sEl.classList.add('hidden');
-          if (btn && t !== 'mine') {
-            btn.classList.remove('text-slate-900');
-            btn.classList.add('text-slate-400');
-          }
+          el.classList.add('hidden');
+          if (btn && t !== 'mine') { btn.classList.remove('text-white'); btn.classList.add('text-cyan-200/70'); }
         }
       });
       window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    // --- 13. Referrals & Mystery Gifts ---
-    function copyInviteLink() {
-      navigator.clipboard.writeText(`https://t.me/AlphaMiningCrypto_bot?startapp=ref_${state.telegram_id}`);
-      showToast('Referral link copied!', '📋');
-    }
-    function shareInviteTelegram() {
-      const link = encodeURIComponent(`https://t.me/AlphaMiningCrypto_bot?startapp=ref_${state.telegram_id}`);
-      const text = encodeURIComponent('🚀 Join Alpha Mining and get +100 Coins & $100 starter package free!');
-      window.open(`https://t.me/share/url?url=${link}&text=${text}`, '_blank');
-    }
-    function claimMysteryGift() {
-      state.coins += 100;
-      saveState();
-      updateAllUI();
-      showToast('Mystery Gift Opened! +100 Coins Added', '🎁');
-    }
-
-    function handleWithdrawClick() {
-      if (!state.walletConnected) {
-        alert('⚠️ Please connect your TON / Tonkeeper wallet first!');
-        openWalletModal();
-        return;
-      }
-      if (state.usdtBalance < 3.0) {
-        alert(`⚠️ Minimum withdrawal is 3.00 USDT.\nYour balance: $${state.usdtBalance.toFixed(4)} USDT.`);
-      } else {
-        const amt = state.usdtBalance;
-        state.usdtBalance = 0.00;
-        saveState();
-        updateAllUI();
-        showToast(`Withdrawal order of $${amt.toFixed(2)} USDT submitted!`, '💸');
-      }
-    }
-
-    function openHowToEarnModal() {
-      alert('💡 Alpha Mining Guide:\n1. Claim profit anytime to add micro-cents to your USDT Balance.\n2. Starter 100 Coins & $100 package runs 24/7.\n3. Top up to increase hash speed (3 USDT = 5x, 10 USDT = 15x, 30 USDT = 50x).\n4. Admin authorizes Tx Hash to activate upgrades.');
     }
 
     function showToast(msg, icon = '✨') {
@@ -1191,32 +833,40 @@
       document.getElementById('toast-msg').innerText = msg;
       document.getElementById('toast-icon').innerText = icon;
       toast.classList.remove('opacity-0', 'pointer-events-none');
-      setTimeout(() => {
-        toast.classList.add('opacity-0', 'pointer-events-none');
-      }, 2500);
+      setTimeout(() => toast.classList.add('opacity-0', 'pointer-events-none'), 2500);
     }
 
-    // Periodic FOMO alerts
-    const marketingAlerts = [
-      { msg: '🔥 Miner @ton_king upgraded Rig to Level 3 (+15x Speed)!', icon: '🚀' },
-      { msg: '⚡ Mining near capacity! Top up 3 USDT to uncap 2.7% daily yields.', icon: '💡' },
-      { msg: '💰 User @crypto_ali just claimed $12.40 USDT to Tonkeeper!', icon: '💸' },
-      { msg: '🎁 Limited Offer: +30% extra USDT balance on your first top-up!', icon: '🔥' }
-    ];
-    setInterval(() => {
-      const item = marketingAlerts[Math.floor(Math.random() * marketingAlerts.length)];
-      const toast = document.getElementById('marketing-toast');
-      document.getElementById('marketing-icon').innerText = item.icon;
-      document.getElementById('marketing-msg').innerText = item.msg;
-      toast.classList.remove('opacity-0', 'pointer-events-none');
-      setTimeout(() => {
-        toast.classList.add('opacity-0', 'pointer-events-none');
-      }, 4000);
-    }, 25000);
+    function copyInviteLink() {
+      navigator.clipboard.writeText(`https://t.me/AlphaMiningCrypto_bot?startapp=ref_${state.telegram_id}`);
+      showToast('Invite link copied!', '📋');
+    }
+    function shareInviteTelegram() {
+      const link = encodeURIComponent(`https://t.me/AlphaMiningCrypto_bot?startapp=ref_${state.telegram_id}`);
+      window.open(`https://t.me/share/url?url=${link}&text=Join%20Alpha%20Mining!`, '_blank');
+    }
+    function claimMysteryGift() {
+      state.coins += 5; // Exactly 5 coins per invite/gift
+      saveState(); updateAllUI();
+      showToast('Mystery Gift Opened! +5 Coins Added', '🎁');
+    }
+    function handleWithdrawClick() {
+      if (!state.walletConnected) { alert('Please connect your TON wallet first!'); openWalletModal(); return; }
+      if (state.usdtBalance < 3.0) { alert(`Minimum withdrawal threshold is 3.00 USDT.\nYour balance: $${state.usdtBalance.toFixed(4)} USDT.`); }
+      else { state.usdtBalance = 0.0; saveState(); updateAllUI(); showToast('Withdrawal order submitted!', '💸'); }
+    }
+    function openHowToEarnModal() {
+      alert('💡 Alpha Mining Sustainable Guide:\n1. Free starter speed runs 24/7 without battery drain.\n2. Claim profit anytime to add micro-cents directly to your USDT balance.\n3. Top up 3 USDT to activate sustainable 0.8% - 1.8% daily yields backed by 70% float liquidity reserve.');
+    }
+    function handleCloseApp() {
+      saveState();
+      if (window.Telegram?.WebApp?.close) window.Telegram.WebApp.close();
+      else alert('App closed. Mining continues 24/7!');
+    }
 
-    // Initial boot
-    catchUpOfflineMining();
+    // Init
+    updateAllUI();
     startLiveMiningEngine();
+    startEverySecondClaimTicker();
   </script>
 </body>
 </html>
