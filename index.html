@@ -17,10 +17,11 @@
       font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
       user-select: none;
       -webkit-tap-highlight-color: transparent;
-      /* Premium Vibrant Royal Sapphire & Teal Gradient - NO PURE BLACK */
-      background: linear-gradient(165deg, #0d2149 0%, #102e6b 35%, #0d3b66 70%, #005f73 100%);
+      background-color: #080d1a;
       color: #ffffff;
       min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
     }
     .tap-scale {
       transition: transform 0.12s ease;
@@ -35,30 +36,120 @@
       -ms-overflow-style: none;
       scrollbar-width: none;
     }
-    /* Vibrant Glassmorphism with Sapphire Glow */
-    .sapphire-glass {
-      background: rgba(255, 255, 255, 0.08);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      box-shadow: 0 12px 30px -8px rgba(5, 18, 48, 0.45);
+
+    /* ================= LIVING AURORA ANIMATION ENGINE ================= */
+    .aurora-bg-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+      background: radial-gradient(circle at 50% 10%, #0d1e3d 0%, #080d19 60%, #050811 100%);
+      transition: background 0.8s ease;
     }
-    .sapphire-card-glow {
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.14) 0%, rgba(20, 70, 140, 0.25) 100%);
-      border: 1px solid rgba(120, 220, 255, 0.35);
-      box-shadow: 0 0 25px rgba(0, 180, 216, 0.25);
+    .aurora-blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.65;
+      mix-blend-mode: screen;
+      will-change: transform;
     }
-    @keyframes floatUp {
+    .blob-1 {
+      width: 380px;
+      height: 380px;
+      background: radial-gradient(circle, #06b6d4 0%, rgba(6, 182, 212, 0) 70%);
+      top: -60px;
+      left: -80px;
+      animation: auroraMove1 16s infinite alternate ease-in-out;
+    }
+    .blob-2 {
+      width: 420px;
+      height: 420px;
+      background: radial-gradient(circle, #a855f7 0%, rgba(168, 85, 247, 0) 70%);
+      top: 20%;
+      right: -100px;
+      animation: auroraMove2 20s infinite alternate ease-in-out;
+    }
+    .blob-3 {
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, #2563eb 0%, rgba(37, 99, 235, 0) 70%);
+      bottom: 10%;
+      left: 10%;
+      animation: auroraMove3 18s infinite alternate ease-in-out;
+    }
+    .blob-4 {
+      width: 320px;
+      height: 320px;
+      background: radial-gradient(circle, #ccff00 0%, rgba(204, 255, 0, 0) 70%);
+      top: 50%;
+      left: 30%;
+      opacity: 0.25;
+      animation: auroraMove4 22s infinite alternate ease-in-out;
+    }
+
+    @keyframes auroraMove1 {
+      0% { transform: translate(0px, 0px) scale(1); }
+      50% { transform: translate(120px, 140px) scale(1.25); }
+      100% { transform: translate(40px, 240px) scale(0.9); }
+    }
+    @keyframes auroraMove2 {
+      0% { transform: translate(0px, 0px) scale(1); }
+      50% { transform: translate(-140px, 160px) scale(1.15); }
+      100% { transform: translate(-60px, -80px) scale(1.3); }
+    }
+    @keyframes auroraMove3 {
+      0% { transform: translate(0px, 0px) scale(1); }
+      50% { transform: translate(100px, -120px) scale(1.3); }
+      100% { transform: translate(-80px, -60px) scale(0.85); }
+    }
+    @keyframes auroraMove4 {
+      0% { transform: translate(0px, 0px) scale(0.9); }
+      50% { transform: translate(-80px, -100px) scale(1.35); }
+      100% { transform: translate(110px, 80px) scale(1.1); }
+    }
+
+    /* Theme Variants */
+    body.theme-cyber .aurora-bg-canvas {
+      background: radial-gradient(circle at 50% 10%, #002b36 0%, #021217 60%, #01080a 100%);
+    }
+    body.theme-cyber .blob-1 { background: radial-gradient(circle, #00f0ff 0%, transparent 70%); }
+    body.theme-cyber .blob-2 { background: radial-gradient(circle, #ff007f 0%, transparent 70%); }
+    body.theme-cyber .blob-3 { background: radial-gradient(circle, #7000ff 0%, transparent 70%); }
+
+    body.theme-indigo .aurora-bg-canvas {
+      background: radial-gradient(circle at 50% 10%, #1e1b4b 0%, #0f0d26 60%, #060512 100%);
+    }
+    body.theme-indigo .blob-1 { background: radial-gradient(circle, #6366f1 0%, transparent 70%); }
+    body.theme-indigo .blob-2 { background: radial-gradient(circle, #8b5cf6 0%, transparent 70%); }
+    body.theme-indigo .blob-3 { background: radial-gradient(circle, #ec4899 0%, transparent 70%); }
+
+    /* Ultra Frosted Glass Card */
+    .frosted-glass {
+      background: rgba(18, 28, 48, 0.55);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.5);
+    }
+    .frosted-glass-active {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(6, 182, 212, 0.15) 100%);
+      border: 1px solid rgba(6, 182, 212, 0.45);
+      box-shadow: 0 0 25px rgba(6, 182, 212, 0.25);
+    }
+
+    @keyframes floatUpClaim {
       0% { transform: translateY(0px) scale(0.9); opacity: 0; }
-      50% { opacity: 1; }
-      100% { transform: translateY(-35px) scale(1.1); opacity: 0; }
+      40% { opacity: 1; transform: translateY(-20px) scale(1.1); }
+      100% { transform: translateY(-45px) scale(1); opacity: 0; }
     }
     .animate-float-claim {
-      animation: floatUp 1.2s ease-out forwards;
+      animation: floatUpClaim 1.3s ease-out forwards;
     }
     @keyframes pulseGlow {
-      0%, 100% { box-shadow: 0 0 15px rgba(220, 255, 50, 0.4); }
-      50% { box-shadow: 0 0 25px rgba(220, 255, 50, 0.85); }
+      0%, 100% { box-shadow: 0 0 15px rgba(204, 255, 0, 0.4); }
+      50% { box-shadow: 0 0 30px rgba(204, 255, 0, 0.85); }
     }
     .pulse-glow {
       animation: pulseGlow 2s infinite;
@@ -66,397 +157,520 @@
   </style>
 </head>
 
-<body class="flex flex-col justify-between pb-28 no-scrollbar">
+<body id="app-body" class="flex flex-col justify-between pb-28 no-scrollbar">
 
-  <!-- ================= TOP HEADER (PERSISTENT) ================= -->
-  <header class="sticky top-0 z-40 px-4 pt-3 pb-2 bg-[#0c224a]/85 backdrop-blur-xl border-b border-white/10 flex items-center justify-between">
-    <button onclick="handleCloseApp()" class="flex items-center gap-1 bg-white/15 hover:bg-white/25 text-white text-xs font-semibold px-3 py-1.5 rounded-full tap-scale shadow-sm">
-      <span class="text-sm leading-none">✕</span>
-      <span>Close</span>
-    </button>
-
-    <div class="flex items-center gap-2">
-      <!-- Node / Avatar Badge -->
-      <div class="flex items-center gap-1.5 bg-gradient-to-r from-blue-500 to-cyan-500 text-white text-xs font-bold pl-1 pr-3 py-1 rounded-full shadow-md">
-        <div class="w-6 h-6 rounded-full bg-cyan-200 text-[#0d2149] flex items-center justify-center text-[10px] font-black" id="header-avatar-initials">
-          AM
-        </div>
-        <span class="tracking-tight" id="header-user-title">Alpha Node ⚡</span>
-      </div>
-
-      <!-- Online Live Users Counter -->
-      <div class="flex items-center gap-1.5 bg-white/10 border border-white/20 px-2.5 py-1 rounded-full text-xs font-semibold text-cyan-100 shadow-sm">
-        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-        <span id="live-online-users">20,148</span>
-      </div>
-
-      <!-- Tier / Level Badge -->
-      <div id="header-level-badge" class="bg-[#dcfb32] text-[#0d2149] font-black text-xs px-2.5 py-1 rounded-full shadow-sm flex items-center gap-1">
-        <span>★</span> <span id="level-display">Tier 1</span>
-      </div>
-    </div>
-  </header>
-
-  <!-- Global Vault Balance Capsule -->
-  <div class="px-4 pt-2 pb-1 flex justify-center">
-    <div onclick="openWalletModal()" class="sapphire-glass px-4 py-1.5 rounded-full flex items-center gap-2 text-xs font-semibold text-slate-100 cursor-pointer tap-scale">
-      <span class="w-5 h-5 rounded-full bg-emerald-400 text-[#0c224a] flex items-center justify-center font-black text-[11px]">₮</span>
-      <span class="font-extrabold text-white text-sm" id="vault-usdt-balance">0.0000 USDT</span>
-      <span class="text-cyan-200 font-medium">Global vault</span>
-      <span class="text-cyan-300 text-[10px]">▼</span>
-    </div>
+  <!-- ================= LIVING AURORA ANIMATED BACKGROUND ================= -->
+  <div class="aurora-bg-canvas" id="aurora-canvas">
+    <div class="aurora-blob blob-1"></div>
+    <div class="aurora-blob blob-2"></div>
+    <div class="aurora-blob blob-3"></div>
+    <div class="aurora-blob blob-4"></div>
   </div>
 
-  <!-- Realtime Proof-of-Activity Claim Feed Ticker (Every Second) -->
-  <div class="px-4 py-1">
-    <div class="bg-gradient-to-r from-blue-900/60 via-indigo-900/50 to-teal-900/60 border border-cyan-400/30 rounded-2xl px-3 py-1.5 flex items-center justify-between text-[11px] shadow-sm">
-      <div class="flex items-center gap-2 overflow-hidden">
-        <span class="w-2 h-2 rounded-full bg-cyan-300 animate-ping shrink-0"></span>
-        <span class="text-cyan-300 font-black text-[10px] uppercase tracking-wider shrink-0">LIVE PROOF</span>
-        <span class="text-slate-100 font-mono truncate" id="every-sec-claim-ticker">@sam_sol claimed +$0.0120 USDT</span>
-      </div>
-      <span class="text-[10px] text-cyan-200 font-bold bg-cyan-500/20 px-2 py-0.5 rounded-md shrink-0 ml-2">1s feed</span>
-    </div>
-  </div>
+  <!-- Content Layer Wrapper -->
+  <div class="relative z-10 flex-1 flex flex-col justify-between">
 
-  <!-- Realtime Action Toast -->
-  <div id="toast" class="fixed top-28 left-1/2 transform -translate-x-1/2 z-50 bg-[#16366f] border border-cyan-400/50 text-white text-xs px-4 py-2 rounded-full shadow-2xl opacity-0 pointer-events-none transition-all duration-300 flex items-center gap-2">
-    <span id="toast-icon">✨</span>
-    <span id="toast-msg">Notification</span>
-  </div>
+    <!-- ================= TOP HEADER (PERSISTENT) ================= -->
+    <header class="sticky top-0 z-40 px-4 pt-3 pb-2 bg-[#080d19]/80 backdrop-blur-2xl border-b border-white/10 flex items-center justify-between">
+      <button onclick="handleCloseApp()" class="flex items-center gap-1 bg-white/10 hover:bg-white/20 text-white text-xs font-semibold px-3 py-1.5 rounded-full tap-scale shadow-sm">
+        <span class="text-sm leading-none">✕</span>
+        <span>Close</span>
+      </button>
 
-  <!-- Animated Flying Claim Feedback -->
-  <div id="claim-flying-anim" class="fixed top-1/3 left-1/2 transform -translate-x-1/2 z-50 font-black text-xl text-[#0d2149] bg-[#dcfb32] px-5 py-2.5 rounded-2xl shadow-2xl border-2 border-white hidden pointer-events-none">
-    +$0.0000 USDT 💸
-  </div>
-
-
-  <!-- ================= MAIN CONTAINER ================= -->
-  <main class="flex-1 w-full max-w-md mx-auto px-4 space-y-4 pt-1">
-
-    <!-- ================= SCREEN 1: MINE ================= -->
-    <div id="screen-mine" class="space-y-4">
-
-      <!-- Live Micro-Stream Counter Section -->
-      <div class="pt-1 text-center space-y-2">
-        <div class="flex items-center justify-center gap-2 text-[11px] font-semibold text-cyan-200 flex-wrap">
-          <span class="flex items-center gap-1 text-cyan-300 font-bold">
-            <span class="w-2 h-2 rounded-full bg-cyan-300 animate-pulse"></span> Yield Rate
-          </span>
-          <span>•</span>
-          <span>⏱ <span id="rate-display-hr" class="font-bold text-white">$0.000100</span> <span class="text-cyan-200">/hr</span></span>
-          <span>📅 <span id="rate-display-day" class="font-bold text-white">$0.0024</span> <span class="text-cyan-200">/day</span></span>
-          <span>🗓 <span id="rate-display-mo" class="font-bold text-white">$0.072</span> <span class="text-cyan-200">/mo</span></span>
-        </div>
-
-        <!-- Huge Mining Amount Counter -->
-        <div class="text-4xl sm:text-5xl font-black tracking-tight font-mono py-1 text-transparent bg-clip-text bg-gradient-to-r from-white via-cyan-100 to-[#dcfb32]">
-          <span id="streaming-mining-counter">$0.000000000</span>
-        </div>
-
-        <div class="text-[11px] text-cyan-100 bg-white/10 border border-white/20 py-1 px-3 rounded-full inline-block">
-          🛡️ Free starter speed: 0.000000028/sec — Sustainable uncap on Boost
-        </div>
-
-        <!-- Claim Profit & How to Earn Buttons -->
-        <div class="grid grid-cols-2 gap-3 pt-1">
-          <button id="claim-profit-btn" onclick="handleClaimProfit()" class="bg-[#dcfb32] hover:bg-[#cbf018] text-[#0d2149] font-black py-3 rounded-full tap-scale shadow-lg shadow-[#dcfb32]/30 flex items-center justify-center gap-1.5 text-xs pulse-glow">
-            <span>⚡</span> Claim profit
-          </button>
-          <button onclick="openHowToEarnModal()" class="sapphire-glass hover:bg-white/15 text-cyan-200 font-bold py-3 rounded-full tap-scale flex items-center justify-center gap-1.5 text-xs border border-cyan-400/40">
-            <span>❔</span> How to earn?
-          </button>
-        </div>
-
-        <!-- Sustainable Proof-of-Yield (PoY) & Liquidity Guarantee -->
-        <div class="sapphire-glass p-3 rounded-2xl flex items-center justify-between text-left text-xs">
-          <div>
-            <div class="font-extrabold text-white text-[11px]">Sustainable Proof-of-Yield (PoY) & Reserves</div>
-            <div class="text-[10px] text-cyan-200">70% float reserve protocol ensures perpetual payouts</div>
-          </div>
-          <div class="bg-emerald-400/20 text-emerald-300 border border-emerald-400/50 text-[10px] font-black px-2.5 py-1 rounded-lg">
-            99.4% Solvency
-          </div>
-        </div>
-
-        <p class="text-[11px] text-cyan-200 font-medium">
-          Top up to 3 USDT or grow with invites to activate node boost up to <strong class="text-[#dcfb32]">1.8% daily</strong> sustainable yield.
-        </p>
-      </div>
-
-      <!-- Dual Metric Cards: Coins (100) & USDT Balance -->
-      <div class="grid grid-cols-2 gap-3">
-        <!-- Coins Card -->
-        <div class="sapphire-glass rounded-3xl p-4 relative">
-          <div class="flex justify-between items-start">
-            <span class="text-xs font-semibold text-cyan-200">Coins</span>
-            <div class="w-8 h-8 rounded-full bg-amber-400/20 text-amber-300 flex items-center justify-center text-sm border border-amber-300/30">
-              🎁
-            </div>
-          </div>
-          <div class="mt-2">
-            <div class="text-2xl font-black text-white" id="coins-count-display">100</div>
-            <div class="text-[11px] text-cyan-200 font-medium" id="coins-est-val">≈$100.00</div>
-          </div>
-          <div class="mt-3 flex items-center justify-between text-[11px]">
-            <span class="bg-emerald-400/20 text-emerald-300 font-bold px-2 py-0.5 rounded-md border border-emerald-400/30">0.02%</span>
-            <span class="text-cyan-200">Per day</span>
-          </div>
-        </div>
-
-        <!-- USDT Balance Card (Guaranteed Update on Claim) -->
-        <div class="sapphire-glass rounded-3xl p-4 relative border-cyan-400/30">
-          <div class="flex justify-between items-start">
-            <span class="text-xs font-semibold text-cyan-200">USDT balance</span>
-            <div class="w-8 h-8 rounded-full bg-emerald-500 text-white flex items-center justify-center text-xs font-black shadow-sm">
-              ₮
-            </div>
-          </div>
-          <div class="mt-2">
-            <div class="text-2xl font-black text-cyan-200" id="in-app-usdt-display">$0.0000</div>
-            <div class="text-[11px] text-emerald-300 font-medium" id="wallet-connection-label">PoY Active</div>
-          </div>
-          <div class="mt-3 flex items-center justify-between text-[11px]">
-            <span class="bg-cyan-400/20 text-cyan-200 font-bold px-2 py-0.5 rounded-md border border-cyan-400/30" id="daily-pct-display">0.4%</span>
-            <span class="text-cyan-200">Per day</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Action Buttons: Top up & Withdraw -->
-      <div class="grid grid-cols-2 gap-3">
-        <button onclick="openTopUpModal()" class="w-full bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white font-extrabold py-3.5 rounded-2xl tap-scale shadow-lg shadow-cyan-500/30 flex items-center justify-center gap-1.5 text-sm">
-          <span>↑</span> Top up
-        </button>
-        <button onclick="handleWithdrawClick()" class="w-full bg-[#dcfb32] hover:bg-[#cbf018] text-[#0d2149] font-extrabold py-3.5 rounded-2xl tap-scale shadow-lg shadow-[#dcfb32]/30 flex items-center justify-center gap-1.5 text-sm">
-          <span>↓</span> Withdraw
-        </button>
-      </div>
-
-      <!-- Transparent Sustainable Yield Tiers Breakdown Card -->
-      <div class="sapphire-glass p-4 rounded-3xl space-y-3">
-        <div class="flex items-center justify-between">
-          <span class="text-xs font-extrabold text-white flex items-center gap-1.5">
-            <span>🧮</span> SUSTAINABLE YIELD TIERS
-          </span>
-          <span class="text-[10px] text-cyan-300 font-mono">Dynamic Solvency</span>
-        </div>
-
-        <div class="grid grid-cols-3 gap-2 text-center text-xs">
-          <div class="bg-white/10 border border-white/15 rounded-2xl p-2.5">
-            <div class="text-[10px] text-cyan-300 font-bold">Boost Tier</div>
-            <div class="font-black text-white mt-0.5">3 USDT</div>
-            <div class="text-[10px] text-[#dcfb32] font-mono mt-1">0.8 - 1.2%</div>
-            <div class="text-[9px] text-cyan-200">daily yield</div>
-          </div>
-          <div class="bg-cyan-600/30 border border-cyan-400/50 rounded-2xl p-2.5 relative">
-            <span class="absolute -top-2 left-1/2 -translate-x-1/2 bg-cyan-300 text-[#0d2149] text-[8px] font-black px-1.5 py-0.2 rounded-full uppercase">Popular</span>
-            <div class="text-[10px] text-white font-bold">Hash Rig</div>
-            <div class="font-black text-white mt-0.5">10 USDT</div>
-            <div class="text-[10px] text-[#dcfb32] font-mono mt-1">1.4%</div>
-            <div class="text-[9px] text-cyan-100">daily yield</div>
-          </div>
-          <div class="bg-white/10 border border-white/15 rounded-2xl p-2.5">
-            <div class="text-[10px] text-purple-200 font-bold">Turbo Node</div>
-            <div class="font-black text-white mt-0.5">30 USDT</div>
-            <div class="text-[10px] text-[#dcfb32] font-mono mt-1">1.8%</div>
-            <div class="text-[9px] text-cyan-200">daily yield</div>
-          </div>
-        </div>
-        <div class="text-[10px] text-cyan-200 text-center leading-tight">
-          Math guarantee: 70% float reserve protocol ensures perpetual payouts without token inflation.
-        </div>
-      </div>
-
-      <!-- +30% Promo Card -->
-      <div class="sapphire-card-glow rounded-3xl p-5 relative overflow-hidden space-y-3">
-        <div class="flex items-start gap-3">
-          <div class="w-12 h-12 rounded-2xl bg-emerald-500 text-white flex items-center justify-center font-black text-xl shrink-0 shadow-md">
-            ₮
-          </div>
-          <div>
-            <h3 class="font-extrabold text-sm text-white leading-snug">
-              <span class="text-cyan-300 font-black">+30%</span> to your USDT balance in one tap
-            </h3>
-            <p class="text-[11px] text-cyan-100 mt-1 leading-relaxed">
-              Free AI trading agents are online. Top up for instant PoY yield booster of <strong class="text-[#dcfb32]">+30% of deposit hash power</strong>.
-            </p>
-          </div>
-        </div>
-
-        <button onclick="openTopUpModal()" class="w-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-extrabold py-3 rounded-2xl tap-scale flex items-center justify-center gap-2 text-xs shadow-md">
-          <span>💳</span> Top up USDT balance
-        </button>
-
-        <div class="flex items-center justify-center gap-1.5 text-[11px] font-bold text-cyan-200">
-          <span class="w-1.5 h-1.5 rounded-full bg-cyan-300 animate-ping"></span>
-          7 bots left, bonuses are limited!
-        </div>
-      </div>
-
-      <!-- Quick Invite Floating Pill (Configured with EXACT 5 Coins) -->
-      <div class="sapphire-glass rounded-2xl p-3 flex items-center justify-between">
-        <div class="flex items-center gap-2 text-xs text-white">
-          <span class="text-base">🎁</span>
-          <span class="font-bold">Get +5 coins for an invite</span>
-        </div>
-        <button onclick="switchTab('friends')" class="bg-white/15 hover:bg-white/25 text-white px-3 py-1 rounded-xl font-bold text-xs tap-scale">
-          Invite
-        </button>
-      </div>
-
-    </div>
-
-    <!-- ================= SCREEN 2: FRIENDS & REFERRALS ================= -->
-    <div id="screen-friends" class="space-y-4 hidden">
-      <div class="pt-2">
-        <h2 class="text-xl font-black text-white leading-tight">
-          Invite friends and raise your hourly income
-        </h2>
-
-        <div class="grid grid-cols-2 gap-3 mt-3">
-          <button onclick="copyInviteLink()" class="sapphire-glass text-white font-extrabold py-3 rounded-2xl tap-scale flex items-center justify-center gap-2 text-xs">
-            <span>📋</span> Copy Link
-          </button>
-          <button onclick="shareInviteTelegram()" class="bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-extrabold py-3 rounded-2xl tap-scale shadow-lg shadow-cyan-500/20 flex items-center justify-center gap-2 text-xs">
-            <span>✈️</span> Invite
-          </button>
-        </div>
-      </div>
-
-      <!-- Reward for Each Friend (Exact 5 Coins configured) -->
-      <div class="sapphire-glass rounded-3xl p-4 space-y-3 border-emerald-400/30">
-        <div class="text-xs font-bold uppercase tracking-wider text-emerald-300">
-          Reward for each friend
-        </div>
-        <div class="space-y-2">
-          <div class="bg-white/10 rounded-2xl p-3 flex items-center gap-3">
-            <div class="w-8 h-8 rounded-full bg-emerald-400/20 text-emerald-300 flex items-center justify-center text-sm">📈</div>
-            <div>
-              <div class="font-extrabold text-xs text-white">+5 coins and 10% USDT</div>
-              <div class="text-[10px] text-cyan-200">First invite</div>
-            </div>
-          </div>
-          <div class="bg-white/10 rounded-2xl p-3 flex items-center gap-3">
-            <div class="w-8 h-8 rounded-full bg-emerald-400/20 text-emerald-300 flex items-center justify-center text-sm">📈</div>
-            <div>
-              <div class="font-extrabold text-xs text-white">+5 coins and 10% USDT</div>
-              <div class="text-[10px] text-cyan-200">Further invites</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Five-level Program Card -->
-      <div class="sapphire-glass rounded-3xl p-4 space-y-3 border-cyan-400/30">
-        <div class="flex items-center gap-2 text-cyan-300 font-black text-xs">
-          <span>🔥</span> 5-Tier Referral Yield Commission
-        </div>
-
-        <div class="grid grid-cols-5 gap-1.5 text-center">
-          <div class="bg-white/10 rounded-xl p-2"><div class="font-black text-sm text-[#dcfb32]">10%</div><div class="text-[9px] text-cyan-200">L1</div></div>
-          <div class="bg-white/10 rounded-xl p-2"><div class="font-black text-sm text-cyan-200">3%</div><div class="text-[9px] text-cyan-200">L2</div></div>
-          <div class="bg-white/10 rounded-xl p-2"><div class="font-black text-sm text-cyan-200">2%</div><div class="text-[9px] text-cyan-200">L3</div></div>
-          <div class="bg-white/10 rounded-xl p-2"><div class="font-black text-sm text-slate-200">1%</div><div class="text-[9px] text-cyan-200">L4</div></div>
-          <div class="bg-white/10 rounded-xl p-2"><div class="font-black text-sm text-slate-200">1%</div><div class="text-[9px] text-cyan-200">L5</div></div>
-        </div>
-        <div class="text-[10px] text-cyan-200 text-center font-medium">Earned automatically from all peer network top-ups</div>
-      </div>
-    </div>
-
-    <!-- ================= SCREEN 3: GIFTS ================= -->
-    <div id="screen-gifts" class="space-y-4 hidden">
-      <div class="sapphire-glass rounded-3xl p-5 text-center space-y-2">
-        <div class="w-16 h-16 rounded-full bg-amber-400/20 text-amber-300 text-3xl flex items-center justify-center mx-auto border border-amber-300/30">
-          🎁
-        </div>
-        <h2 class="text-lg font-black text-white">Alpha Gift Vault</h2>
-        <p class="text-xs text-cyan-200">Collect daily gift crates and open mystery booster packs.</p>
-        <button onclick="claimMysteryGift()" class="bg-[#dcfb32] text-[#0d2149] font-extrabold px-6 py-2.5 rounded-full text-xs tap-scale mt-2 shadow-md">
-          Open Daily Mystery Box (+5 Coins)
-        </button>
-      </div>
-    </div>
-
-    <!-- ================= SCREEN 4: ACCOUNT ================= -->
-    <div id="screen-account" class="space-y-3 hidden">
-      <div class="sapphire-glass rounded-3xl p-4 flex items-center justify-between">
-        <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-full bg-cyan-300 text-[#0d2149] flex items-center justify-center font-black text-sm">
+      <div class="flex items-center gap-2">
+        <div class="flex items-center gap-1.5 bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-500 text-white text-xs font-bold pl-1 pr-3 py-1 rounded-full shadow-md">
+          <div class="w-6 h-6 rounded-full bg-cyan-300 text-[#080d19] flex items-center justify-center text-[10px] font-black" id="header-avatar-initials">
             AM
           </div>
-          <div>
-            <div class="text-sm font-black text-white" id="account-name-badge">Alpha Miner ⚡</div>
-            <div class="text-[10px] font-mono text-cyan-300" id="account-tg-id-display">TG ID: #89410321</div>
-          </div>
+          <span class="tracking-tight" id="header-user-title">Alpha Node ⚡</span>
         </div>
-        <div class="bg-[#dcfb32] text-[#0d2149] font-black text-xs px-3 py-1 rounded-full">
-          Tier 1 (Starter)
+
+        <div class="flex items-center gap-1.5 bg-white/10 border border-white/15 px-2.5 py-1 rounded-full text-xs font-semibold text-cyan-200">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span id="live-online-users">20,148</span>
+        </div>
+
+        <div id="header-level-badge" class="bg-[#ccff00] text-[#080d19] font-black text-xs px-2.5 py-1 rounded-full shadow-sm flex items-center gap-1">
+          <span>★</span> <span id="level-display">Tier 1</span>
         </div>
       </div>
+    </header>
 
-      <div class="grid grid-cols-2 gap-3 text-left">
-        <div class="sapphire-glass rounded-3xl p-4 space-y-1">
-          <div class="text-[11px] text-cyan-200">Coin balance</div>
-          <div class="text-base font-black text-amber-300" id="acc-coins">100</div>
-        </div>
-        <div class="sapphire-glass rounded-3xl p-4 space-y-1">
-          <div class="text-[11px] text-cyan-200">USDT balance</div>
-          <div class="text-base font-black text-cyan-200" id="acc-usdt">$0.0000</div>
-        </div>
-      </div>
-
-      <div onclick="openWalletModal()" class="sapphire-glass rounded-3xl p-4 flex items-center justify-between cursor-pointer tap-scale">
-        <div class="flex items-center gap-3">
-          <div class="w-8 h-8 rounded-full bg-cyan-400/20 text-cyan-300 flex items-center justify-center text-sm border border-cyan-400/30">
-            💎
-          </div>
-          <div>
-            <div class="text-xs font-black text-white">Wallet Management Hub</div>
-            <div class="text-[11px] text-cyan-300 font-semibold" id="acc-wallet-summary">Tonkeeper / Manual Link</div>
-          </div>
-        </div>
-        <span class="text-cyan-200 text-xs font-bold">➔</span>
+    <!-- Global Vault Balance Capsule -->
+    <div class="px-4 pt-2 pb-1 flex justify-center">
+      <div onclick="openWalletModal()" class="frosted-glass px-4 py-1.5 rounded-full flex items-center gap-2 text-xs font-semibold text-slate-200 cursor-pointer tap-scale">
+        <span class="w-5 h-5 rounded-full bg-[#26a17b] text-white flex items-center justify-center font-black text-[11px]">₮</span>
+        <span class="font-extrabold text-white text-sm" id="vault-usdt-balance">0.0000 USDT</span>
+        <span class="text-slate-400 font-medium">Global vault</span>
+        <span class="text-cyan-400 text-[10px]">▼</span>
       </div>
     </div>
 
-  </main>
-
-  <!-- ================= FIXED BOTTOM NAV ================= -->
-  <nav class="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-[#0a1e42]/95 backdrop-blur-xl border-t border-white/10 flex items-center justify-around py-2.5 px-3 z-40">
-    <button onclick="switchTab('friends')" id="nav-btn-friends" class="flex flex-col items-center text-cyan-200/70 text-[11px] font-semibold tap-scale">
-      <span class="text-xl">👥</span>
-      <span class="mt-0.5">Friends</span>
-    </button>
-
-    <button onclick="switchTab('mine')" id="nav-btn-mine" class="flex flex-col items-center tap-scale">
-      <div class="w-12 h-12 rounded-full bg-[#dcfb32] shadow-lg shadow-[#dcfb32]/40 flex items-center justify-center text-[#0d2149] font-black text-xl">
-        ⚡
+    <!-- Every-Second Realtime Proof-of-Activity Ticker -->
+    <div class="px-4 py-1">
+      <div class="bg-gradient-to-r from-cyan-950/70 via-blue-950/60 to-emerald-950/70 border border-cyan-400/30 rounded-2xl px-3 py-1.5 flex items-center justify-between text-[11px] shadow-sm">
+        <div class="flex items-center gap-2 overflow-hidden">
+          <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping shrink-0"></span>
+          <span class="text-cyan-300 font-black text-[10px] uppercase tracking-wider shrink-0">LIVE PROOF</span>
+          <span class="text-slate-200 font-mono truncate transition-opacity duration-300" id="every-sec-claim-ticker">@sam_sol claimed +$0.0120 USDT</span>
+        </div>
+        <span class="text-[10px] text-cyan-200 font-bold bg-cyan-500/20 px-2 py-0.5 rounded-md shrink-0 ml-2">1s feed</span>
       </div>
-      <span class="text-[11px] font-black text-[#dcfb32] mt-0.5">Mine</span>
-    </button>
+    </div>
 
-    <button onclick="switchTab('gifts')" id="nav-btn-gifts" class="flex flex-col items-center text-cyan-200/70 text-[11px] font-semibold tap-scale">
-      <span class="text-xl">🎁</span>
-      <span class="mt-0.5">Gifts</span>
-    </button>
+    <!-- Action Toast -->
+    <div id="toast" class="fixed top-28 left-1/2 transform -translate-x-1/2 z-50 bg-[#0d1629] border border-cyan-400/50 text-white text-xs px-4 py-2 rounded-full shadow-2xl opacity-0 pointer-events-none transition-all duration-300 flex items-center gap-2">
+      <span id="toast-icon">✨</span>
+      <span id="toast-msg">Notification</span>
+    </div>
 
-    <button onclick="switchTab('account')" id="nav-btn-account" class="flex flex-col items-center text-cyan-200/70 text-[11px] font-semibold tap-scale">
-      <span class="text-xl">👤</span>
-      <span class="mt-0.5">Account</span>
-    </button>
-  </nav>
+    <!-- Flying Claim Animation Feedback -->
+    <div id="claim-flying-anim" class="fixed top-1/3 left-1/2 transform -translate-x-1/2 z-50 font-black text-lg text-[#080d19] bg-[#ccff00] px-5 py-2.5 rounded-2xl shadow-2xl border-2 border-white hidden pointer-events-none">
+      +$0.0000 USDT 💸
+    </div>
+
+
+    <!-- ================= MAIN VIEW CONTAINER ================= -->
+    <main class="flex-1 w-full max-w-md mx-auto px-4 space-y-4 pt-1">
+
+      <!-- ================= SCREEN 1: MINE ================= -->
+      <div id="screen-mine" class="space-y-4">
+
+        <!-- Live Micro-Stream Counter Section -->
+        <div class="pt-1 text-center space-y-2">
+          <div class="flex items-center justify-center gap-2 text-[11px] font-semibold text-slate-300 flex-wrap">
+            <span class="flex items-center gap-1 text-cyan-400 font-bold">
+              <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span> Yield Rate
+            </span>
+            <span>•</span>
+            <span>⏱ <span id="rate-display-hr" class="font-bold text-white">$0.000100</span> <span class="text-slate-400">/hr</span></span>
+            <span>📅 <span id="rate-display-day" class="font-bold text-white">$0.0024</span> <span class="text-slate-400">/day</span></span>
+            <span>🗓 <span id="rate-display-mo" class="font-bold text-white">$0.072</span> <span class="text-slate-400">/mo</span></span>
+          </div>
+
+          <!-- Huge Streaming Counter -->
+          <div class="text-4xl sm:text-5xl font-black tracking-tight font-mono py-1 text-transparent bg-clip-text bg-gradient-to-r from-white via-cyan-200 to-[#ccff00]">
+            <span id="streaming-mining-counter">$0.000000000</span>
+          </div>
+
+          <div class="text-[11px] text-cyan-200 bg-white/10 border border-white/15 py-1 px-3 rounded-full inline-block">
+            🛡️ Free starter speed: 0.000000028/sec — Sustainable uncap on Boost
+          </div>
+
+          <!-- Claim Profit & How to Earn -->
+          <div class="grid grid-cols-2 gap-3 pt-1">
+            <button id="claim-profit-btn" onclick="handleClaimProfit()" class="bg-[#ccff00] hover:bg-[#b8e600] text-[#080d19] font-black py-3 rounded-full tap-scale shadow-lg shadow-[#ccff00]/30 flex items-center justify-center gap-1.5 text-xs pulse-glow">
+              <span>⚡</span> Claim profit
+            </button>
+            <button onclick="openHowToEarnModal()" class="frosted-glass hover:bg-white/15 text-cyan-300 font-bold py-3 rounded-full tap-scale flex items-center justify-center gap-1.5 text-xs border border-cyan-400/40">
+              <span>❔</span> How to earn?
+            </button>
+          </div>
+
+          <!-- Sustainable Proof-of-Yield (PoY) & Liquidity Guarantee -->
+          <div class="frosted-glass p-3 rounded-2xl flex items-center justify-between text-left text-xs">
+            <div>
+              <div class="font-extrabold text-white text-[11px]">Sustainable Proof-of-Yield (PoY) & Reserves</div>
+              <div class="text-[10px] text-slate-300">Admin 70% float protocol ensures guaranteed lifetime solvency</div>
+            </div>
+            <div class="bg-emerald-500/20 text-emerald-300 border border-emerald-500/50 text-[10px] font-black px-2.5 py-1 rounded-lg">
+              99.4% Solvency
+            </div>
+          </div>
+
+          <p class="text-[11px] text-slate-300 font-medium">
+            Top up to 3 USDT or grow with invites to activate node boost up to <strong class="text-[#ccff00]">1.8% daily</strong> sustainable yield.
+          </p>
+        </div>
+
+        <!-- Dual Metric Cards: Coins (100) & USDT Balance -->
+        <div class="grid grid-cols-2 gap-3">
+          <!-- Coins Card -->
+          <div class="frosted-glass rounded-3xl p-4 relative">
+            <div class="flex justify-between items-start">
+              <span class="text-xs font-semibold text-slate-300">Coins</span>
+              <div class="w-8 h-8 rounded-full bg-amber-400/20 text-amber-300 flex items-center justify-center text-sm border border-amber-400/30">
+                🎁
+              </div>
+            </div>
+            <div class="mt-2">
+              <div class="text-2xl font-black text-white" id="coins-count-display">100</div>
+              <div class="text-[11px] text-slate-400 font-medium" id="coins-est-val">≈$100.00</div>
+            </div>
+            <div class="mt-3 flex items-center justify-between text-[11px]">
+              <span class="bg-emerald-500/20 text-emerald-300 font-bold px-2 py-0.5 rounded-md border border-emerald-500/30">0.02%</span>
+              <span class="text-slate-400">Per day</span>
+            </div>
+          </div>
+
+          <!-- USDT Balance Card -->
+          <div class="frosted-glass rounded-3xl p-4 relative border-cyan-400/30">
+            <div class="flex justify-between items-start">
+              <span class="text-xs font-semibold text-slate-300">USDT balance</span>
+              <div class="w-8 h-8 rounded-full bg-[#26a17b] text-white flex items-center justify-center text-xs font-black shadow-sm">
+                ₮
+              </div>
+            </div>
+            <div class="mt-2">
+              <div class="text-2xl font-black text-cyan-300" id="in-app-usdt-display">$0.0000</div>
+              <div class="text-[11px] text-emerald-400 font-medium" id="wallet-connection-label">PoY Active</div>
+            </div>
+            <div class="mt-3 flex items-center justify-between text-[11px]">
+              <span class="bg-cyan-500/20 text-cyan-300 font-bold px-2 py-0.5 rounded-md border border-cyan-500/30" id="daily-pct-display">0.4%</span>
+              <span class="text-slate-400">Per day</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Buttons: Top up & Withdraw -->
+        <div class="grid grid-cols-2 gap-3">
+          <button onclick="openTopUpModal()" class="w-full bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-500 hover:opacity-95 text-white font-extrabold py-3.5 rounded-2xl tap-scale shadow-lg shadow-cyan-500/20 flex items-center justify-center gap-1.5 text-sm">
+            <span>↑</span> Top up
+          </button>
+          <button onclick="handleWithdrawClick()" class="w-full bg-[#ccff00] hover:bg-[#b8e600] text-[#080d19] font-extrabold py-3.5 rounded-2xl tap-scale shadow-lg shadow-[#ccff00]/30 flex items-center justify-center gap-1.5 text-sm">
+            <span>↓</span> Withdraw
+          </button>
+        </div>
+
+        <!-- Sustainable Yield Tiers Breakdown Card -->
+        <div class="frosted-glass p-4 rounded-3xl space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-extrabold text-white flex items-center gap-1.5">
+              <span>🧮</span> SUSTAINABLE YIELD TIERS
+            </span>
+            <span class="text-[10px] text-cyan-300 font-mono">Dynamic Halving</span>
+          </div>
+
+          <div class="grid grid-cols-3 gap-2 text-center text-xs">
+            <div class="bg-white/5 border border-white/10 rounded-2xl p-2.5">
+              <div class="text-[10px] text-cyan-300 font-bold">Boost Tier</div>
+              <div class="font-black text-white mt-0.5">3 USDT</div>
+              <div class="text-[10px] text-[#ccff00] font-mono mt-1">0.8 - 1.2%</div>
+              <div class="text-[9px] text-slate-400">daily yield</div>
+            </div>
+            <div class="bg-cyan-950/50 border border-cyan-400/50 rounded-2xl p-2.5 relative">
+              <span class="absolute -top-2 left-1/2 -translate-x-1/2 bg-cyan-400 text-[#080d19] text-[8px] font-black px-1.5 py-0.2 rounded-full uppercase">Popular</span>
+              <div class="text-[10px] text-white font-bold">Hash Rig</div>
+              <div class="font-black text-white mt-0.5">10 USDT</div>
+              <div class="text-[10px] text-[#ccff00] font-mono mt-1">1.4%</div>
+              <div class="text-[9px] text-slate-300">daily yield</div>
+            </div>
+            <div class="bg-white/5 border border-white/10 rounded-2xl p-2.5">
+              <div class="text-[10px] text-purple-300 font-bold">Turbo Node</div>
+              <div class="font-black text-white mt-0.5">30 USDT</div>
+              <div class="text-[10px] text-[#ccff00] font-mono mt-1">1.8%</div>
+              <div class="text-[9px] text-slate-400">daily yield</div>
+            </div>
+          </div>
+          <div class="text-[10px] text-slate-300 text-center leading-tight">
+            Math guarantee: 70% float reserve protocol ensures perpetual payouts without token inflation.
+          </div>
+        </div>
+
+        <!-- +30% Promo Card -->
+        <div class="frosted-glass-active rounded-3xl p-5 relative overflow-hidden space-y-3">
+          <div class="flex items-start gap-3">
+            <div class="w-12 h-12 rounded-2xl bg-[#26a17b] text-white flex items-center justify-center font-black text-xl shrink-0 shadow-md">
+              ₮
+            </div>
+            <div>
+              <h3 class="font-extrabold text-sm text-white leading-snug">
+                <span class="text-emerald-400 font-black">+30%</span> to your USDT balance in one tap
+              </h3>
+              <p class="text-[11px] text-slate-300 mt-1 leading-relaxed">
+                Free AI trading agents are online. Top up for instant PoY yield booster of <strong class="text-[#ccff00]">+30% of deposit hash power</strong>.
+              </p>
+            </div>
+          </div>
+
+          <button onclick="openTopUpModal()" class="w-full bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-500 text-white font-extrabold py-3 rounded-2xl tap-scale flex items-center justify-center gap-2 text-xs shadow-md">
+            <span>💳</span> Top up USDT balance
+          </button>
+
+          <div class="flex items-center justify-center gap-1.5 text-[11px] font-bold text-cyan-300">
+            <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping"></span>
+            7 bots left, bonuses are limited!
+          </div>
+        </div>
+
+        <!-- Quick Invite Floating Pill (Exact 5 Coins) -->
+        <div class="frosted-glass rounded-2xl p-3 flex items-center justify-between">
+          <div class="flex items-center gap-2 text-xs text-white">
+            <span class="text-base">🎁</span>
+            <span class="font-bold">Get +5 coins for an invite</span>
+          </div>
+          <button onclick="switchTab('friends')" class="bg-white/10 hover:bg-white/20 text-white px-3 py-1 rounded-xl font-bold text-xs tap-scale">
+            Invite
+          </button>
+        </div>
+
+      </div>
+
+      <!-- ================= SCREEN 2: FRIENDS & REFERRALS ================= -->
+      <div id="screen-friends" class="space-y-4 hidden">
+        <div class="pt-2">
+          <h2 class="text-xl font-black text-white leading-tight">
+            Invite friends and raise your hourly income
+          </h2>
+
+          <div class="grid grid-cols-2 gap-3 mt-3">
+            <button onclick="copyInviteLink()" class="frosted-glass text-white font-extrabold py-3 rounded-2xl tap-scale flex items-center justify-center gap-2 text-xs">
+              <span>📋</span> Copy Link
+            </button>
+            <button onclick="shareInviteTelegram()" class="bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-extrabold py-3 rounded-2xl tap-scale shadow-lg shadow-cyan-500/20 flex items-center justify-center gap-2 text-xs">
+              <span>✈️</span> Invite
+            </button>
+          </div>
+        </div>
+
+        <!-- Reward for Each Friend (Configured with EXACT 5 Coins) -->
+        <div class="frosted-glass rounded-3xl p-4 space-y-3 border-emerald-500/40">
+          <div class="text-xs font-bold uppercase tracking-wider text-emerald-400">
+            Reward for each friend
+          </div>
+          <div class="space-y-2">
+            <div class="bg-white/5 rounded-2xl p-3 flex items-center gap-3">
+              <div class="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-sm">📈</div>
+              <div>
+                <div class="font-extrabold text-xs text-white">+5 coins and 10% USDT</div>
+                <div class="text-[10px] text-slate-300">First invite</div>
+              </div>
+            </div>
+            <div class="bg-white/5 rounded-2xl p-3 flex items-center gap-3">
+              <div class="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-sm">📈</div>
+              <div>
+                <div class="font-extrabold text-xs text-white">+5 coins and 10% USDT</div>
+                <div class="text-[10px] text-slate-300">Further invites</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Five-level Program Card -->
+        <div class="frosted-glass rounded-3xl p-4 space-y-3 border-cyan-400/30">
+          <div class="flex items-center gap-2 text-cyan-300 font-black text-xs">
+            <span>🔥</span> 5-Tier Referral Yield Commission
+          </div>
+
+          <div class="grid grid-cols-5 gap-1.5 text-center">
+            <div class="bg-white/5 rounded-xl p-2"><div class="font-black text-sm text-[#ccff00]">10%</div><div class="text-[9px] text-slate-300">L1</div></div>
+            <div class="bg-white/5 rounded-xl p-2"><div class="font-black text-sm text-cyan-300">3%</div><div class="text-[9px] text-slate-300">L2</div></div>
+            <div class="bg-white/5 rounded-xl p-2"><div class="font-black text-sm text-cyan-300">2%</div><div class="text-[9px] text-slate-300">L3</div></div>
+            <div class="bg-white/5 rounded-xl p-2"><div class="font-black text-sm text-slate-200">1%</div><div class="text-[9px] text-slate-300">L4</div></div>
+            <div class="bg-white/5 rounded-xl p-2"><div class="font-black text-sm text-slate-200">1%</div><div class="text-[9px] text-slate-300">L5</div></div>
+          </div>
+          <div class="text-[10px] text-slate-300 text-center font-medium">Earned automatically from all peer network top-ups</div>
+        </div>
+      </div>
+
+      <!-- ================= SCREEN 3: GIFTS ================= -->
+      <div id="screen-gifts" class="space-y-4 hidden">
+        <div class="frosted-glass rounded-3xl p-5 text-center space-y-2">
+          <div class="w-16 h-16 rounded-full bg-amber-400/20 text-amber-300 text-3xl flex items-center justify-center mx-auto border border-amber-400/30">
+            🎁
+          </div>
+          <h2 class="text-lg font-black text-white">Alpha Gift Vault</h2>
+          <p class="text-xs text-slate-300">Collect daily gift crates and open mystery booster packs.</p>
+          <button onclick="claimMysteryGift()" class="bg-[#ccff00] text-[#080d19] font-extrabold px-6 py-2.5 rounded-full text-xs tap-scale mt-2 shadow-md">
+            Open Daily Mystery Box (+5 Coins)
+          </button>
+        </div>
+      </div>
+
+      <!-- ================= SCREEN 4: ACCOUNT (FULL RESTORED GRID) ================= -->
+      <div id="screen-account" class="space-y-3.5 hidden">
+        <!-- Account Sub-header -->
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="w-7 h-7 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center text-sm">👤</span>
+            <span class="text-xs font-black tracking-wider uppercase text-white">ACCOUNT DASHBOARD</span>
+          </div>
+          <span class="text-[10px] font-mono text-cyan-400 font-bold" id="account-tg-id-display">ID: 7078896021</span>
+        </div>
+
+        <!-- 2-Column Full Original Account Metric Grid -->
+        <div class="grid grid-cols-2 gap-3 text-left">
+          <!-- 1. Invited by -->
+          <div class="frosted-glass rounded-3xl p-4 space-y-1">
+            <div class="flex justify-between items-center text-xs text-slate-400">
+              <span>Invited by</span>
+              <span class="text-cyan-400">👥</span>
+            </div>
+            <div class="text-xs font-black text-white pt-1">7078896021</div>
+            <div class="text-[10px] text-cyan-400 font-medium">Active Referrer</div>
+          </div>
+
+          <!-- 2. Coin balance -->
+          <div class="frosted-glass rounded-3xl p-4 space-y-1">
+            <div class="flex justify-between items-center text-xs text-slate-400">
+              <span>Coin balance</span>
+              <span class="text-amber-400">🪙</span>
+            </div>
+            <div class="text-base font-black text-amber-400 pt-1" id="acc-coins">100 <span class="text-xs font-normal text-slate-300">coins</span></div>
+            <div class="text-[10px] text-amber-300 font-medium" id="acc-coins-usd">≈$100.00 USDT</div>
+          </div>
+
+          <!-- 3. USDT balance -->
+          <div class="frosted-glass rounded-3xl p-4 space-y-1 border-cyan-400/30">
+            <div class="flex justify-between items-center text-xs text-slate-400">
+              <span>USDT balance</span>
+              <span class="text-emerald-400">₮</span>
+            </div>
+            <div class="text-base font-black text-cyan-300 pt-1" id="acc-usdt">$0.0000</div>
+            <div class="text-[10px] text-emerald-400 font-semibold flex items-center gap-1">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Live Synced
+            </div>
+          </div>
+
+          <!-- 4. Referral income -->
+          <div class="frosted-glass rounded-3xl p-4 space-y-1">
+            <div class="flex justify-between items-center text-xs text-slate-400">
+              <span>Referral income</span>
+              <span class="text-emerald-400">↑</span>
+            </div>
+            <div class="text-base font-black text-emerald-400 pt-1">0.40 USDT</div>
+            <div class="text-[10px] text-slate-400">Lifetime bonus</div>
+          </div>
+
+          <!-- 5. Referral coins -->
+          <div class="frosted-glass rounded-3xl p-4 space-y-1">
+            <div class="flex justify-between items-center text-xs text-slate-400">
+              <span>Referral coins</span>
+              <span class="text-amber-400">🎁</span>
+            </div>
+            <div class="text-base font-black text-white pt-1">100 coins</div>
+            <div class="text-[10px] text-slate-400">+5 per invited friend</div>
+          </div>
+
+          <!-- 6. USDT withdrawn -->
+          <div class="frosted-glass rounded-3xl p-4 space-y-1">
+            <div class="flex justify-between items-center text-xs text-slate-400">
+              <span>USDT withdrawn</span>
+              <span class="text-slate-400">📥</span>
+            </div>
+            <div class="text-base font-black text-white pt-1">0.00 USDT</div>
+            <div class="text-[10px] text-slate-400">0 pending requests</div>
+          </div>
+        </div>
+
+        <!-- 7. Interactive Theme Switcher Card (User Choice Restored) -->
+        <div class="frosted-glass rounded-3xl p-4 space-y-2.5">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="text-pink-400 text-sm">💎</span>
+              <span class="text-xs font-bold text-white">Theme Experience</span>
+            </div>
+            <span class="text-[10px] font-semibold text-cyan-300" id="current-theme-badge">Aurora Dream (Active)</span>
+          </div>
+
+          <div class="grid grid-cols-3 gap-2 text-center text-xs pt-1">
+            <button onclick="setAppTheme('aurora')" id="btn-theme-aurora" class="bg-cyan-500 text-black py-2 rounded-xl font-extrabold tap-scale transition-all">
+              Aurora
+            </button>
+            <button onclick="setAppTheme('cyber')" id="btn-theme-cyber" class="bg-white/10 hover:bg-white/20 text-white py-2 rounded-xl font-bold tap-scale transition-all">
+              Cyber
+            </button>
+            <button onclick="setAppTheme('indigo')" id="btn-theme-indigo" class="bg-white/10 hover:bg-white/20 text-white py-2 rounded-xl font-bold tap-scale transition-all">
+              Indigo
+            </button>
+          </div>
+        </div>
+
+        <!-- 8. Language Selector -->
+        <div onclick="showToast('Current interface: English', '🌐')" class="frosted-glass rounded-2xl p-3.5 flex items-center justify-between cursor-pointer tap-scale">
+          <div class="flex items-center gap-2.5 text-xs">
+            <span class="text-base">🇬🇧</span>
+            <div>
+              <div class="font-bold text-white">Language</div>
+              <div class="text-[10px] text-slate-400">Interface language</div>
+            </div>
+          </div>
+          <span class="text-xs font-semibold text-slate-300">English ➔</span>
+        </div>
+
+        <!-- 9. Operations History -->
+        <div onclick="showToast('Recent claims & deposits logged', '🕒')" class="frosted-glass rounded-2xl p-3.5 flex items-center justify-between cursor-pointer tap-scale">
+          <div class="flex items-center gap-2.5 text-xs">
+            <span class="text-cyan-400 text-base">🕒</span>
+            <div>
+              <div class="font-bold text-white">Operations</div>
+              <div class="text-[10px] text-slate-400">Transaction & claim history</div>
+            </div>
+          </div>
+          <span class="text-xs text-slate-400">➔</span>
+        </div>
+
+        <!-- 10. FAQ -->
+        <div onclick="openHowToEarnModal()" class="frosted-glass rounded-2xl p-3.5 flex items-center justify-between cursor-pointer tap-scale">
+          <div class="flex items-center gap-2.5 text-xs">
+            <span class="text-emerald-400 text-base">❓</span>
+            <div>
+              <div class="font-bold text-white">FAQ</div>
+              <div class="text-[10px] text-slate-400">18 answered questions</div>
+            </div>
+          </div>
+          <span class="text-xs text-slate-400">➔</span>
+        </div>
+
+        <!-- 11. Help & Support -->
+        <div onclick="showToast('Connecting to 24/7 support bot...', '🛡️')" class="frosted-glass rounded-2xl p-3.5 flex items-center justify-between cursor-pointer tap-scale">
+          <div class="flex items-center gap-2.5 text-xs">
+            <span class="text-amber-400 text-base">🛡️</span>
+            <div>
+              <div class="font-bold text-white">Help & Support</div>
+              <div class="text-[10px] text-emerald-400 flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Operators online 24/7
+              </div>
+            </div>
+          </div>
+          <span class="text-xs text-slate-400">➔</span>
+        </div>
+
+        <div class="text-center text-[10px] text-slate-500 font-mono py-2">
+          Version 2026-09-29-v18 • Powered by Proof-of-Yield Global
+        </div>
+      </div>
+
+    </main>
+
+    <!-- ================= FIXED BOTTOM NAV (MINE IS CENTRAL) ================= -->
+    <nav class="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-[#080d19]/90 backdrop-blur-2xl border-t border-white/10 flex items-center justify-around py-2.5 px-3 z-40">
+      <button onclick="switchTab('friends')" id="nav-btn-friends" class="flex flex-col items-center text-slate-400 text-[11px] font-semibold tap-scale">
+        <span class="text-xl">👥</span>
+        <span class="mt-0.5">Friends</span>
+      </button>
+
+      <button onclick="switchTab('mine')" id="nav-btn-mine" class="flex flex-col items-center tap-scale">
+        <div class="w-12 h-12 rounded-full bg-[#ccff00] shadow-lg shadow-[#ccff00]/40 flex items-center justify-center text-[#080d19] font-black text-xl">
+          ⚡
+        </div>
+        <span class="text-[11px] font-black text-[#ccff00] mt-0.5">Mine</span>
+      </button>
+
+      <button onclick="switchTab('gifts')" id="nav-btn-gifts" class="flex flex-col items-center text-slate-400 text-[11px] font-semibold tap-scale">
+        <span class="text-xl">🎁</span>
+        <span class="mt-0.5">Gifts</span>
+      </button>
+
+      <button onclick="switchTab('account')" id="nav-btn-account" class="flex flex-col items-center text-slate-400 text-[11px] font-semibold tap-scale">
+        <span class="text-xl">👤</span>
+        <span class="mt-0.5">Account</span>
+      </button>
+    </nav>
+
+  </div>
+
 
   <!-- ================= TOP UP MODAL ================= -->
-  <div id="topup-modal" class="fixed inset-0 bg-[#061226]/85 backdrop-blur-md z-50 hidden flex items-end justify-center">
-    <div class="bg-[#0e2754] border-t border-cyan-400/30 w-full max-w-md rounded-t-[32px] p-6 space-y-4 max-h-[92vh] overflow-y-auto no-scrollbar shadow-2xl">
+  <div id="topup-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex items-end justify-center">
+    <div class="bg-[#0c162c] border-t border-cyan-400/30 w-full max-w-md rounded-t-[32px] p-6 space-y-4 max-h-[92vh] overflow-y-auto no-scrollbar shadow-2xl">
       <div class="flex justify-between items-center pb-2">
         <h3 class="text-lg font-black text-white">Top Up & Node Upgrade</h3>
-        <button onclick="closeTopUpModal()" class="text-xs font-bold text-cyan-200 bg-white/10 px-3 py-1.5 rounded-full tap-scale">Close ✕</button>
+        <button onclick="closeTopUpModal()" class="text-xs font-bold text-slate-300 bg-white/10 px-3 py-1.5 rounded-full tap-scale">Close ✕</button>
       </div>
 
       <div>
-        <label class="text-xs font-semibold text-cyan-200">Deposit Amount (USDT)</label>
+        <label class="text-xs font-semibold text-slate-300">Deposit Amount (USDT)</label>
         <div class="flex items-center justify-between bg-white/10 border border-white/15 p-3.5 rounded-2xl mt-1">
           <input id="topup-amount-input" oninput="handleAmountInput(this.value)" type="number" value="3" class="bg-transparent text-xl font-black text-white outline-none w-full" />
           <span class="text-xs font-extrabold text-cyan-300">USDT</span>
@@ -464,7 +678,7 @@
       </div>
 
       <div class="grid grid-cols-6 gap-1 text-center text-xs">
-        <button onclick="setTopUpAmount(3)" class="preset-btn bg-cyan-400 text-[#0d2149] p-2 rounded-xl font-bold">3</button>
+        <button onclick="setTopUpAmount(3)" class="preset-btn bg-cyan-400 text-[#080d19] p-2 rounded-xl font-bold">3</button>
         <button onclick="setTopUpAmount(5)" class="preset-btn bg-white/10 text-white p-2 rounded-xl font-bold">5</button>
         <button onclick="setTopUpAmount(10)" class="preset-btn bg-white/10 text-white p-2 rounded-xl font-bold">10</button>
         <button onclick="setTopUpAmount(30)" class="preset-btn bg-white/10 text-white p-2 rounded-xl font-bold">30</button>
@@ -473,78 +687,80 @@
       </div>
 
       <div class="space-y-2 pt-1">
-        <div class="text-xs font-bold text-cyan-200">Select Network / Coin</div>
+        <div class="text-xs font-bold text-slate-200">Select Network / Coin</div>
         <div class="grid grid-cols-2 gap-2 text-left text-xs">
           <div onclick="selectNetwork('USDT BEP20', this)" class="net-pill border-2 border-cyan-400 bg-cyan-600/30 p-2.5 rounded-2xl flex items-center gap-2.5 cursor-pointer">
-            <div class="w-8 h-8 rounded-full bg-emerald-500 text-white flex items-center justify-center font-black text-xs">₮</div>
-            <div><div class="font-bold text-white">USDT BEP20</div><div class="text-[10px] text-cyan-200">BNB Chain</div></div>
+            <div class="w-8 h-8 rounded-full bg-[#26a17b] text-white flex items-center justify-center font-black text-xs">₮</div>
+            <div><div class="font-bold text-white">USDT BEP20</div><div class="text-[10px] text-slate-300">BNB Chain</div></div>
           </div>
           <div onclick="selectNetwork('USDT TRC20', this)" class="net-pill border border-white/15 bg-white/10 p-2.5 rounded-2xl flex items-center gap-2.5 cursor-pointer">
             <div class="w-8 h-8 rounded-full bg-red-600 text-white flex items-center justify-center font-black text-xs">₮</div>
-            <div><div class="font-bold text-white">USDT TRC20</div><div class="text-[10px] text-cyan-200">TRON</div></div>
+            <div><div class="font-bold text-white">USDT TRC20</div><div class="text-[10px] text-slate-300">TRON</div></div>
           </div>
           <div onclick="selectNetwork('USDT TON', this)" class="net-pill border border-white/15 bg-white/10 p-2.5 rounded-2xl flex items-center gap-2.5 cursor-pointer">
             <div class="w-8 h-8 rounded-full bg-[#0098ea] text-white flex items-center justify-center font-black text-xs">💎</div>
-            <div><div class="font-bold text-white">USDT TON</div><div class="text-[10px] text-cyan-200">TON</div></div>
+            <div><div class="font-bold text-white">USDT TON</div><div class="text-[10px] text-slate-300">TON</div></div>
           </div>
           <div onclick="selectNetwork('BTC', this)" class="net-pill border border-white/15 bg-white/10 p-2.5 rounded-2xl flex items-center gap-2.5 cursor-pointer">
             <div class="w-8 h-8 rounded-full bg-amber-500 text-white flex items-center justify-center font-black text-xs">₿</div>
-            <div><div class="font-bold text-white">BTC</div><div class="text-[10px] text-cyan-200">Bitcoin</div></div>
+            <div><div class="font-bold text-white">BTC</div><div class="text-[10px] text-slate-300">Bitcoin</div></div>
           </div>
         </div>
       </div>
 
-      <button onclick="proceedToPaymentDetails()" class="w-full bg-gradient-to-r from-blue-500 to-cyan-400 hover:from-blue-600 hover:to-cyan-500 text-[#0d2149] font-black py-3.5 rounded-2xl tap-scale shadow-lg text-sm">
+      <button onclick="proceedToPaymentDetails()" class="w-full bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-500 text-white font-black py-3.5 rounded-2xl tap-scale shadow-lg text-sm">
         Proceed to Deposit Details ➔
       </button>
     </div>
   </div>
 
+
   <!-- ================= PAYMENT DETAILS MODAL ================= -->
-  <div id="payment-modal" class="fixed inset-0 bg-[#061226]/85 backdrop-blur-md z-50 hidden flex items-end justify-center">
-    <div class="bg-[#0e2754] border-t border-cyan-400/30 w-full max-w-md rounded-t-[32px] p-6 space-y-4 max-h-[92vh] overflow-y-auto no-scrollbar shadow-2xl">
+  <div id="payment-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex items-end justify-center">
+    <div class="bg-[#0c162c] border-t border-cyan-400/30 w-full max-w-md rounded-t-[32px] p-6 space-y-4 max-h-[92vh] overflow-y-auto no-scrollbar shadow-2xl">
       <div class="flex justify-between items-center pb-1">
         <h3 class="text-lg font-black text-white">Payment details</h3>
-        <button onclick="closePaymentModal()" class="text-xs font-bold text-cyan-200 bg-white/10 px-3 py-1.5 rounded-full tap-scale">Close ✕</button>
+        <button onclick="closePaymentModal()" class="text-xs font-bold text-slate-300 bg-white/10 px-3 py-1.5 rounded-full tap-scale">Close ✕</button>
       </div>
 
-      <div class="sapphire-glass rounded-3xl p-4 space-y-2">
+      <div class="frosted-glass rounded-3xl p-4 space-y-2">
         <div class="flex justify-between items-center text-xs">
-          <span class="text-cyan-200">Network:</span>
+          <span class="text-slate-300">Network:</span>
           <span class="font-black text-white" id="pay-network-name">USDT BEP20</span>
         </div>
         <div class="flex justify-between items-center text-xs">
-          <span class="text-cyan-200">To pay:</span>
-          <span class="font-black text-cyan-200" id="pay-topay-val">3 USDT</span>
+          <span class="text-slate-300">To pay:</span>
+          <span class="font-black text-cyan-300" id="pay-topay-val">3 USDT</span>
         </div>
       </div>
 
       <div>
-        <label class="text-xs font-semibold text-cyan-200 block mb-1">Official Vault Deposit Address</label>
-        <div class="bg-[#091b3b] border border-white/20 p-4 rounded-2xl break-all font-mono text-xs font-extrabold text-cyan-300" id="master-deposit-addr">
+        <label class="text-xs font-semibold text-slate-300 block mb-1">Official Vault Deposit Address</label>
+        <div class="bg-black/60 border border-white/20 p-4 rounded-2xl break-all font-mono text-xs font-extrabold text-cyan-300" id="master-deposit-addr">
           0x4a5e6Ee24b1d4C6aCE3b96Dec2Fe8197a6Ca7726
         </div>
-        <button onclick="copyDepositAddress()" class="w-full mt-2.5 bg-cyan-400 hover:bg-cyan-300 text-[#0d2149] font-black py-3 rounded-2xl tap-scale text-xs">
+        <button onclick="copyDepositAddress()" class="w-full mt-2.5 bg-cyan-400 hover:bg-cyan-300 text-[#080d19] font-black py-3 rounded-2xl tap-scale text-xs">
           Copy address
         </button>
       </div>
 
       <div class="space-y-2">
-        <label class="text-xs font-semibold text-cyan-200 block">Submit Tx Hash (Tx ID):</label>
+        <label class="text-xs font-semibold text-slate-300 block">Submit Tx Hash (Tx ID):</label>
         <input id="deposit-tx-hash-input" placeholder="Paste transaction hash / signature" class="w-full bg-white/10 border border-white/15 p-3 rounded-2xl text-xs text-white outline-none font-mono" />
-        <button onclick="submitAuthorizeForAdmin()" class="w-full bg-[#dcfb32] text-[#0d2149] font-black py-3.5 rounded-2xl tap-scale text-xs shadow-md">
+        <button onclick="submitAuthorizeForAdmin()" class="w-full bg-[#ccff00] text-[#080d19] font-black py-3.5 rounded-2xl tap-scale text-xs shadow-md">
           Authorize & Submit to Admin ➔
         </button>
       </div>
     </div>
   </div>
 
+
   <!-- ================= WALLET MODAL ================= -->
-  <div id="wallet-modal" class="fixed inset-0 bg-[#061226]/85 backdrop-blur-md z-50 hidden flex items-end justify-center">
-    <div class="bg-[#0e2754] border-t border-cyan-400/30 w-full max-w-md rounded-t-[32px] p-6 space-y-4 max-h-[92vh] overflow-y-auto no-scrollbar shadow-2xl">
+  <div id="wallet-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex items-end justify-center">
+    <div class="bg-[#0c162c] border-t border-cyan-400/30 w-full max-w-md rounded-t-[32px] p-6 space-y-4 max-h-[92vh] overflow-y-auto no-scrollbar shadow-2xl">
       <div class="flex justify-between items-center pb-2 border-b border-white/10">
         <h3 class="text-lg font-black text-white flex items-center gap-2">💎 TON Wallet Link</h3>
-        <button onclick="closeWalletModal()" class="text-xs font-bold text-cyan-200 bg-white/10 px-3 py-1.5 rounded-full tap-scale">Close ✕</button>
+        <button onclick="closeWalletModal()" class="text-xs font-bold text-slate-300 bg-white/10 px-3 py-1.5 rounded-full tap-scale">Close ✕</button>
       </div>
 
       <div id="wallet-modal-unconnected" class="space-y-4">
@@ -553,17 +769,17 @@
         </button>
 
         <div class="space-y-2 pt-1">
-          <label class="text-xs font-bold text-cyan-200">Or Paste TON Address Manually:</label>
+          <label class="text-xs font-bold text-slate-200">Or Paste TON Address Manually:</label>
           <input id="manual-wallet-input" placeholder="Paste TON address (e.g. UQC4...DKvm)" class="w-full bg-white/10 border border-white/15 p-3 rounded-xl text-xs text-white font-mono outline-none" />
-          <button onclick="saveManualWalletAddress()" class="w-full bg-gradient-to-r from-blue-500 to-cyan-400 text-[#0d2149] font-black py-3 rounded-xl text-xs tap-scale">
+          <button onclick="saveManualWalletAddress()" class="w-full bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-black py-3 rounded-xl text-xs tap-scale">
             Link Address Manually ➔
           </button>
         </div>
       </div>
 
       <div id="wallet-modal-connected" class="space-y-4 hidden">
-        <div class="sapphire-glass rounded-2xl p-4 space-y-2">
-          <div class="text-xs font-bold text-emerald-300">Active Linked Wallet</div>
+        <div class="frosted-glass rounded-2xl p-4 space-y-2">
+          <div class="text-xs font-bold text-emerald-400">Active Linked Wallet</div>
           <div class="font-mono text-xs font-black text-white break-all" id="connected-wallet-full-addr">Not Linked</div>
         </div>
         <button onclick="executeDisconnectWallet()" class="w-full bg-rose-500/20 text-rose-300 border border-rose-500/40 font-extrabold py-3.5 rounded-2xl tap-scale text-xs">
@@ -573,9 +789,10 @@
     </div>
   </div>
 
-  <!-- ================= APPLICATION ENGINE SCRIPT ================= -->
+
+  <!-- ================= APPLICATION ENGINE JAVASCRIPT ================= -->
   <script>
-    // --- 1. OFFICIAL VAULT WALLETS ---
+    // --- 1. OFFICIAL VAULT WALLET ADDRESSES ---
     const OFFICIAL_WALLET_ADDRESSES = {
       'USDT BEP20': '0x4a5e6Ee24b1d4C6aCE3b96Dec2Fe8197a6Ca7726',
       'USDT TRC20': 'TF7HnqLafizs5zcK6DTdK55ZWxscunKeDu',
@@ -583,13 +800,13 @@
       'BTC':        'bc1q0r2p6h4mks4axe2e59kjtl0f9p9dlv3y52wp9v'
     };
 
-    // --- 2. STATE ---
-    const STORAGE_KEY = 'alpha_mining_master_v7';
+    // --- 2. LOCAL PERSISTENT STATE ---
+    const STORAGE_KEY = 'alpha_mining_master_v8';
     const defaultState = {
-      telegram_id: 89410321,
+      telegram_id: 7078896021,
       username: 'Alpha Node',
-      miningAmount: 0.000000000,
-      usdtBalance: 0.0000,
+      miningAmount: 0.000341990,
+      usdtBalance: 1.3374,
       coins: 100,
       level: 1,
       isUpgraded: false,
@@ -597,6 +814,7 @@
       walletConnected: false,
       walletAddress: '',
       walletBrand: '',
+      theme: 'aurora',
       lastTimestamp: Date.now(),
       activeTab: 'mine'
     };
@@ -616,8 +834,8 @@
       }
     }
 
-    // --- 4. REAL-TIME CLAIM TICKER (EVERY SECOND LIVE SIMULATION) ---
-    const activeMinerNames = ['@sam_sol', '@crypto_alex', '@ton_whale', '@maria_web3', '@neo_miner', '@vlad_ton', '@dev_sarah', '@dex_trader', '@hamster_pro', '@ton_matrix'];
+    // --- 4. EVERY-SECOND LIVE CLAIM FEED ---
+    const activeMinerNames = ['@sam_sol', '@crypto_alex', '@maria_99', '@vlad_ton', '@neo_miner', '@ton_whale', '@dev_sarah', '@dex_trader', '@hamster_pro'];
     function startEverySecondClaimTicker() {
       setInterval(() => {
         const randomMiner = activeMinerNames[Math.floor(Math.random() * activeMinerNames.length)];
@@ -631,7 +849,7 @@
       }, 1500);
     }
 
-    // --- 5. CONTINUOUS MINING STREAM ---
+    // --- 5. CONTINUOUS MICRO-STREAM MINING LOOP ---
     function startLiveMiningEngine() {
       setInterval(() => {
         const ratePerSec = getCurrentMiningRatePerSec();
@@ -652,8 +870,10 @@
       document.getElementById('in-app-usdt-display').innerText = usdtFormatted;
       document.getElementById('vault-usdt-balance').innerText = `${state.usdtBalance.toFixed(4)} USDT`;
       document.getElementById('acc-usdt').innerText = usdtFormatted;
+
       document.getElementById('coins-count-display').innerText = state.coins;
-      document.getElementById('acc-coins').innerText = state.coins;
+      document.getElementById('acc-coins').innerHTML = `${state.coins} <span class="text-xs font-normal text-slate-300">coins</span>`;
+      document.getElementById('acc-coins-usd').innerText = `≈$${state.coins}.00 USDT`;
 
       const rateHr = (getCurrentMiningRatePerSec() * 3600).toFixed(6);
       const rateDay = (getCurrentMiningRatePerSec() * 86400).toFixed(4);
@@ -667,23 +887,18 @@
         document.getElementById('daily-pct-display').innerText = state.upgradeAmount >= 30 ? '1.8%' : (state.upgradeAmount >= 10 ? '1.4%' : '1.0%');
       }
 
-      if (state.walletConnected && state.walletAddress) {
-        const short = `${state.walletAddress.substring(0, 6)}...${state.walletAddress.slice(-4)}`;
-        document.getElementById('wallet-connection-label').innerText = `Linked: ${short}`;
-        document.getElementById('acc-wallet-summary').innerText = `Linked: ${short}`;
-        document.getElementById('connected-wallet-full-addr').innerText = state.walletAddress;
-      }
+      setAppTheme(state.theme || 'aurora');
     }
 
-    // --- 6. CLAIM PROFIT (BULLETPROOF USDT REALTIME CREDIT) ---
+    // --- 6. CLAIM PROFIT (BULLETPROOF REALTIME CREDIT) ---
     function handleClaimProfit() {
       if (state.miningAmount <= 0.000000010) {
         showToast('Accumulating micro-cents... Claim in a moment!', '⏳');
         return;
       }
       const harvested = state.miningAmount;
-      state.usdtBalance += harvested;
-      state.miningAmount = 0.000000000;
+      state.usdtBalance += harvested;       // Directly added to USDT balance
+      state.miningAmount = 0.000000000;     // Counter resets to 0.00
       saveState();
       updateAllUI();
 
@@ -698,12 +913,46 @@
       setTimeout(() => {
         animEl.classList.add('hidden');
         animEl.classList.remove('animate-float-claim');
-      }, 1200);
+      }, 1300);
 
       showToast(`+$${harvested.toFixed(4)} USDT credited to balance!`, '🎉');
     }
 
-    // --- 7. MODALS & TOP UP ---
+    // --- 7. THEME SWITCHER (AURORA, CYBER, INDIGO) ---
+    function setAppTheme(t) {
+      state.theme = t;
+      saveState();
+
+      const body = document.getElementById('app-body');
+      body.classList.remove('theme-cyber', 'theme-indigo');
+
+      const btnAurora = document.getElementById('btn-theme-aurora');
+      const btnCyber = document.getElementById('btn-theme-cyber');
+      const btnIndigo = document.getElementById('btn-theme-indigo');
+      const badge = document.getElementById('current-theme-badge');
+
+      // Reset buttons
+      [btnAurora, btnCyber, btnIndigo].forEach(b => {
+        if (b) {
+          b.className = 'bg-white/10 hover:bg-white/20 text-white py-2 rounded-xl font-bold tap-scale transition-all';
+        }
+      });
+
+      if (t === 'cyber') {
+        body.classList.add('theme-cyber');
+        if (btnCyber) btnCyber.className = 'bg-cyan-400 text-black py-2 rounded-xl font-extrabold tap-scale transition-all';
+        if (badge) badge.innerText = 'Cyber Neon (Active)';
+      } else if (t === 'indigo') {
+        body.classList.add('theme-indigo');
+        if (btnIndigo) btnIndigo.className = 'bg-indigo-400 text-black py-2 rounded-xl font-extrabold tap-scale transition-all';
+        if (badge) badge.innerText = 'Midnight Indigo (Active)';
+      } else {
+        if (btnAurora) btnAurora.className = 'bg-cyan-400 text-black py-2 rounded-xl font-extrabold tap-scale transition-all';
+        if (badge) badge.innerText = 'Aurora Dream (Active)';
+      }
+    }
+
+    // --- 8. MODALS & TOP UP ---
     let selectedAmount = 3;
     let selectedNet = 'USDT BEP20';
 
@@ -717,7 +966,7 @@
       document.getElementById('topup-amount-input').value = selectedAmount;
       document.querySelectorAll('.preset-btn').forEach(btn => {
         if (parseFloat(btn.innerText) === selectedAmount) {
-          btn.className = 'preset-btn bg-cyan-400 text-[#0d2149] p-2 rounded-xl font-bold';
+          btn.className = 'preset-btn bg-cyan-400 text-[#080d19] p-2 rounded-xl font-bold';
         } else {
           btn.className = 'preset-btn bg-white/10 text-white p-2 rounded-xl font-bold';
         }
@@ -769,7 +1018,7 @@
       showToast('Submitted to Admin for Authorization!', '⏳');
     }
 
-    // --- 8. TONKEEPER WALLET ---
+    // --- 9. TON WALLET LINK ---
     function openWalletModal() {
       const modal = document.getElementById('wallet-modal');
       const unconn = document.getElementById('wallet-modal-unconnected');
@@ -810,7 +1059,7 @@
       showToast('Wallet disconnected', '🔌');
     }
 
-    // --- 9. TABS & REWARD (EXACT 5 COINS PER INVITE) ---
+    // --- 10. TABS NAVIGATION ---
     const tabs = ['mine', 'friends', 'gifts', 'account'];
     function switchTab(tId) {
       state.activeTab = tId;
@@ -819,10 +1068,10 @@
         const btn = document.getElementById(`nav-btn-${t}`);
         if (t === tId) {
           el.classList.remove('hidden');
-          if (btn && t !== 'mine') { btn.classList.remove('text-cyan-200/70'); btn.classList.add('text-white'); }
+          if (btn && t !== 'mine') { btn.classList.remove('text-slate-400'); btn.classList.add('text-white'); }
         } else {
           el.classList.add('hidden');
-          if (btn && t !== 'mine') { btn.classList.remove('text-white'); btn.classList.add('text-cyan-200/70'); }
+          if (btn && t !== 'mine') { btn.classList.remove('text-white'); btn.classList.add('text-slate-400'); }
         }
       });
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -855,7 +1104,7 @@
       else { state.usdtBalance = 0.0; saveState(); updateAllUI(); showToast('Withdrawal order submitted!', '💸'); }
     }
     function openHowToEarnModal() {
-      alert('💡 Alpha Mining Sustainable Guide:\n1. Free starter speed runs 24/7 without battery drain.\n2. Claim profit anytime to add micro-cents directly to your USDT balance.\n3. Top up 3 USDT to activate sustainable 0.8% - 1.8% daily yields backed by 70% float liquidity reserve.');
+      alert('💡 Alpha Mining Guide:\n1. Claim profit anytime to add micro-cents directly to your USDT balance.\n2. Free starter speed runs 24/7 without battery drain.\n3. Top up 3 USDT to activate sustainable 0.8% - 1.8% daily yields backed by 70% float liquidity reserve.');
     }
     function handleCloseApp() {
       saveState();
@@ -863,7 +1112,7 @@
       else alert('App closed. Mining continues 24/7!');
     }
 
-    // Init
+    // Init boot
     updateAllUI();
     startLiveMiningEngine();
     startEverySecondClaimTicker();
