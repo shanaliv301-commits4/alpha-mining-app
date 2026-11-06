@@ -448,7 +448,7 @@
         </div>
       </div>
 
-      <!-- SCREEN 2: SPIN WHEEL (NEW FEATURE) -->
+      <!-- SCREEN 2: SPIN WHEEL -->
       <div id="screen-spin" class="space-y-4 hidden">
         <div class="text-center pt-1 space-y-1">
           <div class="inline-flex items-center gap-1.5 bg-gradient-to-r from-amber-500/20 to-pink-500/20 border border-amber-400/50 px-3 py-1 rounded-full text-xs font-black text-amber-300">
@@ -467,10 +467,10 @@
           <div class="relative w-[290px] h-[290px] flex items-center justify-center my-2">
             <canvas id="spin-canvas" width="290" height="290" class="rounded-full shadow-2xl shadow-cyan-500/20"></canvas>
 
-            <!-- Center Peg -->
+            <!-- Center Peg with Tether Logo -->
             <div class="absolute w-14 h-14 rounded-full bg-gradient-to-br from-[#0c162c] to-[#040813] border-4 border-[#ccff00] flex flex-col items-center justify-center shadow-xl z-20 pointer-events-none">
-              <span class="text-xs font-black text-[#ccff00]">₮</span>
-              <span class="text-[8px] font-black text-white uppercase tracking-tighter">WIN</span>
+              <span class="w-6 h-6 rounded-full bg-[#26a17b] text-white flex items-center justify-center text-xs font-black shadow-sm">₮</span>
+              <span class="text-[8px] font-black text-white uppercase tracking-tighter mt-0.5">SPIN</span>
             </div>
           </div>
 
@@ -512,14 +512,6 @@
               <span>✈️</span> Invite Friend (+1)
             </button>
           </div>
-        </div>
-
-        <!-- Wheel Odds & Transparency Box -->
-        <div class="bg-black/30 border border-white/10 rounded-2xl p-3 text-[11px] text-slate-400 space-y-1">
-          <div class="font-bold text-slate-300 flex items-center gap-1">
-            <span>🛡️</span> Wheel Policy & Instant Payouts
-          </div>
-          <div>All spin payouts (0.01$ - 0.10$ USDT) credit instantly to your in-app USDT balance and can be withdrawn under standard rules.</div>
         </div>
       </div>
 
@@ -690,7 +682,7 @@
 
     </main>
 
-    <!-- Bottom Navigation (With Dedicated Spin Tab) -->
+    <!-- Bottom Navigation -->
     <nav class="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-[#080d19]/90 backdrop-blur-2xl border-t border-white/10 flex items-center justify-around py-2 px-1 z-40">
       <button onclick="switchTab('friends')" id="nav-btn-friends" class="flex flex-col items-center text-slate-400 text-[10px] font-semibold tap-scale">
         <span class="text-lg">👥</span>
@@ -931,7 +923,7 @@
       'BTC':        'bc1q0r2p6h4mks4axe2e59kjtl0f9p9dlv3y52wp9v'
     };
 
-    // --- 3. ISOLATED USER STATE (WITH 5 FREE SPINS) ---
+    // --- 3. ISOLATED USER STATE ---
     const STORAGE_KEY = `alpha_state_${currentUser.id}`;
     const defaultState = {
       telegram_id: currentUser.id,
@@ -940,7 +932,7 @@
       miningAmount: 0.000000000,
       usdtBalance: 0.0000,
       coins: 100,
-      spinsAvailable: 5,            // <-- STRICTLY 5 FREE SPINS FOR NEW USERS!
+      spinsAvailable: 5,
       level: 1,
       isUpgraded: false,
       upgradeAmount: 0,
@@ -973,7 +965,7 @@
     // --- 4. 2X DOUBLE MINING SPEED FORMULA ---
     function getCurrentMiningRatePerSec() {
       if (!state.isUpgraded || !state.upgradeAmount) {
-        return 0.02 / 86400; // Free starter rate ($0.02/day)
+        return 0.02 / 86400;
       } else {
         const doubleMonthlyYield = Number(state.upgradeAmount) * 2.0; 
         const dailyYield = doubleMonthlyYield / 30.0;
@@ -1013,11 +1005,10 @@
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     }
 
-    // --- 6. SUPABASE REALTIME SYNC (DEPOSITS & INVITES FOR +1 SPIN) ---
+    // --- 6. SUPABASE REALTIME SYNC ---
     function setupSupabaseDepositListener() {
       if (!supabaseClient) return;
 
-      // Listen for approved deposits
       supabaseClient
         .from('deposits')
         .select('*')
@@ -1043,7 +1034,7 @@
         })
         .subscribe();
 
-      // Listen for new referral joining this user to add +1 Spin in Realtime
+      // Listen for new referral joining to add +1 Spin
       supabaseClient
         .channel(`user_referrals_${state.telegram_id}`)
         .on('postgres_changes', { 
@@ -1108,19 +1099,16 @@
       }, 1400);
     }
 
-    // --- 8. ================= LUCKY FORTUNE WHEEL ENGINE ================= ---
-    // Segments configuration
-    // Visual display order (8 items clockwise):
-    // 0: 0.01$, 1: 1000$, 2: 0.10$, 3: 50$, 4: 0.03$, 5: 100$, 6: 10$, 7: 40$
+    // --- 8. ================= FORTUNE WHEEL (TETHER LOGO BADGE & CLEAR AMOUNTS) ================= ---
     const WHEEL_SEGMENTS = [
-      { label: '0.01$ USDT', amount: 0.01, color: '#0098ea', textColor: '#ffffff' },
-      { label: '1,000$ USDT', amount: 1000.0, color: '#f59e0b', textColor: '#080d19' }, // High display only
-      { label: '0.10$ USDT', amount: 0.10, color: '#10b981', textColor: '#ffffff' },
-      { label: '50$ USDT',   amount: 50.0, color: '#8b5cf6', textColor: '#ffffff' }, // High display only
-      { label: '0.03$ USDT', amount: 0.03, color: '#06b6d4', textColor: '#080d19' },
-      { label: '100$ USDT',  amount: 100.0, color: '#ec4899', textColor: '#ffffff' }, // High display only
-      { label: '10$ USDT',   amount: 10.0, color: '#6366f1', textColor: '#ffffff' }, // High display only
-      { label: '40$ USDT',   amount: 40.0, color: '#3b82f6', textColor: '#ffffff' }  // High display only
+      { label: '$0.01',  amount: 0.01, color: '#0284c7', textColor: '#ffffff' },
+      { label: '$1,000', amount: 1000.0, color: '#f59e0b', textColor: '#080d19' },
+      { label: '$0.10',  amount: 0.10, color: '#10b981', textColor: '#ffffff' },
+      { label: '$50',    amount: 50.0, color: '#8b5cf6', textColor: '#ffffff' },
+      { label: '$0.03',  amount: 0.03, color: '#06b6d4', textColor: '#080d19' },
+      { label: '$100',   amount: 100.0, color: '#ec4899', textColor: '#ffffff' },
+      { label: '$10',    amount: 10.0, color: '#6366f1', textColor: '#ffffff' },
+      { label: '$40',    amount: 40.0, color: '#2563eb', textColor: '#ffffff' }
     ];
 
     const NUM_SEGMENTS = WHEEL_SEGMENTS.length;
@@ -1138,7 +1126,6 @@
 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // Draw Segments
       for (let i = 0; i < NUM_SEGMENTS; i++) {
         const segAngle = angle + (i * ARC_ANGLE);
         const seg = WHEEL_SEGMENTS[i];
@@ -1150,44 +1137,67 @@
         ctx.fillStyle = seg.color;
         ctx.fill();
 
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.25)';
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
         ctx.lineWidth = 2;
         ctx.stroke();
 
-        // Draw Text & USDT symbol
         ctx.save();
         ctx.translate(cx, cy);
         ctx.rotate(segAngle + (ARC_ANGLE / 2));
+
+        // Official Tether Green Logo Badge
+        const badgeX = radius - 22;
+        const badgeY = 0;
+        const badgeR = 9;
+
+        ctx.beginPath();
+        ctx.arc(badgeX, badgeY, badgeR, 0, 2 * Math.PI);
+        ctx.fillStyle = '#26a17b';
+        ctx.fill();
+        ctx.strokeStyle = '#ffffff';
+        ctx.lineWidth = 1.2;
+        ctx.stroke();
+
+        ctx.fillStyle = '#ffffff';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.font = '900 11px sans-serif';
+        ctx.fillText('₮', badgeX, badgeY + 0.5);
+
+        // Prominent Bold Dollar Amount
         ctx.textAlign = 'right';
+        ctx.textBaseline = 'middle';
         ctx.fillStyle = seg.textColor;
-        ctx.font = 'bold 12px "Plus Jakarta Sans", sans-serif';
-        ctx.fillText(`₮ ${seg.label}`, radius - 16, 4);
+        ctx.font = '900 14px "Plus Jakarta Sans", sans-serif';
+        ctx.shadowColor = 'rgba(0,0,0,0.5)';
+        ctx.shadowBlur = 4;
+        ctx.fillText(seg.label, badgeX - 12, 0);
+
         ctx.restore();
       }
 
-      // Outer rim ring
       ctx.beginPath();
       ctx.arc(cx, cy, radius, 0, 2 * Math.PI);
       ctx.strokeStyle = '#ccff00';
       ctx.lineWidth = 4;
+      ctx.shadowColor = '#ccff00';
+      ctx.shadowBlur = 8;
       ctx.stroke();
+      ctx.shadowBlur = 0;
     }
 
-    // CONTROLLED REWARD LOGIC: Strictly gives 0.01$, 0.03$, or 0.10$ ONLY!
-    // No other rewards can ever be won.
     function selectControlledWinnerSegment() {
       const rand = Math.random() * 100;
       let targetAmount = 0.01;
 
       if (rand < 70) {
-        targetAmount = 0.01; // 70% probability
+        targetAmount = 0.01;
       } else if (rand < 90) {
-        targetAmount = 0.03; // 20% probability
+        targetAmount = 0.03;
       } else {
-        targetAmount = 0.10; // 10% probability
+        targetAmount = 0.10;
       }
 
-      // Find index of this segment in WHEEL_SEGMENTS
       const winningIndex = WHEEL_SEGMENTS.findIndex(s => s.amount === targetAmount);
       return { index: winningIndex, amount: targetAmount };
     }
@@ -1195,7 +1205,6 @@
     function executeWheelSpin() {
       if (isSpinning) return;
 
-      // Check spins count
       if (state.spinsAvailable <= 0) {
         alert('⚠️ No Spins Left!\n\nYou have used your 5 free spins.\n\nInvite friends with your link to earn +1 Spin for every friend who joins!');
         switchTab('friends');
@@ -1207,16 +1216,13 @@
       saveState();
       updateAllUI();
 
-      // Determine winning segment
       const outcome = selectControlledWinnerSegment();
       const targetIndex = outcome.index;
       const wonAmount = outcome.amount;
 
-      // Pointer is at TOP (3 * Math.PI / 2, i.e., 270 degrees or -90 degrees)
       const pointerAngle = 3 * Math.PI / 2;
       const targetCenterAngle = (targetIndex * ARC_ANGLE) + (ARC_ANGLE / 2);
       
-      // Calculate final target angle with random full rotations (5 to 8 rotations)
       const fullRotations = 6;
       let desiredAngle = pointerAngle - targetCenterAngle;
       while (desiredAngle < currentWheelAngle) {
@@ -1234,7 +1240,6 @@
       if (spinBtn) spinBtn.disabled = true;
       if (spinBtnText) spinBtnText.innerText = 'SPINNING...';
 
-      // Smooth Easing function (cubic ease-out)
       function easeOutCubic(t) {
         return (--t) * t * t + 1;
       }
@@ -1250,17 +1255,14 @@
         if (progress < 1) {
           requestAnimationFrame(animateSpinFrame);
         } else {
-          // Finished Spin!
           isSpinning = false;
           if (spinBtn) spinBtn.disabled = false;
           if (spinBtnText) spinBtnText.innerText = state.spinsAvailable > 0 ? `SPIN NOW (${state.spinsAvailable} LEFT)` : 'NO SPINS (INVITE FOR +1)';
 
-          // Credit won amount directly to USDT balance!
           state.usdtBalance += wonAmount;
           saveState();
           updateAllUI();
 
-          // Haptics & Notification
           if (window.Telegram?.WebApp?.HapticFeedback) {
             window.Telegram.WebApp.HapticFeedback.notificationOccurred('success');
           }
@@ -1301,7 +1303,6 @@
       document.getElementById('acc-coins').innerHTML = `${state.coins} <span class="text-xs font-normal text-slate-300">coins</span>`;
       document.getElementById('acc-coins-usd').innerText = `≈$${state.coins}.00 USDT`;
 
-      // Spin UI displays
       document.getElementById('spin-count-display').innerText = `${state.spinsAvailable} Spins`;
       document.getElementById('quick-spin-count-label').innerText = `${state.spinsAvailable} Free Spins Available!`;
       document.getElementById('acc-spins-val').innerText = `${state.spinsAvailable} spins`;
@@ -1311,7 +1312,6 @@
         spinBtnText.innerText = state.spinsAvailable > 0 ? `SPIN NOW (${state.spinsAvailable} LEFT)` : 'NO SPINS LEFT (INVITE FOR +1)';
       }
 
-      // Rates calculation based on actual state
       const currentRateSec = getCurrentMiningRatePerSec();
       const rateHr = (currentRateSec * 3600).toFixed(6);
       const rateDay = (currentRateSec * 86400).toFixed(4);
@@ -1684,7 +1684,7 @@
       showToast('Wallet disconnected', '🔌');
     }
 
-    // --- 16. TABS (INCLUDES NEW SPIN TAB) ---
+    // --- 16. TABS ---
     const tabs = ['mine', 'spin', 'friends', 'gifts', 'account'];
     function switchTab(tId) {
       state.activeTab = tId;
