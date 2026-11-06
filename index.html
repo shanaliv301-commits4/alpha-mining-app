@@ -39,7 +39,7 @@
       scrollbar-width: none;
     }
 
-    /* Living Aurora Background */
+    /* Living Aurora Animation */
     .aurora-bg-canvas {
       position: fixed;
       inset: 0;
@@ -176,7 +176,6 @@
       animation: pulseGlow 1.5s infinite;
     }
 
-    /* Fast Turbo Counter Glow */
     .turbo-active-glow {
       text-shadow: 0 0 20px rgba(204, 255, 0, 0.8), 0 0 40px rgba(6, 182, 212, 0.6);
       animation: turboPulse 1s infinite alternate;
@@ -184,6 +183,21 @@
     @keyframes turboPulse {
       0% { transform: scale(1); }
       100% { transform: scale(1.02); }
+    }
+
+    /* Wheel Pointer Indicator */
+    .wheel-pointer {
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 14px solid transparent;
+      border-right: 14px solid transparent;
+      border-top: 26px solid #ccff00;
+      filter: drop-shadow(0 4px 10px rgba(204, 255, 0, 0.8));
+      z-index: 30;
     }
   </style>
 </head>
@@ -212,7 +226,7 @@
           <div class="w-6 h-6 rounded-full bg-cyan-300 text-[#080d19] flex items-center justify-center text-[10px] font-black uppercase" id="header-avatar-initials">
             U
           </div>
-          <span class="tracking-tight max-w-[110px] truncate" id="header-user-title">Miner ⚡</span>
+          <span class="tracking-tight max-w-[100px] truncate" id="header-user-title">Miner ⚡</span>
         </div>
 
         <div class="flex items-center gap-1.5 bg-white/10 border border-white/15 px-2.5 py-1 rounded-full text-xs font-semibold text-cyan-200">
@@ -373,6 +387,25 @@
           </button>
         </div>
 
+        <!-- Quick Spin CTA Box -->
+        <div onclick="switchTab('spin')" class="frosted-glass border-2 border-amber-400/50 hover:border-amber-400 rounded-3xl p-3.5 flex items-center justify-between cursor-pointer tap-scale shadow-lg shadow-amber-500/10">
+          <div class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-400 via-orange-500 to-pink-500 flex items-center justify-center text-2xl shadow-md">
+              🎡
+            </div>
+            <div>
+              <div class="text-xs font-black text-white flex items-center gap-1.5">
+                <span>LUCKY FORTUNE WHEEL</span>
+                <span class="bg-[#ccff00] text-black font-black text-[9px] px-1.5 py-0.2 rounded-md">Win USDT</span>
+              </div>
+              <div class="text-[11px] text-amber-200 mt-0.5">
+                <span id="quick-spin-count-label">5 Free Spins Available!</span> Win instant USDT
+              </div>
+            </div>
+          </div>
+          <span class="bg-amber-400 text-black font-black text-xs px-3 py-1.5 rounded-xl">Spin ➔</span>
+        </div>
+
         <!-- Withdrawal Rule Banner -->
         <div class="bg-black/40 border border-white/15 rounded-2xl px-3.5 py-2.5 flex items-center justify-between text-xs">
           <div>
@@ -413,30 +446,84 @@
             </div>
           </div>
         </div>
+      </div>
 
-        <!-- +30% Promo Banner -->
-        <div class="frosted-glass-active rounded-3xl p-5 relative overflow-hidden space-y-3">
-          <div class="flex items-start gap-3">
-            <div class="w-12 h-12 rounded-2xl bg-[#26a17b] text-white flex items-center justify-center font-black text-xl shrink-0 shadow-md">
-              ₮
-            </div>
-            <div>
-              <h3 class="font-extrabold text-sm text-white leading-snug">
-                <span class="text-emerald-400 font-black">+30%</span> to your USDT balance in one tap
-              </h3>
-              <p class="text-[11px] text-slate-300 mt-1 leading-relaxed">
-                Free AI trading agents are online. Top up for instant PoY yield booster of <strong class="text-[#ccff00]">+30% of deposit hash power</strong>.
-              </p>
+      <!-- SCREEN 2: SPIN WHEEL (NEW FEATURE) -->
+      <div id="screen-spin" class="space-y-4 hidden">
+        <div class="text-center pt-1 space-y-1">
+          <div class="inline-flex items-center gap-1.5 bg-gradient-to-r from-amber-500/20 to-pink-500/20 border border-amber-400/50 px-3 py-1 rounded-full text-xs font-black text-amber-300">
+            <span>✨</span> LUCKY SPIN & WIN USDT
+          </div>
+          <h2 class="text-2xl font-black text-white tracking-tight">Fortune Wheel Vault</h2>
+          <p class="text-xs text-slate-300">Spin the wheel and claim guaranteed instant USDT directly to balance!</p>
+        </div>
+
+        <!-- Wheel Canvas Container -->
+        <div class="frosted-glass rounded-3xl p-5 relative overflow-hidden flex flex-col items-center border-amber-400/30">
+          <!-- Pointer -->
+          <div class="wheel-pointer"></div>
+
+          <!-- Canvas Wheel -->
+          <div class="relative w-[290px] h-[290px] flex items-center justify-center my-2">
+            <canvas id="spin-canvas" width="290" height="290" class="rounded-full shadow-2xl shadow-cyan-500/20"></canvas>
+
+            <!-- Center Peg -->
+            <div class="absolute w-14 h-14 rounded-full bg-gradient-to-br from-[#0c162c] to-[#040813] border-4 border-[#ccff00] flex flex-col items-center justify-center shadow-xl z-20 pointer-events-none">
+              <span class="text-xs font-black text-[#ccff00]">₮</span>
+              <span class="text-[8px] font-black text-white uppercase tracking-tighter">WIN</span>
             </div>
           </div>
 
-          <button onclick="openTopUpModal()" class="w-full bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-500 text-white font-extrabold py-3 rounded-2xl tap-scale flex items-center justify-center gap-2 text-xs shadow-md">
-            <span>💳</span> Top up USDT balance
+          <!-- Spins Status Pill -->
+          <div class="w-full flex items-center justify-between bg-black/40 border border-white/10 rounded-2xl px-4 py-2.5 mt-2 text-xs">
+            <div class="flex items-center gap-2">
+              <span class="text-base">🎟️</span>
+              <span class="text-slate-300">Available Spins:</span>
+            </div>
+            <div class="font-black text-base text-[#ccff00]" id="spin-count-display">5 Spins</div>
+          </div>
+
+          <!-- Main Spin Action Button -->
+          <button id="spin-btn" onclick="executeWheelSpin()" class="w-full mt-3 bg-gradient-to-r from-amber-400 via-yellow-400 to-[#ccff00] hover:opacity-95 text-[#080d19] font-black py-4 rounded-2xl tap-scale shadow-xl shadow-amber-400/30 flex items-center justify-center gap-2 text-sm tracking-wide">
+            <span class="text-base">⚡</span>
+            <span id="spin-btn-text">SPIN NOW (FREE 5)</span>
           </button>
+        </div>
+
+        <!-- Referral Spins Bonus Card -->
+        <div class="frosted-glass rounded-3xl p-4 space-y-3 border-cyan-400/40">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="text-base">👥</span>
+              <h3 class="text-xs font-black text-white uppercase tracking-wider">Need More Spins?</h3>
+            </div>
+            <span class="text-[10px] bg-cyan-500/20 text-cyan-300 border border-cyan-400/30 px-2 py-0.5 rounded-full font-bold">Unlimited</span>
+          </div>
+
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Invite friends to Alpha Mining! For <strong class="text-[#ccff00]">every friend</strong> who opens the app with your link, you get <strong class="text-cyan-300">+1 Spin</strong> automatically!
+          </p>
+
+          <div class="flex gap-2">
+            <button onclick="copyInviteLink()" class="flex-1 bg-white/10 hover:bg-white/20 text-white font-bold py-2.5 rounded-xl text-xs tap-scale flex items-center justify-center gap-1.5">
+              <span>📋</span> Copy Link
+            </button>
+            <button onclick="shareInviteTelegram()" class="flex-1 bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-black py-2.5 rounded-xl text-xs tap-scale flex items-center justify-center gap-1.5 shadow-md">
+              <span>✈️</span> Invite Friend (+1)
+            </button>
+          </div>
+        </div>
+
+        <!-- Wheel Odds & Transparency Box -->
+        <div class="bg-black/30 border border-white/10 rounded-2xl p-3 text-[11px] text-slate-400 space-y-1">
+          <div class="font-bold text-slate-300 flex items-center gap-1">
+            <span>🛡️</span> Wheel Policy & Instant Payouts
+          </div>
+          <div>All spin payouts (0.01$ - 0.10$ USDT) credit instantly to your in-app USDT balance and can be withdrawn under standard rules.</div>
         </div>
       </div>
 
-      <!-- SCREEN 2: FRIENDS -->
+      <!-- SCREEN 3: FRIENDS -->
       <div id="screen-friends" class="space-y-4 hidden">
         <div class="pt-2">
           <h2 class="text-xl font-black text-white leading-tight">
@@ -462,9 +549,16 @@
 
         <div class="frosted-glass rounded-3xl p-4 space-y-3 border-emerald-500/40">
           <div class="text-xs font-bold uppercase tracking-wider text-emerald-400">
-            Reward for each friend
+            Rewards for each friend
           </div>
           <div class="space-y-2">
+            <div class="bg-white/5 rounded-2xl p-3 flex items-center gap-3">
+              <div class="w-8 h-8 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center text-sm">🎡</div>
+              <div>
+                <div class="font-extrabold text-xs text-white">+1 Wheel Spin Token</div>
+                <div class="text-[10px] text-slate-300">Added to your fortune wheel count</div>
+              </div>
+            </div>
             <div class="bg-white/5 rounded-2xl p-3 flex items-center gap-3">
               <div class="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-sm">📈</div>
               <div>
@@ -476,7 +570,7 @@
         </div>
       </div>
 
-      <!-- SCREEN 3: GIFTS -->
+      <!-- SCREEN 4: GIFTS -->
       <div id="screen-gifts" class="space-y-4 hidden">
         <div class="frosted-glass rounded-3xl p-6 text-center space-y-3 relative overflow-hidden">
           <div id="mystery-chest-icon" class="w-20 h-20 rounded-3xl bg-amber-400/20 text-amber-300 text-4xl flex items-center justify-center mx-auto border-2 border-amber-400/40 shadow-xl shadow-amber-500/10">
@@ -500,7 +594,7 @@
         </div>
       </div>
 
-      <!-- SCREEN 4: ACCOUNT -->
+      <!-- SCREEN 5: ACCOUNT -->
       <div id="screen-account" class="space-y-3.5 hidden">
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-2">
@@ -544,11 +638,11 @@
 
           <div class="frosted-glass rounded-3xl p-4 space-y-1">
             <div class="flex justify-between items-center text-xs text-slate-400">
-              <span>Referral income</span>
-              <span class="text-emerald-400">↑</span>
+              <span>Spin Tokens</span>
+              <span class="text-amber-400">🎡</span>
             </div>
-            <div class="text-base font-black text-emerald-400 pt-1">0.00 USDT</div>
-            <div class="text-[10px] text-slate-400">Lifetime bonus</div>
+            <div class="text-base font-black text-amber-400 pt-1" id="acc-spins-val">5 spins</div>
+            <div class="text-[10px] text-slate-400">+1 per invited friend</div>
           </div>
 
           <div class="frosted-glass rounded-3xl p-4 space-y-1">
@@ -596,27 +690,32 @@
 
     </main>
 
-    <!-- Bottom Navigation -->
-    <nav class="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-[#080d19]/90 backdrop-blur-2xl border-t border-white/10 flex items-center justify-around py-2.5 px-3 z-40">
-      <button onclick="switchTab('friends')" id="nav-btn-friends" class="flex flex-col items-center text-slate-400 text-[11px] font-semibold tap-scale">
-        <span class="text-xl">👥</span>
+    <!-- Bottom Navigation (With Dedicated Spin Tab) -->
+    <nav class="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-[#080d19]/90 backdrop-blur-2xl border-t border-white/10 flex items-center justify-around py-2 px-1 z-40">
+      <button onclick="switchTab('friends')" id="nav-btn-friends" class="flex flex-col items-center text-slate-400 text-[10px] font-semibold tap-scale">
+        <span class="text-lg">👥</span>
         <span class="mt-0.5">Friends</span>
       </button>
 
-      <button onclick="switchTab('mine')" id="nav-btn-mine" class="flex flex-col items-center tap-scale">
-        <div class="w-12 h-12 rounded-full bg-[#ccff00] shadow-lg shadow-[#ccff00]/40 flex items-center justify-center text-[#080d19] font-black text-xl">
-          ⚡
-        </div>
-        <span class="text-[11px] font-black text-[#ccff00] mt-0.5">Mine</span>
+      <button onclick="switchTab('spin')" id="nav-btn-spin" class="flex flex-col items-center text-slate-400 text-[10px] font-semibold tap-scale">
+        <span class="text-lg">🎡</span>
+        <span class="mt-0.5">Spin</span>
       </button>
 
-      <button onclick="switchTab('gifts')" id="nav-btn-gifts" class="flex flex-col items-center text-slate-400 text-[11px] font-semibold tap-scale">
-        <span class="text-xl">🎁</span>
+      <button onclick="switchTab('mine')" id="nav-btn-mine" class="flex flex-col items-center tap-scale">
+        <div class="w-11 h-11 rounded-full bg-[#ccff00] shadow-lg shadow-[#ccff00]/40 flex items-center justify-center text-[#080d19] font-black text-xl">
+          ⚡
+        </div>
+        <span class="text-[10px] font-black text-[#ccff00] mt-0.5">Mine</span>
+      </button>
+
+      <button onclick="switchTab('gifts')" id="nav-btn-gifts" class="flex flex-col items-center text-slate-400 text-[10px] font-semibold tap-scale">
+        <span class="text-lg">🎁</span>
         <span class="mt-0.5">Gifts</span>
       </button>
 
-      <button onclick="switchTab('account')" id="nav-btn-account" class="flex flex-col items-center text-slate-400 text-[11px] font-semibold tap-scale">
-        <span class="text-xl">👤</span>
+      <button onclick="switchTab('account')" id="nav-btn-account" class="flex flex-col items-center text-slate-400 text-[10px] font-semibold tap-scale">
+        <span class="text-lg">👤</span>
         <span class="mt-0.5">Account</span>
       </button>
     </nav>
@@ -832,7 +931,7 @@
       'BTC':        'bc1q0r2p6h4mks4axe2e59kjtl0f9p9dlv3y52wp9v'
     };
 
-    // --- 3. ISOLATED USER STATE ---
+    // --- 3. ISOLATED USER STATE (WITH 5 FREE SPINS) ---
     const STORAGE_KEY = `alpha_state_${currentUser.id}`;
     const defaultState = {
       telegram_id: currentUser.id,
@@ -841,6 +940,7 @@
       miningAmount: 0.000000000,
       usdtBalance: 0.0000,
       coins: 100,
+      spinsAvailable: 5,            // <-- STRICTLY 5 FREE SPINS FOR NEW USERS!
       level: 1,
       isUpgraded: false,
       upgradeAmount: 0,
@@ -861,6 +961,7 @@
     state.invitedBy = currentInviter;
     if (state.usdtBalance === undefined) state.usdtBalance = 0.0000;
     if (typeof state.coins !== 'number' || state.coins < 100) state.coins = 100;
+    if (typeof state.spinsAvailable !== 'number') state.spinsAvailable = 5;
     if (!Array.isArray(state.processedDepositIds)) state.processedDepositIds = [];
 
     const ONE_WEEK_MS = 7 * 24 * 60 * 60 * 1000;
@@ -869,12 +970,10 @@
       state.weekStartTimestamp = Date.now();
     }
 
-    // --- 4. ACCURATE 2X DOUBLE MINING SPEED FORMULA ---
-    // Free starter: $0.02 / 86400s = 0.00000023148 / sec
-    // 30 USDT Upgrade: $60.00 monthly => $2.00 daily => $2.00 / 86400s = 0.0000231481 / sec (100X FASTER!)
+    // --- 4. 2X DOUBLE MINING SPEED FORMULA ---
     function getCurrentMiningRatePerSec() {
       if (!state.isUpgraded || !state.upgradeAmount) {
-        return 0.02 / 86400; // Free rate
+        return 0.02 / 86400; // Free starter rate ($0.02/day)
       } else {
         const doubleMonthlyYield = Number(state.upgradeAmount) * 2.0; 
         const dailyYield = doubleMonthlyYield / 30.0;
@@ -882,7 +981,7 @@
       }
     }
 
-    // --- 5. HIGH-FREQUENCY LIVE MINING TICKER (RUNS EVERY 60ms) ---
+    // --- 5. HIGH-FREQUENCY LIVE MINING TICKER (60ms) ---
     let miningIntervalId = null;
     let lastTickTime = performance.now();
 
@@ -890,7 +989,6 @@
       if (miningIntervalId) clearInterval(miningIntervalId);
       lastTickTime = performance.now();
 
-      // Tick every 60 milliseconds for super-smooth live digits animation
       miningIntervalId = setInterval(() => {
         const now = performance.now();
         const deltaSeconds = (now - lastTickTime) / 1000;
@@ -905,7 +1003,6 @@
         }
       }, 60);
 
-      // Persist state periodically
       setInterval(() => {
         saveState();
       }, 2000);
@@ -916,11 +1013,11 @@
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     }
 
-    // --- 6. SUPABASE REALTIME APPROVAL SYNC ---
+    // --- 6. SUPABASE REALTIME SYNC (DEPOSITS & INVITES FOR +1 SPIN) ---
     function setupSupabaseDepositListener() {
       if (!supabaseClient) return;
 
-      // Check already approved deposits
+      // Listen for approved deposits
       supabaseClient
         .from('deposits')
         .select('*')
@@ -932,7 +1029,6 @@
           }
         });
 
-      // Realtime channel
       supabaseClient
         .channel(`user_deposits_${state.telegram_id}`)
         .on('postgres_changes', { 
@@ -946,6 +1042,22 @@
           }
         })
         .subscribe();
+
+      // Listen for new referral joining this user to add +1 Spin in Realtime
+      supabaseClient
+        .channel(`user_referrals_${state.telegram_id}`)
+        .on('postgres_changes', { 
+          event: 'INSERT', 
+          schema: 'public', 
+          table: 'users',
+          filter: `invited_by=eq.${state.telegram_id}` 
+        }, payload => {
+          state.spinsAvailable += 1;
+          saveState();
+          updateAllUI();
+          showToast(`🎉 New referral joined! +1 Wheel Spin Added! (Total: ${state.spinsAvailable})`, '🎡');
+        })
+        .subscribe();
     }
 
     function processApprovedDeposit(dep) {
@@ -954,18 +1066,13 @@
       const approvedUsdt = Number(dep.amount) || 0;
       state.processedDepositIds.push(dep.id);
 
-      // 1. Credit approved amount to balance
       state.usdtBalance += approvedUsdt;
-
-      // 2. Activate 2X Double Upgrade Rig (100x Speed)
       state.isUpgraded = true;
       state.upgradeAmount = Math.max(state.upgradeAmount || 0, approvedUsdt);
       state.level = state.upgradeAmount >= 30 ? 3 : (state.upgradeAmount >= 10 ? 2 : 1);
 
       saveState();
       updateAllUI();
-
-      // Restart mining engine immediately with the new blazing rate
       startLiveMiningEngine();
 
       showToast(`🎉 Approved! +$${approvedUsdt.toFixed(2)} USDT Added! 100X Speed Active ($2.00/day)!`, '⚡');
@@ -1001,7 +1108,182 @@
       }, 1400);
     }
 
-    // --- 8. UI RE-RENDER ---
+    // --- 8. ================= LUCKY FORTUNE WHEEL ENGINE ================= ---
+    // Segments configuration
+    // Visual display order (8 items clockwise):
+    // 0: 0.01$, 1: 1000$, 2: 0.10$, 3: 50$, 4: 0.03$, 5: 100$, 6: 10$, 7: 40$
+    const WHEEL_SEGMENTS = [
+      { label: '0.01$ USDT', amount: 0.01, color: '#0098ea', textColor: '#ffffff' },
+      { label: '1,000$ USDT', amount: 1000.0, color: '#f59e0b', textColor: '#080d19' }, // High display only
+      { label: '0.10$ USDT', amount: 0.10, color: '#10b981', textColor: '#ffffff' },
+      { label: '50$ USDT',   amount: 50.0, color: '#8b5cf6', textColor: '#ffffff' }, // High display only
+      { label: '0.03$ USDT', amount: 0.03, color: '#06b6d4', textColor: '#080d19' },
+      { label: '100$ USDT',  amount: 100.0, color: '#ec4899', textColor: '#ffffff' }, // High display only
+      { label: '10$ USDT',   amount: 10.0, color: '#6366f1', textColor: '#ffffff' }, // High display only
+      { label: '40$ USDT',   amount: 40.0, color: '#3b82f6', textColor: '#ffffff' }  // High display only
+    ];
+
+    const NUM_SEGMENTS = WHEEL_SEGMENTS.length;
+    const ARC_ANGLE = (2 * Math.PI) / NUM_SEGMENTS;
+    let currentWheelAngle = 0;
+    let isSpinning = false;
+
+    function drawWheel(angle) {
+      const canvas = document.getElementById('spin-canvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const cx = canvas.width / 2;
+      const cy = canvas.height / 2;
+      const radius = cx - 6;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Draw Segments
+      for (let i = 0; i < NUM_SEGMENTS; i++) {
+        const segAngle = angle + (i * ARC_ANGLE);
+        const seg = WHEEL_SEGMENTS[i];
+
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.arc(cx, cy, radius, segAngle, segAngle + ARC_ANGLE);
+        ctx.closePath();
+        ctx.fillStyle = seg.color;
+        ctx.fill();
+
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.25)';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        // Draw Text & USDT symbol
+        ctx.save();
+        ctx.translate(cx, cy);
+        ctx.rotate(segAngle + (ARC_ANGLE / 2));
+        ctx.textAlign = 'right';
+        ctx.fillStyle = seg.textColor;
+        ctx.font = 'bold 12px "Plus Jakarta Sans", sans-serif';
+        ctx.fillText(`₮ ${seg.label}`, radius - 16, 4);
+        ctx.restore();
+      }
+
+      // Outer rim ring
+      ctx.beginPath();
+      ctx.arc(cx, cy, radius, 0, 2 * Math.PI);
+      ctx.strokeStyle = '#ccff00';
+      ctx.lineWidth = 4;
+      ctx.stroke();
+    }
+
+    // CONTROLLED REWARD LOGIC: Strictly gives 0.01$, 0.03$, or 0.10$ ONLY!
+    // No other rewards can ever be won.
+    function selectControlledWinnerSegment() {
+      const rand = Math.random() * 100;
+      let targetAmount = 0.01;
+
+      if (rand < 70) {
+        targetAmount = 0.01; // 70% probability
+      } else if (rand < 90) {
+        targetAmount = 0.03; // 20% probability
+      } else {
+        targetAmount = 0.10; // 10% probability
+      }
+
+      // Find index of this segment in WHEEL_SEGMENTS
+      const winningIndex = WHEEL_SEGMENTS.findIndex(s => s.amount === targetAmount);
+      return { index: winningIndex, amount: targetAmount };
+    }
+
+    function executeWheelSpin() {
+      if (isSpinning) return;
+
+      // Check spins count
+      if (state.spinsAvailable <= 0) {
+        alert('⚠️ No Spins Left!\n\nYou have used your 5 free spins.\n\nInvite friends with your link to earn +1 Spin for every friend who joins!');
+        switchTab('friends');
+        return;
+      }
+
+      isSpinning = true;
+      state.spinsAvailable -= 1;
+      saveState();
+      updateAllUI();
+
+      // Determine winning segment
+      const outcome = selectControlledWinnerSegment();
+      const targetIndex = outcome.index;
+      const wonAmount = outcome.amount;
+
+      // Pointer is at TOP (3 * Math.PI / 2, i.e., 270 degrees or -90 degrees)
+      const pointerAngle = 3 * Math.PI / 2;
+      const targetCenterAngle = (targetIndex * ARC_ANGLE) + (ARC_ANGLE / 2);
+      
+      // Calculate final target angle with random full rotations (5 to 8 rotations)
+      const fullRotations = 6;
+      let desiredAngle = pointerAngle - targetCenterAngle;
+      while (desiredAngle < currentWheelAngle) {
+        desiredAngle += (2 * Math.PI);
+      }
+      desiredAngle += (fullRotations * 2 * Math.PI);
+
+      const startAngle = currentWheelAngle;
+      const totalDeltaAngle = desiredAngle - startAngle;
+      const durationMs = 4500;
+      const startTime = performance.now();
+
+      const spinBtn = document.getElementById('spin-btn');
+      const spinBtnText = document.getElementById('spin-btn-text');
+      if (spinBtn) spinBtn.disabled = true;
+      if (spinBtnText) spinBtnText.innerText = 'SPINNING...';
+
+      // Smooth Easing function (cubic ease-out)
+      function easeOutCubic(t) {
+        return (--t) * t * t + 1;
+      }
+
+      function animateSpinFrame(now) {
+        const elapsed = now - startTime;
+        const progress = Math.min(elapsed / durationMs, 1);
+        const easedProgress = easeOutCubic(progress);
+
+        currentWheelAngle = startAngle + (totalDeltaAngle * easedProgress);
+        drawWheel(currentWheelAngle);
+
+        if (progress < 1) {
+          requestAnimationFrame(animateSpinFrame);
+        } else {
+          // Finished Spin!
+          isSpinning = false;
+          if (spinBtn) spinBtn.disabled = false;
+          if (spinBtnText) spinBtnText.innerText = state.spinsAvailable > 0 ? `SPIN NOW (${state.spinsAvailable} LEFT)` : 'NO SPINS (INVITE FOR +1)';
+
+          // Credit won amount directly to USDT balance!
+          state.usdtBalance += wonAmount;
+          saveState();
+          updateAllUI();
+
+          // Haptics & Notification
+          if (window.Telegram?.WebApp?.HapticFeedback) {
+            window.Telegram.WebApp.HapticFeedback.notificationOccurred('success');
+          }
+
+          const animEl = document.getElementById('claim-flying-anim');
+          animEl.innerText = `🎉 WON +$${wonAmount.toFixed(2)} USDT! 💸`;
+          animEl.classList.remove('hidden');
+          animEl.classList.add('animate-float-claim');
+
+          setTimeout(() => {
+            animEl.classList.add('hidden');
+            animEl.classList.remove('animate-float-claim');
+          }, 1500);
+
+          showToast(`🎉 Congratulations! You won +$${wonAmount.toFixed(2)} USDT! Credited to balance!`, '🎁');
+          alert(`🎉 WINNER! 🎉\n\nYou won $${wonAmount.toFixed(2)} USDT on the Wheel!\n\nAdded directly to your In-App USDT balance.`);
+        }
+      }
+
+      requestAnimationFrame(animateSpinFrame);
+    }
+
+    // --- 9. UI RE-RENDER ---
     function updateAllUI() {
       const counterEl = document.getElementById('streaming-mining-counter');
       if (counterEl) counterEl.innerText = `$${state.miningAmount.toFixed(9)}`;
@@ -1018,6 +1300,16 @@
       document.getElementById('coins-count-display').innerText = state.coins;
       document.getElementById('acc-coins').innerHTML = `${state.coins} <span class="text-xs font-normal text-slate-300">coins</span>`;
       document.getElementById('acc-coins-usd').innerText = `≈$${state.coins}.00 USDT`;
+
+      // Spin UI displays
+      document.getElementById('spin-count-display').innerText = `${state.spinsAvailable} Spins`;
+      document.getElementById('quick-spin-count-label').innerText = `${state.spinsAvailable} Free Spins Available!`;
+      document.getElementById('acc-spins-val').innerText = `${state.spinsAvailable} spins`;
+
+      const spinBtnText = document.getElementById('spin-btn-text');
+      if (spinBtnText && !isSpinning) {
+        spinBtnText.innerText = state.spinsAvailable > 0 ? `SPIN NOW (${state.spinsAvailable} LEFT)` : 'NO SPINS LEFT (INVITE FOR +1)';
+      }
 
       // Rates calculation based on actual state
       const currentRateSec = getCurrentMiningRatePerSec();
@@ -1090,9 +1382,10 @@
 
       setAppTheme(state.theme || 'aurora');
       updateGiftCooldownUI();
+      drawWheel(currentWheelAngle);
     }
 
-    // --- 9. CLAIM PROFIT ---
+    // --- 10. CLAIM PROFIT ---
     function handleClaimProfit() {
       if (state.miningAmount <= 0.000000010) {
         showToast('Accumulating micro-cents... Claim in a moment!', '⏳');
@@ -1120,7 +1413,7 @@
       showToast(`+$${harvested.toFixed(4)} USDT credited to balance!`, '🎉');
     }
 
-    // --- 10. WITHDRAWAL HANDLER ---
+    // --- 11. WITHDRAWAL HANDLER ---
     function handleWithdrawClick() {
       if (!state.walletConnected) {
         alert('Please connect your TON wallet first before withdrawing!');
@@ -1161,7 +1454,7 @@
       alert(`✅ Withdrawal submitted successfully!\nAmount: $${withdrawAmount.toFixed(4)} USDT\nDestination: ${state.walletAddress}\nWeekly usage: ${state.withdrawalsThisWeek}/${allowedWeeklyLimit}.`);
     }
 
-    // --- 11. 24-HOUR MYSTERY GIFT CHEST ---
+    // --- 12. 24-HOUR MYSTERY GIFT CHEST ---
     const COOLDOWN_MS = 24 * 60 * 60 * 1000;
     function claimMysteryGift() {
       const now = Date.now();
@@ -1222,7 +1515,7 @@
     }
     setInterval(updateGiftCooldownUI, 1000);
 
-    // --- 12. THEMES ---
+    // --- 13. THEMES ---
     function setAppTheme(t) {
       state.theme = t;
       saveState();
@@ -1253,7 +1546,7 @@
       }
     }
 
-    // --- 13. TOP UP & SUBMIT DEPOSIT ---
+    // --- 14. TOP UP & SUBMIT DEPOSIT ---
     let selectedAmount = 30;
     let selectedNet = 'USDT BEP20';
 
@@ -1349,7 +1642,7 @@
       showToast('Deposit Hash Sent to Admin Panel via Supabase! ⚡', '✅');
     }
 
-    // --- 14. WALLET MODAL ---
+    // --- 15. WALLET MODAL ---
     function openWalletModal() {
       const modal = document.getElementById('wallet-modal');
       const unconn = document.getElementById('wallet-modal-unconnected');
@@ -1391,22 +1684,25 @@
       showToast('Wallet disconnected', '🔌');
     }
 
-    // --- 15. TABS ---
-    const tabs = ['mine', 'friends', 'gifts', 'account'];
+    // --- 16. TABS (INCLUDES NEW SPIN TAB) ---
+    const tabs = ['mine', 'spin', 'friends', 'gifts', 'account'];
     function switchTab(tId) {
       state.activeTab = tId;
       tabs.forEach(t => {
         const el = document.getElementById(`screen-${t}`);
         const btn = document.getElementById(`nav-btn-${t}`);
         if (t === tId) {
-          el.classList.remove('hidden');
+          if (el) el.classList.remove('hidden');
           if (btn && t !== 'mine') { btn.classList.remove('text-slate-400'); btn.classList.add('text-white'); }
         } else {
-          el.classList.add('hidden');
+          if (el) el.classList.add('hidden');
           if (btn && t !== 'mine') { btn.classList.remove('text-white'); btn.classList.add('text-slate-400'); }
         }
       });
       window.scrollTo({ top: 0, behavior: 'smooth' });
+      if (tId === 'spin') {
+        setTimeout(() => drawWheel(currentWheelAngle), 50);
+      }
     }
 
     function showToast(msg, icon = '✨') {
@@ -1425,12 +1721,12 @@
 
     function shareInviteTelegram() {
       const refLink = `${OFFICIAL_BOT_URL}?startapp=ref_${state.telegram_id}`;
-      const shareUrl = `https://t.me/share/url?url=${encodeURIComponent(refLink)}&text=${encodeURIComponent('🚀 Join Alpha Mining! Start cloud mining with 2X double yields and daily rewards!')}`;
+      const shareUrl = `https://t.me/share/url?url=${encodeURIComponent(refLink)}&text=${encodeURIComponent('🚀 Join Alpha Mining! Spin the Fortune Wheel for instant USDT rewards and earn 2X mining yields!')}`;
       window.open(shareUrl, '_blank');
     }
 
     function openHowToEarnModal() {
-      alert('💡 Alpha Mining 2X Return Guide:\n1. Whatever you deposit generates 100% Monthly Gain (Double).\n2. Example: 30 USDT generates 60.00 USDT in 30 days ($2.00/day) at 100x blazing speed.\n3. Withdrawal: Minimum 10 USDT. Starter allows 1/wk, upgrade unlocks 2/wk.');
+      alert('💡 Alpha Mining 2X Return Guide:\n1. Whatever you deposit generates 100% Monthly Gain (Double).\n2. Example: 30 USDT generates 60.00 USDT in 30 days ($2.00/day) at 100x blazing speed.\n3. Wheel Spin: 5 free spins on signup; invite friends for +1 spin per join!');
     }
 
     function handleCloseApp() {
@@ -1439,8 +1735,9 @@
       else alert('App closed. Mining continues 24/7!');
     }
 
-    // Boot App
+    // Boot App & Initial Wheel Draw
     updateAllUI();
+    drawWheel(0);
     startLiveMiningEngine();
     startEverySecondClaimTicker();
     setupSupabaseDepositListener();
