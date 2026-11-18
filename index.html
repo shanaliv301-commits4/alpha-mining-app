@@ -185,7 +185,6 @@
       100% { transform: scale(1.02); }
     }
 
-    /* Wheel Pointer Indicator */
     .wheel-pointer {
       position: absolute;
       top: -14px;
@@ -266,13 +265,29 @@
       </div>
     </div>
 
+    <!-- Offline Yield Catch-up Banner -->
+    <div id="offline-earned-banner" class="px-4 pt-1 hidden">
+      <div class="bg-gradient-to-r from-emerald-950/90 to-cyan-950/90 border-2 border-emerald-400 rounded-2xl p-2.5 flex items-center justify-between text-xs shadow-xl">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">💰</span>
+          <div>
+            <div class="font-black text-white text-[11px]">Welcome Back! Offline Yield Added</div>
+            <div class="text-[10px] text-emerald-300 font-semibold" id="offline-earned-text">You earned while offline!</div>
+          </div>
+        </div>
+        <button onclick="document.getElementById('offline-earned-banner').classList.add('hidden')" class="bg-emerald-400 text-black font-black text-[10px] px-2.5 py-1 rounded-lg">
+          Got it!
+        </button>
+      </div>
+    </div>
+
     <!-- Upgrade Floating Fade Notification -->
     <div class="px-4 pt-1">
       <div onclick="openTopUpModal()" class="animate-upgrade-banner bg-gradient-to-r from-indigo-900/80 via-blue-900/80 to-cyan-900/80 border border-cyan-400/40 rounded-2xl p-2.5 flex items-center justify-between text-xs cursor-pointer tap-scale shadow-lg">
         <div class="flex items-center gap-2">
           <span class="text-base animate-bounce">⚡</span>
           <span class="text-slate-100 font-semibold text-[11px]">
-            Double Yield Protocol: <strong class="text-[#ccff00]">Earn 2x Double ($60/Mo on $30)</strong> at 100x Speed!
+            Double Yield Protocol: <strong class="text-[#ccff00]">Earn 2x Double (24/7 Offline Cloud Mining)</strong>!
           </span>
         </div>
         <span class="bg-[#ccff00] text-black font-black text-[10px] px-2 py-0.5 rounded-md shrink-0">
@@ -330,8 +345,8 @@
           <!-- Proof of Yield Card -->
           <div class="frosted-glass p-3 rounded-2xl flex items-center justify-between text-left text-xs">
             <div>
-              <div class="font-extrabold text-white text-[11px]" id="poy-box-title">2X Double Profit Engine (100% Monthly Gain)</div>
-              <div class="text-[10px] text-slate-300" id="deposit-double-summary">Example: 30 USDT deposit earns 60.00 USDT monthly ($2.00/day)</div>
+              <div class="font-extrabold text-white text-[11px]" id="poy-box-title">2X Double Profit Engine (24/7 Cloud Yield)</div>
+              <div class="text-[10px] text-slate-300" id="deposit-double-summary">Offline mining active: keeps earning even when app is closed</div>
             </div>
             <div class="bg-emerald-500/20 text-emerald-300 border border-emerald-500/50 text-[10px] font-black px-2.5 py-1 rounded-lg shrink-0 ml-2" id="poy-badge-status">
               100% 2X
@@ -368,7 +383,7 @@
             </div>
             <div class="mt-2">
               <div class="text-2xl font-black text-cyan-300" id="in-app-usdt-display">$0.0000</div>
-              <div class="text-[11px] text-emerald-400 font-medium" id="wallet-connection-label">Ready to Claim</div>
+              <div class="text-[11px] text-emerald-400 font-medium" id="wallet-connection-label">24/7 Cloud Active</div>
             </div>
             <div class="mt-3 flex items-center justify-between text-[11px]">
               <span class="bg-cyan-500/20 text-cyan-300 font-bold px-2 py-0.5 rounded-md border border-cyan-500/30" id="daily-pct-display">Free Speed</span>
@@ -425,24 +440,24 @@
           </div>
 
           <div class="grid grid-cols-3 gap-2 text-center text-xs">
-            <div class="bg-white/5 border border-white/10 rounded-2xl p-2.5 cursor-pointer tap-scale" onclick="setTopUpAmount(10); openTopUpModal();">
-              <div class="text-[10px] text-cyan-300 font-bold">Starter Node</div>
-              <div class="font-black text-white mt-0.5">10 USDT</div>
-              <div class="text-[10px] text-[#ccff00] font-mono mt-1 font-black">20.00 USDT</div>
-              <div class="text-[9px] text-slate-400">Monthly ($0.66/d)</div>
-            </div>
-            <div class="bg-cyan-950/50 border-2 border-cyan-400 rounded-2xl p-2.5 relative cursor-pointer tap-scale" onclick="setTopUpAmount(30); openTopUpModal();">
-              <span class="absolute -top-2 left-1/2 -translate-x-1/2 bg-[#ccff00] text-black text-[8px] font-black px-2 py-0.5 rounded-full uppercase">100x Speed</span>
-              <div class="text-[10px] text-white font-bold">Double Hash</div>
+            <div class="bg-white/5 border border-white/10 rounded-2xl p-2.5 cursor-pointer tap-scale" onclick="setTopUpAmount(30); openTopUpModal();">
+              <div class="text-[10px] text-cyan-300 font-bold">Standard Rig</div>
               <div class="font-black text-white mt-0.5">30 USDT</div>
               <div class="text-[10px] text-[#ccff00] font-mono mt-1 font-black">60.00 USDT</div>
-              <div class="text-[9px] text-slate-200 font-bold">Monthly ($2.00/d)</div>
+              <div class="text-[9px] text-slate-400">Monthly ($2.00/d)</div>
             </div>
             <div class="bg-white/5 border border-white/10 rounded-2xl p-2.5 cursor-pointer tap-scale" onclick="setTopUpAmount(100); openTopUpModal();">
               <div class="text-[10px] text-purple-300 font-bold">Turbo Rig</div>
               <div class="font-black text-white mt-0.5">100 USDT</div>
               <div class="text-[10px] text-[#ccff00] font-mono mt-1 font-black">200.00 USDT</div>
               <div class="text-[9px] text-slate-400">Monthly ($6.66/d)</div>
+            </div>
+            <div class="bg-cyan-950/50 border-2 border-cyan-400 rounded-2xl p-2.5 relative cursor-pointer tap-scale" onclick="setTopUpAmount(200); openTopUpModal();">
+              <span class="absolute -top-2 left-1/2 -translate-x-1/2 bg-[#ccff00] text-black text-[8px] font-black px-2 py-0.5 rounded-full uppercase">Mega 200$</span>
+              <div class="text-[10px] text-white font-bold">Alpha Titan</div>
+              <div class="font-black text-white mt-0.5">200 USDT</div>
+              <div class="text-[10px] text-[#ccff00] font-mono mt-1 font-black">400.00 USDT</div>
+              <div class="text-[9px] text-slate-200 font-bold">Monthly ($13.33/d)</div>
             </div>
           </div>
         </div>
@@ -458,23 +473,18 @@
           <p class="text-xs text-slate-300">Spin the wheel and claim guaranteed instant USDT directly to balance!</p>
         </div>
 
-        <!-- Wheel Canvas Container -->
         <div class="frosted-glass rounded-3xl p-5 relative overflow-hidden flex flex-col items-center border-amber-400/30">
-          <!-- Pointer -->
           <div class="wheel-pointer"></div>
 
-          <!-- Canvas Wheel -->
           <div class="relative w-[290px] h-[290px] flex items-center justify-center my-2">
             <canvas id="spin-canvas" width="290" height="290" class="rounded-full shadow-2xl shadow-cyan-500/20"></canvas>
 
-            <!-- Center Peg with Tether Logo -->
             <div class="absolute w-14 h-14 rounded-full bg-gradient-to-br from-[#0c162c] to-[#040813] border-4 border-[#ccff00] flex flex-col items-center justify-center shadow-xl z-20 pointer-events-none">
               <span class="w-6 h-6 rounded-full bg-[#26a17b] text-white flex items-center justify-center text-xs font-black shadow-sm">₮</span>
               <span class="text-[8px] font-black text-white uppercase tracking-tighter mt-0.5">SPIN</span>
             </div>
           </div>
 
-          <!-- Spins Status Pill -->
           <div class="w-full flex items-center justify-between bg-black/40 border border-white/10 rounded-2xl px-4 py-2.5 mt-2 text-xs">
             <div class="flex items-center gap-2">
               <span class="text-base">🎟️</span>
@@ -483,14 +493,12 @@
             <div class="font-black text-base text-[#ccff00]" id="spin-count-display">5 Spins</div>
           </div>
 
-          <!-- Main Spin Action Button -->
           <button id="spin-btn" onclick="executeWheelSpin()" class="w-full mt-3 bg-gradient-to-r from-amber-400 via-yellow-400 to-[#ccff00] hover:opacity-95 text-[#080d19] font-black py-4 rounded-2xl tap-scale shadow-xl shadow-amber-400/30 flex items-center justify-center gap-2 text-sm tracking-wide">
             <span class="text-base">⚡</span>
             <span id="spin-btn-text">SPIN NOW (FREE 5)</span>
           </button>
         </div>
 
-        <!-- Referral Spins Bonus Card -->
         <div class="frosted-glass rounded-3xl p-4 space-y-3 border-cyan-400/40">
           <div class="flex items-center justify-between">
             <div class="flex items-center gap-2">
@@ -722,7 +730,7 @@
       </div>
 
       <div class="bg-cyan-950/40 border border-cyan-400/30 p-3 rounded-2xl text-xs text-slate-200">
-        💡 <strong class="text-[#ccff00]">Double Yield 2X Activated:</strong> Deposit 30 USDT to earn <strong>60.00 USDT Monthly ($2.00 / day)</strong> at 100x blazing speed!
+        💡 <strong class="text-[#ccff00]">Double Yield 2X Activated:</strong> 24/7 Cloud mining runs non-stop even when Telegram is closed!
       </div>
 
       <div>
@@ -737,12 +745,12 @@
       </div>
 
       <div class="grid grid-cols-6 gap-1 text-center text-xs">
-        <button onclick="setTopUpAmount(3)" class="preset-btn bg-white/10 text-white p-2 rounded-xl font-bold">3</button>
-        <button onclick="setTopUpAmount(5)" class="preset-btn bg-white/10 text-white p-2 rounded-xl font-bold">5</button>
         <button onclick="setTopUpAmount(10)" class="preset-btn bg-white/10 text-white p-2 rounded-xl font-bold">10</button>
         <button onclick="setTopUpAmount(30)" class="preset-btn bg-cyan-400 text-[#080d19] p-2 rounded-xl font-bold">30</button>
+        <button onclick="setTopUpAmount(50)" class="preset-btn bg-white/10 text-white p-2 rounded-xl font-bold">50</button>
         <button onclick="setTopUpAmount(100)" class="preset-btn bg-white/10 text-white p-2 rounded-xl font-bold">100</button>
-        <button onclick="setTopUpAmount(300)" class="preset-btn bg-white/10 text-white p-2 rounded-xl font-bold">300</button>
+        <button onclick="setTopUpAmount(200)" class="preset-btn bg-white/10 text-white p-2 rounded-xl font-bold">200</button>
+        <button onclick="setTopUpAmount(500)" class="preset-btn bg-white/10 text-white p-2 rounded-xl font-bold">500</button>
       </div>
 
       <div class="space-y-2 pt-1">
@@ -940,7 +948,7 @@
       walletConnected: false,
       walletAddress: '',
       theme: 'aurora',
-      lastTimestamp: Date.now(),
+      lastTimestamp: Date.now(),       // Timestamp when last saved or mined
       activeTab: 'mine',
       withdrawalsThisWeek: 0,
       weekStartTimestamp: Date.now(),
@@ -955,6 +963,7 @@
     if (typeof state.coins !== 'number' || state.coins < 100) state.coins = 100;
     if (typeof state.spinsAvailable !== 'number') state.spinsAvailable = 5;
     if (!Array.isArray(state.processedDepositIds)) state.processedDepositIds = [];
+    if (!state.lastTimestamp) state.lastTimestamp = Date.now();
 
     const ONE_WEEK_MS = 7 * 24 * 60 * 60 * 1000;
     if (!state.weekStartTimestamp || (Date.now() - state.weekStartTimestamp > ONE_WEEK_MS)) {
@@ -962,18 +971,64 @@
       state.weekStartTimestamp = Date.now();
     }
 
-    // --- 4. 2X DOUBLE MINING SPEED FORMULA ---
+    // --- 4. ACCURATE 2X MINING SPEED FORMULA ---
+    // Example:
+    // Free starter: 0.02 USDT / day => (0.02 / 86400) / sec
+    // 30 USDT Upgrade: 60 USDT monthly => 2.00 USDT / day => (2.00 / 86400) / sec
+    // 200 USDT Upgrade: 400 USDT monthly => 13.333 USDT / day => (13.333 / 86400) / sec!
     function getCurrentMiningRatePerSec() {
-      if (!state.isUpgraded || !state.upgradeAmount) {
-        return 0.02 / 86400;
+      const upgradeAmt = Number(state.upgradeAmount) || 0;
+      if (!state.isUpgraded || upgradeAmt <= 0) {
+        return 0.02 / 86400.0; // Free starter rate ($0.02 / day)
       } else {
-        const doubleMonthlyYield = Number(state.upgradeAmount) * 2.0; 
+        const doubleMonthlyYield = upgradeAmt * 2.0; // 2X Double
         const dailyYield = doubleMonthlyYield / 30.0;
         return dailyYield / 86400.0;
       }
     }
 
-    // --- 5. HIGH-FREQUENCY LIVE MINING TICKER (60ms) ---
+    // --- 5. 🚀 TRUE OFFLINE PERSISTENCE (CATCH-UP EVEN AFTER 5 DAYS OR 1 MONTH) ---
+    function reconcileOfflineMiningYield() {
+      const now = Date.now();
+      const lastSavedTime = Number(state.lastTimestamp) || now;
+      const elapsedMs = Math.max(0, now - lastSavedTime);
+      const elapsedSeconds = elapsedMs / 1000.0;
+
+      // Agar user 3 second se zyada offline tha
+      if (elapsedSeconds >= 3) {
+        const ratePerSec = getCurrentMiningRatePerSec();
+        const offlineYieldEarned = ratePerSec * elapsedSeconds;
+
+        if (offlineYieldEarned > 0.000001) {
+          state.miningAmount += offlineYieldEarned;
+          
+          // Format human-friendly offline time (e.g. 5 days or 12 hours)
+          let timeStr = '';
+          const days = Math.floor(elapsedSeconds / 86400);
+          const hours = Math.floor((elapsedSeconds % 86400) / 3600);
+          const minutes = Math.floor((elapsedSeconds % 3600) / 60);
+
+          if (days > 0) timeStr = `${days} day${days > 1 ? 's' : ''} ${hours}h`;
+          else if (hours > 0) timeStr = `${hours} hour${hours > 1 ? 's' : ''}`;
+          else timeStr = `${minutes} min${minutes > 1 ? 's' : ''}`;
+
+          // Show banner
+          const banner = document.getElementById('offline-earned-banner');
+          const bannerText = document.getElementById('offline-earned-text');
+          if (banner && bannerText) {
+            bannerText.innerText = `Rig mined +$${offlineYieldEarned.toFixed(6)} USDT while offline for ${timeStr}!`;
+            banner.classList.remove('hidden');
+          }
+
+          showToast(`⚡ Cloud Yield Added: +$${offlineYieldEarned.toFixed(4)} USDT (${timeStr} offline)`, '💰');
+        }
+      }
+
+      state.lastTimestamp = now;
+      saveState();
+    }
+
+    // --- 6. HIGH-FREQUENCY LIVE MINING ENGINE (RUNS EVERY 60ms) ---
     let miningIntervalId = null;
     let lastTickTime = performance.now();
 
@@ -983,7 +1038,7 @@
 
       miningIntervalId = setInterval(() => {
         const now = performance.now();
-        const deltaSeconds = (now - lastTickTime) / 1000;
+        const deltaSeconds = (now - lastTickTime) / 1000.0;
         lastTickTime = now;
 
         const ratePerSec = getCurrentMiningRatePerSec();
@@ -995,9 +1050,10 @@
         }
       }, 60);
 
+      // Save every 3 seconds to ensure real timestamp persistence
       setInterval(() => {
         saveState();
-      }, 2000);
+      }, 3000);
     }
 
     function saveState() {
@@ -1005,21 +1061,54 @@
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     }
 
-    // --- 6. SUPABASE REALTIME SYNC ---
+    // Window event listeners to guarantee state save on exit
+    window.addEventListener('beforeunload', saveState);
+    window.addEventListener('pagehide', saveState);
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'hidden') {
+        saveState();
+      } else if (document.visibilityState === 'visible') {
+        reconcileOfflineMiningYield();
+      }
+    });
+
+    // --- 7. SUPABASE CLOUD DEPOSIT & OFFLINE RESTORE SYNC ---
     function setupSupabaseDepositListener() {
       if (!supabaseClient) return;
 
+      // On startup: Read ALL approved deposits from Supabase for this user to guarantee accurate tier
       supabaseClient
         .from('deposits')
         .select('*')
         .eq('telegram_id', state.telegram_id)
         .eq('status', 'approved')
         .then(({ data, error }) => {
-          if (!error && data) {
-            data.forEach(dep => processApprovedDeposit(dep));
+          if (!error && data && data.length > 0) {
+            let totalApprovedUsdt = 0;
+            data.forEach(dep => {
+              const amt = Number(dep.amount) || 0;
+              totalApprovedUsdt += amt;
+              if (!state.processedDepositIds.includes(dep.id)) {
+                state.processedDepositIds.push(dep.id);
+                state.usdtBalance += amt;
+              }
+            });
+
+            if (totalApprovedUsdt > 0) {
+              state.isUpgraded = true;
+              state.upgradeAmount = Math.max(state.upgradeAmount || 0, totalApprovedUsdt);
+              state.level = state.upgradeAmount >= 200 ? 5 : (state.upgradeAmount >= 100 ? 4 : (state.upgradeAmount >= 30 ? 3 : 2));
+              
+              // Recalculate offline yield with confirmed high upgrade rate!
+              reconcileOfflineMiningYield();
+              saveState();
+              updateAllUI();
+              startLiveMiningEngine();
+            }
           }
         });
 
+      // Realtime listener for new deposit approval
       supabaseClient
         .channel(`user_deposits_${state.telegram_id}`)
         .on('postgres_changes', { 
@@ -1034,7 +1123,7 @@
         })
         .subscribe();
 
-      // Listen for new referral joining to add +1 Spin
+      // Listen for referral join
       supabaseClient
         .channel(`user_referrals_${state.telegram_id}`)
         .on('postgres_changes', { 
@@ -1059,21 +1148,22 @@
 
       state.usdtBalance += approvedUsdt;
       state.isUpgraded = true;
-      state.upgradeAmount = Math.max(state.upgradeAmount || 0, approvedUsdt);
-      state.level = state.upgradeAmount >= 30 ? 3 : (state.upgradeAmount >= 10 ? 2 : 1);
+      state.upgradeAmount = (Number(state.upgradeAmount) || 0) + approvedUsdt;
+      state.level = state.upgradeAmount >= 200 ? 5 : (state.upgradeAmount >= 100 ? 4 : (state.upgradeAmount >= 30 ? 3 : 2));
 
       saveState();
       updateAllUI();
       startLiveMiningEngine();
 
-      showToast(`🎉 Approved! +$${approvedUsdt.toFixed(2)} USDT Added! 100X Speed Active ($2.00/day)!`, '⚡');
+      const dailyDouble = (state.upgradeAmount * 2 / 30).toFixed(2);
+      showToast(`🎉 Approved! +$${approvedUsdt.toFixed(2)} USDT Added! Speed Boosted to $${dailyDouble}/day!`, '⚡');
       
       if (window.Telegram?.WebApp?.HapticFeedback) {
         window.Telegram.WebApp.HapticFeedback.notificationOccurred('success');
       }
     }
 
-    // --- 7. DYNAMIC CLAIM PROOFS ---
+    // --- 8. DYNAMIC CLAIM PROOFS ---
     const namePrefixes = ['ton', 'sol', 'crypto', 'alex', 'neo', 'vlad', 'sara', 'dex', 'alpha', 'matrix', 'maria', 'sam', 'whale', 'miner', 'node', 'zen'];
     const nameSuffixes = ['pro', 'web3', '99', 'sol', 'ton', '77', 'btc', 'dev', 'king', 'vip', 'trade', '88', 'x'];
 
@@ -1099,7 +1189,7 @@
       }, 1400);
     }
 
-    // --- 8. ================= FORTUNE WHEEL (TETHER LOGO BADGE & CLEAR AMOUNTS) ================= ---
+    // --- 9. FORTUNE WHEEL ---
     const WHEEL_SEGMENTS = [
       { label: '$0.01',  amount: 0.01, color: '#0284c7', textColor: '#ffffff' },
       { label: '$1,000', amount: 1000.0, color: '#f59e0b', textColor: '#080d19' },
@@ -1145,7 +1235,6 @@
         ctx.translate(cx, cy);
         ctx.rotate(segAngle + (ARC_ANGLE / 2));
 
-        // Official Tether Green Logo Badge
         const badgeX = radius - 22;
         const badgeY = 0;
         const badgeR = 9;
@@ -1164,7 +1253,6 @@
         ctx.font = '900 11px sans-serif';
         ctx.fillText('₮', badgeX, badgeY + 0.5);
 
-        // Prominent Bold Dollar Amount
         ctx.textAlign = 'right';
         ctx.textBaseline = 'middle';
         ctx.fillStyle = seg.textColor;
@@ -1285,7 +1373,7 @@
       requestAnimationFrame(animateSpinFrame);
     }
 
-    // --- 9. UI RE-RENDER ---
+    // --- 10. UI RE-RENDER ---
     function updateAllUI() {
       const counterEl = document.getElementById('streaming-mining-counter');
       if (counterEl) counterEl.innerText = `$${state.miningAmount.toFixed(9)}`;
@@ -1344,23 +1432,23 @@
         const dailyDouble = (state.upgradeAmount * 2 / 30).toFixed(2);
 
         document.getElementById('level-display').innerText = `Tier ${state.level} (${state.upgradeAmount} USDT ⚡)`;
-        document.getElementById('daily-pct-display').innerText = `100x Speed`;
-        document.getElementById('wallet-connection-label').innerText = `Active Boost Rig`;
+        document.getElementById('daily-pct-display').innerText = `2X Cloud`;
+        document.getElementById('wallet-connection-label').innerText = `24/7 Cloud Rig`;
         
-        yieldTag.innerHTML = `<span class="w-2 h-2 rounded-full bg-[#ccff00] animate-ping"></span> 100x Boosted Rate`;
+        yieldTag.innerHTML = `<span class="w-2 h-2 rounded-full bg-[#ccff00] animate-ping"></span> 2X Boosted Rate`;
         
         speedBadge.className = 'text-[11px] py-1 px-4 rounded-full inline-block font-extrabold bg-[#ccff00] text-black shadow-lg shadow-[#ccff00]/40 animate-pulse';
-        speedBadge.innerHTML = `⚡ 100x TURBO SPEED ACTIVE: +$${dailyDouble}/day ($${doubleMonthly}/mo)`;
+        speedBadge.innerHTML = `⚡ 2X CLOUD YIELD: +$${dailyDouble}/day ($${doubleMonthly}/mo) • 24/7 Active`;
         
         counterCont.classList.add('turbo-active-glow');
         
-        document.getElementById('poy-box-title').innerText = `2X Turbo Engine (${state.upgradeAmount} USDT Upgrade)`;
-        document.getElementById('deposit-double-summary').innerText = `Your Rig is earning $${dailyDouble}/day (Guaranteed $${doubleMonthly} USDT this month)`;
+        document.getElementById('poy-box-title').innerText = `2X Cloud Yield Engine (${state.upgradeAmount} USDT Rig)`;
+        document.getElementById('deposit-double-summary').innerText = `Mining $${dailyDouble}/day non-stop (Guaranteed $${doubleMonthly} USDT/month)`;
         document.getElementById('poy-badge-status').innerText = '2X ACTIVE';
         document.getElementById('poy-badge-status').className = 'bg-[#ccff00] text-black font-black text-[10px] px-2.5 py-1 rounded-lg shrink-0 ml-2';
 
         document.getElementById('acc-rig-tier').innerText = `Tier ${state.level} (${state.upgradeAmount} USDT Boost)`;
-        document.getElementById('acc-rig-sub').innerText = `$${dailyDouble} USDT/day (100x Fast)`;
+        document.getElementById('acc-rig-sub').innerText = `$${dailyDouble} USDT/day (24/7 Cloud)`;
       } else {
         document.getElementById('level-display').innerText = `Tier 1`;
         document.getElementById('daily-pct-display').innerText = `Free Speed`;
@@ -1371,8 +1459,8 @@
         
         counterCont.classList.remove('turbo-active-glow');
 
-        document.getElementById('poy-box-title').innerText = `2X Double Profit Engine (100% Monthly Gain)`;
-        document.getElementById('deposit-double-summary').innerText = `Example: 30 USDT deposit earns 60.00 USDT monthly ($2.00/day)`;
+        document.getElementById('poy-box-title').innerText = `2X Double Profit Engine (24/7 Cloud Yield)`;
+        document.getElementById('deposit-double-summary').innerText = `Offline mining active: keeps earning even when app is closed`;
         document.getElementById('poy-badge-status').innerText = '100% 2X';
         document.getElementById('poy-badge-status').className = 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/50 text-[10px] font-black px-2.5 py-1 rounded-lg shrink-0 ml-2';
 
@@ -1385,7 +1473,7 @@
       drawWheel(currentWheelAngle);
     }
 
-    // --- 10. CLAIM PROFIT ---
+    // --- 11. CLAIM PROFIT ---
     function handleClaimProfit() {
       if (state.miningAmount <= 0.000000010) {
         showToast('Accumulating micro-cents... Claim in a moment!', '⏳');
@@ -1413,7 +1501,7 @@
       showToast(`+$${harvested.toFixed(4)} USDT credited to balance!`, '🎉');
     }
 
-    // --- 11. WITHDRAWAL HANDLER ---
+    // --- 12. WITHDRAWAL HANDLER ---
     function handleWithdrawClick() {
       if (!state.walletConnected) {
         alert('Please connect your TON wallet first before withdrawing!');
@@ -1454,7 +1542,7 @@
       alert(`✅ Withdrawal submitted successfully!\nAmount: $${withdrawAmount.toFixed(4)} USDT\nDestination: ${state.walletAddress}\nWeekly usage: ${state.withdrawalsThisWeek}/${allowedWeeklyLimit}.`);
     }
 
-    // --- 12. 24-HOUR MYSTERY GIFT CHEST ---
+    // --- 13. 24-HOUR MYSTERY GIFT CHEST ---
     const COOLDOWN_MS = 24 * 60 * 60 * 1000;
     function claimMysteryGift() {
       const now = Date.now();
@@ -1515,7 +1603,7 @@
     }
     setInterval(updateGiftCooldownUI, 1000);
 
-    // --- 13. THEMES ---
+    // --- 14. THEMES ---
     function setAppTheme(t) {
       state.theme = t;
       saveState();
@@ -1546,7 +1634,7 @@
       }
     }
 
-    // --- 14. TOP UP & SUBMIT DEPOSIT ---
+    // --- 15. TOP UP & SUBMIT DEPOSIT ---
     let selectedAmount = 30;
     let selectedNet = 'USDT BEP20';
 
@@ -1642,7 +1730,7 @@
       showToast('Deposit Hash Sent to Admin Panel via Supabase! ⚡', '✅');
     }
 
-    // --- 15. WALLET MODAL ---
+    // --- 16. WALLET MODAL ---
     function openWalletModal() {
       const modal = document.getElementById('wallet-modal');
       const unconn = document.getElementById('wallet-modal-unconnected');
@@ -1684,7 +1772,7 @@
       showToast('Wallet disconnected', '🔌');
     }
 
-    // --- 16. TABS ---
+    // --- 17. TABS ---
     const tabs = ['mine', 'spin', 'friends', 'gifts', 'account'];
     function switchTab(tId) {
       state.activeTab = tId;
@@ -1726,7 +1814,7 @@
     }
 
     function openHowToEarnModal() {
-      alert('💡 Alpha Mining 2X Return Guide:\n1. Whatever you deposit generates 100% Monthly Gain (Double).\n2. Example: 30 USDT generates 60.00 USDT in 30 days ($2.00/day) at 100x blazing speed.\n3. Wheel Spin: 5 free spins on signup; invite friends for +1 spin per join!');
+      alert('💡 Alpha Mining 2X Return Guide:\n1. Whatever you deposit generates 100% Monthly Gain (Double).\n2. Cloud mining runs 24/7 non-stop even when app is closed.\n3. Example: 200 USDT generates 400.00 USDT in 30 days ($13.33/day).\n4. 5 days offline = $66.66 USDT ready to claim!');
     }
 
     function handleCloseApp() {
@@ -1735,7 +1823,8 @@
       else alert('App closed. Mining continues 24/7!');
     }
 
-    // Boot App & Initial Wheel Draw
+    // --- 18. INITIALIZE APPLICATION WITH TRUE OFFLINE PERSISTENCE ---
+    reconcileOfflineMiningYield();
     updateAllUI();
     drawWheel(0);
     startLiveMiningEngine();
